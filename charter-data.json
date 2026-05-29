@@ -255,6 +255,10 @@
     "Project Mgmt": {
       "color": "#b060d0",
       "bg": "rgba(176,96,208,0.10)"
+    },
+    "Fluids and Material Science": {
+      "color": "#e05050",
+      "bg": "rgba(224,80,80,0.10)"
     }
   },
   "nextMemberId": 20,
