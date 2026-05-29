@@ -257,6 +257,14 @@
       "label": "Facility Heat Rejection System",
       "startMonth": "2026-05",
       "endMonth": "2026-06"
+    },
+    {
+      "id": 4,
+      "memberId": 12,
+      "projectId": 1,
+      "label": "TCS Loop Design",
+      "startMonth": "2026-05",
+      "endMonth": "2026-06"
     }
   ],
   "streams": {
@@ -291,7 +299,7 @@
   },
   "nextMemberId": 20,
   "nextProjectId": 3,
-  "nextTaskId": 4,
+  "nextTaskId": 5,
   "monthOffset": 0,
   "careerGoals": {},
   "timeoffs": [],
