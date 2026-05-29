@@ -360,10 +360,28 @@
       "endDate": "2026-06-03",
       "approved": true,
       "notes": ""
+    },
+    {
+      "id": 3,
+      "memberId": 1,
+      "memberIds": [
+        1,
+        2,
+        9,
+        12,
+        14,
+        17
+      ],
+      "type": "Business Travel",
+      "label": "Germany (BolFilteration) + Sweden (SWEP)",
+      "startDate": "2026-06-14",
+      "endDate": "2026-06-18",
+      "approved": true,
+      "notes": "AH, SK, and PS are visiting Sweden. The rest will be in Germany"
     }
   ],
   "publications": [],
-  "nextTimeoffId": 3,
+  "nextTimeoffId": 4,
   "nextPubId": 1,
   "adminUsers": [
     1,
