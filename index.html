@@ -1,0 +1,1989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Center Engineering — Thermal Team · Project Charter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0a;--bg2:#111;--bg3:#1a1a1a;--surface:#141414;--surface2:#1e1e1e;--surface3:#252525;
+  --nv:#76b900;--nv2:#8fd100;--nv-dim:rgba(118,185,0,0.12);--nv-glow:rgba(118,185,0,0.25);
+  --ink:#e8e8e8;--ink2:#8a8a8a;--ink3:#555;
+  --rule:rgba(255,255,255,0.06);--rule2:rgba(255,255,255,0.11);
+  --teal:#00b4a0;--gold:#e8a020;--red:#e05050;--blue:#4a90d9;
+  --shadow:0 4px 24px rgba(0,0,0,0.5);--shadow-lg:0 8px 48px rgba(0,0,0,0.7);
+  --r:4px;--r-lg:8px;--tr:0.16s ease;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.6;min-height:100vh;overflow-x:hidden}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(118,185,0,0.022) 1px,transparent 1px),linear-gradient(90deg,rgba(118,185,0,0.022) 1px,transparent 1px);
+  background-size:40px 40px;}
+.topbar{position:sticky;top:0;z-index:100;background:rgba(10,10,10,0.96);backdrop-filter:blur(12px);display:flex;align-items:stretch;height:54px;border-bottom:1px solid var(--rule2);box-shadow:0 1px 0 rgba(118,185,0,0.18)}
+.topbar-brand{display:flex;align-items:center;gap:14px;padding:0 20px;border-right:1px solid var(--rule)}
+.nv-eye{width:28px;height:20px;flex-shrink:0}
+.brand-stack{display:flex;flex-direction:column}
+.brand-tag{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.14em;color:var(--ink3);text-transform:uppercase}
+.brand-name{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:var(--ink);letter-spacing:-0.2px;line-height:1}
+.brand-name em{color:var(--nv);font-style:normal}
+.topbar-tabs{display:flex;align-items:stretch;flex:1}
+.tab-btn{display:flex;align-items:center;gap:7px;padding:0 20px;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3);background:transparent;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;cursor:pointer;transition:all var(--tr);white-space:nowrap}
+.tab-btn svg{width:13px;height:13px;flex-shrink:0}
+.tab-btn:hover{color:var(--ink)}
+.tab-btn.active{color:var(--nv);border-bottom-color:var(--nv)}
+.topbar-right{display:flex;align-items:center;gap:6px;padding:0 14px;border-left:1px solid var(--rule)}
+.save-indicator{font-family:'DM Mono',monospace;font-size:10px;color:var(--ink3);letter-spacing:0.06em;padding-right:10px;border-right:1px solid var(--rule);margin-right:2px;white-space:nowrap;display:flex;align-items:center;gap:5px}
+.save-indicator.synced{color:rgba(118,185,0,0.75)}
+.save-indicator.syncing{color:var(--blue)}
+.save-indicator.unsaved{color:var(--gold)}
+.save-indicator.local{color:var(--ink3)}
+.save-indicator.error{color:var(--red)}
+.gh-setup-banner{background:rgba(232,160,32,0.08);border:1px solid rgba(232,160,32,0.25);border-radius:var(--r);padding:10px 16px;font-size:12px;color:var(--gold);font-family:'DM Mono',monospace;margin:16px 32px 0;display:flex;align-items:center;gap:10px}
+.gh-setup-banner svg{width:16px;height:16px;flex-shrink:0}
+.gh-setup-banner a{color:var(--nv);cursor:pointer;text-decoration:underline}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 15px;border-radius:var(--r);font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.05em;cursor:pointer;border:none;transition:all var(--tr);white-space:nowrap;text-transform:uppercase}
+.btn svg{width:12px;height:12px;flex-shrink:0}
+.btn-nv{background:var(--nv);color:#000}.btn-nv:hover{background:var(--nv2);box-shadow:0 0 16px var(--nv-glow)}
+.btn-ghost{background:transparent;color:var(--ink2);border:1px solid var(--rule2)}.btn-ghost:hover{background:var(--surface3);color:var(--ink)}
+.btn-outline{background:transparent;color:var(--ink2);border:1px solid var(--rule2)}.btn-outline:hover{background:var(--surface2);color:var(--ink)}
+.btn-danger{background:transparent;color:var(--red);border:1px solid rgba(224,80,80,0.25)}.btn-danger:hover{background:rgba(224,80,80,0.08)}
+.btn-sm{padding:5px 10px;font-size:9px}
+.view{display:none;animation:fadeUp 0.2s ease both;position:relative;z-index:1}
+.view.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.section-header{display:flex;align-items:center;justify-content:space-between;padding:28px 32px 18px;flex-wrap:wrap;gap:12px}
+.section-title{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--ink);letter-spacing:-0.5px;text-transform:uppercase}
+.section-title em{color:var(--nv);font-style:normal}
+.section-sub{font-size:11px;color:var(--ink3);font-family:'DM Mono',monospace;margin-top:5px;letter-spacing:0.04em}
+.section-actions{display:flex;gap:8px;align-items:center}
+.filter-bar{display:flex;align-items:center;gap:10px;padding:0 32px 18px;flex-wrap:wrap}
+.search-wrap{position:relative;flex:1;min-width:180px;max-width:260px}
+.search-wrap svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:12px;height:12px;color:var(--ink3);pointer-events:none}
+.search-inp{width:100%;background:var(--surface2);border:1px solid var(--rule2);color:var(--ink);font-family:'Inter',sans-serif;font-size:13px;padding:8px 10px 8px 32px;border-radius:var(--r);outline:none;transition:border-color var(--tr)}
+.search-inp:focus{border-color:var(--nv);box-shadow:0 0 0 2px var(--nv-dim)}
+.search-inp::placeholder{color:var(--ink3)}
+.filter-select{background:var(--surface2);border:1px solid var(--rule2);color:var(--ink2);font-family:'Inter',sans-serif;font-size:12px;padding:8px 11px;border-radius:var(--r);outline:none;cursor:pointer}
+.filter-select:focus{border-color:var(--nv)}
+.filter-select option{background:var(--surface2)}
+.stats-row{display:flex;overflow-x:auto;margin:0 32px 20px;background:var(--surface);border-radius:var(--r-lg);border:1px solid var(--rule2)}
+.stat-box{padding:16px 24px;flex:1;min-width:110px;border-right:1px solid var(--rule)}
+.stat-box:last-child{border-right:none}
+.stat-n{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--ink);line-height:1}
+.stat-n em{color:var(--nv);font-style:normal}
+.stat-l{font-size:10px;text-transform:uppercase;letter-spacing:0.11em;color:var(--ink3);font-family:'DM Mono',monospace;margin-top:5px}
+/* MEMBERS */
+.members-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;padding:0 32px 32px}
+.layer-divider{grid-column:1/-1;display:flex;align-items:center;gap:12px;padding:6px 0 4px}
+.layer-divider-label{font-size:10px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.13em;color:var(--ink3);white-space:nowrap}
+.layer-divider-line{flex:1;height:1px;background:var(--rule2)}
+.layer-divider-count{font-size:8px;font-family:'DM Mono',monospace;color:var(--ink3)}
+.member-card{background:var(--surface);border:1px solid var(--rule);border-radius:var(--r-lg);overflow:hidden;transition:all var(--tr)}
+.member-card::before{content:'';display:block;height:3px;background:var(--stream-color,var(--ink3))}
+.member-card:hover{border-color:var(--rule2);box-shadow:0 0 0 1px var(--nv-dim),var(--shadow);transform:translateY(-1px)}
+.member-card.is-mgmt{border-color:rgba(118,185,0,0.18)}
+.member-card.is-mgmt::before{background:var(--nv)}
+.member-photo-area{display:flex;align-items:center;justify-content:center;padding:20px 0 14px;background:var(--surface2);border-bottom:1px solid var(--rule)}
+.member-photo-wrap{position:relative;width:88px;height:88px;border-radius:50%;overflow:hidden;cursor:pointer;background:var(--surface3);box-shadow:0 0 0 3px var(--surface),0 0 0 5px var(--stream-color,var(--ink3));transition:box-shadow var(--tr),transform var(--tr)}
+.member-photo-wrap:hover{box-shadow:0 0 0 3px var(--surface),0 0 0 5px var(--nv);transform:scale(1.04)}
+.member-photo{width:100%;height:100%;object-fit:cover;object-position:center center;display:block}
+.member-photo-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;color:var(--ink3)}
+.member-photo-placeholder svg{width:22px;height:22px;opacity:0.3}
+.member-photo-placeholder span{font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.06em;opacity:0.4}
+.member-photo-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.18s;border-radius:50%}
+.member-photo-wrap:hover .member-photo-overlay{opacity:1}
+.member-photo-overlay span{font-size:8px;font-family:'DM Mono',monospace;letter-spacing:0.1em;color:var(--nv);text-transform:uppercase}
+.member-avatar-badge{display:none}
+.member-body{padding:15px}
+.member-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-0.1px}
+.member-role{font-size:12px;color:var(--ink2);font-family:'Inter',sans-serif;margin-top:3px}
+.stream-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:20px;font-size:10px;font-weight:600;letter-spacing:0.04em;margin-top:6px;background:var(--stream-bg,var(--surface3));color:var(--stream-color,var(--ink2));text-transform:uppercase}
+.stream-dot{width:5px;height:5px;border-radius:50%;background:var(--stream-color,var(--ink2));flex-shrink:0}
+.mgt-badge{display:inline-flex;padding:3px 8px;border-radius:20px;font-size:10px;font-weight:600;letter-spacing:0.06em;margin-top:6px;margin-left:4px;background:var(--nv-dim);color:var(--nv);border:1px solid rgba(118,185,0,0.22);text-transform:uppercase}
+.member-email{font-size:11px;color:var(--ink3);font-family:'DM Mono',monospace;margin-top:9px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.member-card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:9px;border-top:1px solid var(--rule);margin-top:9px}
+.member-task-count{font-size:11px;color:var(--ink3);font-family:'DM Mono',monospace}
+.member-card-actions{display:flex;gap:4px;opacity:0;transition:opacity var(--tr)}
+.member-card:hover .member-card-actions{opacity:1}
+.icon-btn{width:26px;height:26px;border-radius:var(--r);background:transparent;border:1px solid var(--rule);color:var(--ink3);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all var(--tr)}
+.icon-btn:hover{background:var(--surface3);color:var(--ink);border-color:var(--rule2)}
+.icon-btn.danger:hover{background:rgba(224,80,80,0.08);color:var(--red);border-color:rgba(224,80,80,0.3)}
+.icon-btn.nv:hover{background:var(--nv-dim);color:var(--nv);border-color:rgba(118,185,0,0.3)}
+.icon-btn svg{width:11px;height:11px}
+/* PROJECTS */
+.projects-list{padding:0 32px 32px;display:flex;flex-direction:column;gap:12px}
+.project-card{background:var(--surface);border:1px solid var(--rule);border-radius:var(--r-lg);overflow:hidden;transition:all var(--tr)}
+.project-card:hover{border-color:var(--rule2);box-shadow:var(--shadow)}
+.project-card.is-sub{margin-left:28px;border-left:2px solid var(--sub-color,var(--ink3));border-radius:0 var(--r-lg) var(--r-lg) 0}
+.project-card-header{display:flex;align-items:center;gap:13px;padding:16px 18px;cursor:pointer}
+.project-color-bar{width:3px;height:32px;border-radius:2px;flex-shrink:0}
+.project-info{flex:1;min-width:0}
+.project-name-row{display:flex;align-items:center;gap:7px}
+.project-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--ink);letter-spacing:-0.1px}
+.sub-tag{font-size:10px;font-family:'DM Mono',monospace;padding:2px 6px;border-radius:3px;background:var(--surface3);color:var(--ink3);letter-spacing:0.06em;text-transform:uppercase}
+.project-desc{font-size:12px;color:var(--ink2);font-family:'Inter',sans-serif;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:420px}
+.project-badges{display:flex;gap:4px;margin-top:5px;flex-wrap:wrap;align-items:center}
+.badge{display:inline-flex;align-items:center;padding:3px 8px;border-radius:20px;font-size:10px;font-weight:600;letter-spacing:0.04em;font-family:'DM Mono',monospace;text-transform:uppercase}
+.badge-status-active{background:rgba(0,180,160,0.12);color:var(--teal)}
+.badge-status-planned{background:rgba(232,160,32,0.12);color:var(--gold)}
+.badge-status-complete{background:rgba(118,185,0,0.12);color:var(--nv)}
+.badge-status-onhold,.badge-status-hold{background:rgba(224,80,80,0.1);color:var(--red)}
+.badge-priority-high{background:rgba(224,80,80,0.1);color:var(--red)}
+.badge-priority-medium{background:rgba(232,160,32,0.1);color:var(--gold)}
+.badge-priority-low{background:rgba(74,144,217,0.1);color:var(--blue)}
+.link-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:20px;font-size:10px;font-weight:600;font-family:'DM Mono',monospace;background:var(--nv-dim);color:var(--nv);border:1px solid rgba(118,185,0,0.2);text-decoration:none;cursor:pointer;transition:all 0.15s;text-transform:uppercase}
+.link-badge:hover{background:rgba(118,185,0,0.22);box-shadow:0 0 8px var(--nv-glow)}
+.link-badge svg{width:9px;height:9px}
+.project-card-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.progress-ring{width:32px;height:32px;flex-shrink:0}
+.progress-ring circle{fill:none;stroke-linecap:round}
+.project-pct{font-size:10px;font-weight:700;color:var(--ink2);font-family:'DM Mono',monospace;text-align:center;margin-top:-2px}
+.project-dates{font-size:11px;color:var(--ink3);font-family:'DM Mono',monospace;text-align:right;line-height:1.8}
+.project-card-actions{display:flex;gap:4px;opacity:0;transition:opacity var(--tr)}
+.project-card:hover .project-card-actions{opacity:1}
+.project-expand-section{border-top:1px solid var(--rule);display:none}
+.project-expand-section.open{display:block}
+.project-tasks-section{padding:12px 16px}
+.mini-task-list{display:flex;flex-direction:column;gap:4px}
+.mini-task{display:flex;align-items:center;gap:9px;padding:9px 12px;background:var(--bg3);border-radius:var(--r);border:1px solid var(--rule)}
+.mini-task-label{flex:1;font-size:13px;color:var(--ink);font-family:'Inter',sans-serif;line-height:1.4}
+.mini-task-assignee{font-size:11px;color:var(--ink3);font-family:'DM Mono',monospace}
+.mini-task-weeks{font-size:11px;color:var(--ink3);font-family:'DM Mono',monospace;white-space:nowrap}
+.mini-task-actions{display:flex;gap:3px;opacity:0;transition:opacity 0.15s}
+.mini-task:hover .mini-task-actions{opacity:1}
+.add-inline{display:flex;align-items:center;gap:7px;padding:7px 12px;margin-top:6px;border:1px dashed var(--rule2);border-radius:var(--r);cursor:pointer;color:var(--ink3);font-size:12px;font-family:'Inter',sans-serif;transition:all var(--tr)}
+.add-inline:hover{border-color:var(--nv);color:var(--nv);background:var(--nv-dim)}
+.sub-projects-list{padding:0 16px 12px;border-top:1px solid var(--rule)}
+.sub-projects-label{font-size:10px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.11em;color:var(--ink3);padding:10px 0 6px}
+/* TIMELINE */
+.timeline-wrap{overflow-x:auto;padding:0 0 32px}
+.timeline-table{border-collapse:collapse;min-width:100%}
+.tl-head th{position:sticky;top:54px;background:var(--bg);z-index:10;padding:7px 0;border-bottom:none;font-size:10px;color:var(--ink3);font-family:'DM Mono',monospace;letter-spacing:0.07em;text-align:center;white-space:nowrap}
+.tl-head th.name-col{left:0;z-index:15;text-align:left;padding-left:28px;min-width:220px;background:var(--bg)}
+.tl-head th.week-col{min-width:80px;width:80px}
+/* Row 1 – year */
+.tl-head tr:nth-child(1) th{font-size:11px;font-weight:700;letter-spacing:0.12em;color:var(--nv);padding-top:10px;padding-bottom:4px}
+/* Row 2 – quarter */
+.tl-head tr:nth-child(2) th.tl-q-header{font-size:9px;font-weight:700;letter-spacing:0.14em;color:var(--ink3);padding:4px 0;background:var(--surface);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.tl-q-header.q1{color:#4a90d9}.tl-q-header.q2{color:#76b900}.tl-q-header.q3{color:#e8a020}.tl-q-header.q4{color:#b060d0}
+/* Row 3 – months */
+.tl-head tr:nth-child(3) th{font-size:10px;padding:5px 0 8px;border-bottom:1px solid var(--nv)}
+.tl-q-end{border-right:1px solid var(--rule2)!important}
+.tl-group-header td{padding:12px 32px 5px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;font-family:'DM Mono',monospace;border-bottom:1px solid var(--rule);border-top:2px solid var(--group-color,var(--rule));position:sticky;left:0;background:var(--bg2);color:var(--ink2)}
+.tl-row{height:52px}
+.tl-row:nth-child(odd) td:not(.tl-name-cell){background:rgba(255,255,255,0.012)}
+.tl-row td{border-bottom:1px solid var(--rule)}
+.tl-row:hover td{background:rgba(118,185,0,0.04)!important}
+.tl-name-cell{position:sticky;left:0;background:var(--bg);z-index:5;padding:0 14px 0 32px;min-width:220px;border-right:1px solid var(--rule2)}
+.tl-row:hover .tl-name-cell{background:#0d0d0d!important}
+.tl-member-info{display:flex;align-items:center;gap:10px}
+.tl-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0;overflow:hidden}
+.tl-avatar img{width:100%;height:100%;object-fit:cover;object-position:center top}
+.tl-name{font-size:13px;font-weight:700;color:var(--ink);font-family:'Syne',sans-serif}
+.tl-role{font-size:10px;color:var(--ink3);font-family:'DM Mono',monospace;margin-top:1px}
+.tl-week-cell{padding:0 2px;vertical-align:middle;border-right:1px solid var(--rule)}
+.tl-block{height:34px;display:flex;align-items:center;cursor:pointer;transition:all 0.15s;border-radius:4px}
+.tl-block:hover{filter:brightness(1.25);transform:scaleY(1.04)}
+.tl-block-label{font-size:11px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 8px;letter-spacing:0.01em;font-family:'Inter',sans-serif}
+/* Multi-workstream lane rows */
+.tl-lane-row td{border-bottom:1px solid rgba(255,255,255,0.03)!important}
+.tl-lane-row:last-of-type td,.tl-lane-last td{border-bottom:1px solid var(--rule)!important}
+.tl-lane-row:hover td{background:rgba(118,185,0,0.03)!important}
+.tl-lane-cell{background:var(--bg)!important;border-left:2px solid var(--rule2)}
+.tl-lane-row:hover .tl-lane-cell{background:#0d0d0d!important}
+.tl-lane-pip{height:100%;display:flex;align-items:center;padding-left:36px;gap:6px;color:var(--ink3)}
+.tl-lane-pip::before{content:'';display:block;width:12px;height:1px;background:var(--rule2);flex-shrink:0}
+.tl-lane-tag{font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.06em;color:var(--ink3);opacity:0.6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:130px}
+.week-today{background:rgba(118,185,0,0.07)!important}
+.week-today-header{color:var(--nv)!important;font-weight:700;position:relative}
+.week-today-header::after{content:'▼';position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);color:var(--nv);font-size:7px}
+/* MODAL */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.78);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.overlay.open{display:flex}
+.modal{background:var(--surface);border:1px solid var(--rule2);border-radius:var(--r-lg);padding:28px;width:500px;max-width:calc(100vw - 28px);max-height:90vh;overflow-y:auto;animation:modalIn 0.18s ease;box-shadow:var(--shadow-lg)}
+@keyframes modalIn{from{opacity:0;transform:scale(0.96) translateY(10px)}to{opacity:1;transform:none}}
+.modal-header{margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--rule)}
+.modal-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--ink);letter-spacing:-0.3px;text-transform:uppercase}
+.modal-title em{color:var(--nv);font-style:normal}
+.modal-subtitle{font-size:11px;color:var(--ink3);font-family:'DM Mono',monospace;margin-top:4px}
+.field{margin-bottom:13px}
+.field>label{display:block;font-size:10px;text-transform:uppercase;letter-spacing:0.10em;color:var(--ink3);font-family:'DM Mono',monospace;margin-bottom:6px;font-weight:700}
+.field input,.field select,.field textarea{width:100%;background:var(--bg2);border:1px solid var(--rule2);color:var(--ink);font-family:'Inter',sans-serif;font-size:13px;padding:10px 12px;border-radius:var(--r);outline:none;transition:border-color var(--tr)}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--nv);box-shadow:0 0 0 2px var(--nv-dim)}
+.field select option{background:var(--surface2)}
+.field textarea{resize:vertical;min-height:60px;line-height:1.5}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.color-options{display:flex;gap:7px;flex-wrap:wrap;padding:4px 0}
+.color-swatch{width:24px;height:24px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all 0.15s}
+.color-swatch.selected{border-color:var(--nv);transform:scale(1.2);box-shadow:0 0 8px var(--nv-glow)}
+.modal-footer{display:flex;gap:7px;justify-content:flex-end;margin-top:20px;padding-top:14px;border-top:1px solid var(--rule);align-items:center}
+.modal-footer .left{margin-right:auto}
+.photo-upload-area{border:1px dashed var(--rule2);border-radius:var(--r);padding:14px;text-align:center;cursor:pointer;transition:all var(--tr);position:relative;overflow:hidden}
+.photo-upload-area:hover{border-color:var(--nv);background:var(--nv-dim)}
+.photo-upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.photo-upload-area p{font-size:10px;color:var(--ink3);font-family:'DM Mono',monospace;pointer-events:none}
+.photo-preview{width:72px;height:72px;border-radius:50%;object-fit:cover;object-position:center center;margin:0 auto 8px;display:block;border:3px solid var(--nv);box-shadow:0 0 0 2px var(--surface)}
+.links-list{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+.link-row{display:flex;gap:6px;align-items:center}
+.link-row input{background:var(--bg2);border:1px solid var(--rule2);color:var(--ink);font-family:'DM Mono',monospace;font-size:10px;padding:7px 9px;border-radius:var(--r);outline:none;transition:border-color var(--tr)}
+.link-row input:focus{border-color:var(--nv)}
+.link-row .lbl-inp{max-width:120px;font-family:'Syne',sans-serif;font-size:11px}
+.link-row .url-inp{flex:1}
+.link-remove{width:24px;height:24px;border-radius:var(--r);background:transparent;border:1px solid var(--rule);color:var(--ink3);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all 0.15s}
+.link-remove:hover{border-color:var(--red);color:var(--red);background:rgba(224,80,80,0.08)}
+.link-remove svg{width:10px;height:10px}
+.add-link-btn{display:flex;align-items:center;gap:6px;padding:6px 10px;border:1px dashed var(--rule2);border-radius:var(--r);cursor:pointer;color:var(--ink3);font-size:10px;font-family:'DM Mono',monospace;transition:all 0.15s;background:transparent;width:100%;letter-spacing:0.04em;margin-top:4px}
+.add-link-btn:hover{border-color:var(--nv);color:var(--nv);background:var(--nv-dim)}
+.add-link-btn svg{width:11px;height:11px}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--surface3);border:1px solid var(--rule2);color:var(--ink);padding:11px 20px;border-radius:var(--r);font-size:13px;font-weight:600;font-family:'Inter',sans-serif;z-index:999;opacity:0;transition:all 0.22s;pointer-events:none;display:flex;align-items:center;gap:8px;white-space:nowrap;box-shadow:var(--shadow-lg)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.empty-state{text-align:center;padding:52px 28px}
+.empty-state svg{width:36px;height:36px;margin:0 auto 14px;opacity:0.18;color:var(--nv)}
+.empty-state p{font-size:13px;color:var(--ink3);font-family:'Inter',sans-serif}
+/* STREAMS PANEL */
+.streams-panel{padding:0 32px 32px;display:flex;flex-direction:column;gap:10px}
+.stream-row{background:var(--surface);border:1px solid var(--rule);border-radius:var(--r-lg);overflow:hidden;transition:border-color var(--tr)}
+.stream-row:hover{border-color:var(--rule2)}
+.stream-row-main{display:flex;align-items:center;gap:14px;padding:15px 18px}
+.stream-color-bar{width:4px;height:38px;border-radius:2px;flex-shrink:0;transition:background 0.2s}
+.stream-row-info{flex:1;min-width:0}
+.stream-row-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--ink)}
+.stream-row-meta{font-size:11px;color:var(--ink3);font-family:'DM Mono',monospace;margin-top:2px}
+.stream-palette{display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+.sc-swatch{width:18px;height:18px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all 0.14s;flex-shrink:0}
+.sc-swatch:hover{transform:scale(1.25)}
+.sc-swatch.active{border-color:var(--ink);transform:scale(1.3);box-shadow:0 0 0 1px var(--surface)}
+.stream-row-btns{display:flex;gap:6px;flex-shrink:0}
+.stream-rename-row{border-top:1px solid var(--rule);padding:10px 18px;display:none;align-items:center;gap:8px;background:var(--surface2)}
+.stream-rename-row.open{display:flex}
+.stream-rename-inp{flex:1;background:var(--bg2);border:1px solid var(--rule2);color:var(--ink);font-family:'Inter',sans-serif;font-size:13px;padding:8px 11px;border-radius:var(--r);outline:none;transition:border-color var(--tr)}
+.stream-rename-inp:focus{border-color:var(--nv);box-shadow:0 0 0 2px var(--nv-dim)}
+.stream-add-hint{text-align:center;padding:32px;color:var(--ink3);font-size:12px;font-family:'DM Mono',monospace;letter-spacing:0.04em}
+/* CAREER EXPECTATIONS */
+.career-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px;padding:0 32px 32px}
+.career-card{background:var(--surface);border:1px solid var(--rule);border-radius:var(--r-lg);overflow:hidden;transition:all var(--tr)}
+.career-card::before{content:'';display:block;height:3px;background:var(--stream-color,var(--nv))}
+.career-card:hover{border-color:var(--rule2);box-shadow:var(--shadow);transform:translateY(-1px)}
+.career-card-body{padding:14px 16px 10px}
+.career-name{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--ink)}
+.career-role{font-size:11px;color:var(--ink2);font-family:'DM Mono',monospace;margin-top:2px}
+.career-target{margin-top:10px;display:flex;align-items:baseline;gap:7px;flex-wrap:wrap}
+.career-target-label{font-size:9px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.10em;color:var(--ink3);white-space:nowrap}
+.career-target-val{font-size:12px;font-family:'Syne',sans-serif;font-weight:700;color:var(--nv)}
+.career-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.career-tag{padding:3px 8px;border-radius:20px;font-size:10px;font-family:'DM Mono',monospace;background:var(--nv-dim);color:var(--nv);border:1px solid rgba(118,185,0,0.2);letter-spacing:0.03em}
+.career-dates{display:flex;gap:14px;margin-top:10px;padding-top:8px;border-top:1px solid var(--rule)}
+.career-date-pair{display:flex;flex-direction:column;gap:2px}
+.career-date-lbl{font-size:9px;text-transform:uppercase;letter-spacing:0.10em;color:var(--ink3);font-family:'DM Mono',monospace}
+.career-date-val{font-size:11px;color:var(--ink2);font-family:'DM Mono',monospace}
+.career-notes{font-size:12px;color:var(--ink3);font-family:'Inter',sans-serif;margin-top:8px;line-height:1.5;padding-top:8px;border-top:1px solid var(--rule)}
+.career-card-footer{display:flex;justify-content:flex-end;padding:6px 12px 10px;gap:4px;opacity:0;transition:opacity var(--tr)}
+.career-card:hover .career-card-footer{opacity:1}
+/* PTO & TRAVELS */
+.pto-list{padding:0 32px 32px;display:flex;flex-direction:column;gap:8px}
+.pto-card{background:var(--surface);border:1px solid var(--rule);border-radius:var(--r-lg);display:flex;align-items:center;gap:13px;padding:13px 16px;transition:all var(--tr)}
+.pto-card:hover{border-color:var(--rule2);box-shadow:var(--shadow)}
+.pto-type-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.pto-date-range{font-size:11px;font-family:'DM Mono',monospace;color:var(--ink2);min-width:170px;white-space:nowrap}
+.pto-info{flex:1;min-width:0}
+.pto-label{font-size:13px;font-weight:600;color:var(--ink);font-family:'Syne',sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pto-member{font-size:11px;color:var(--ink3);font-family:'DM Mono',monospace;margin-top:2px}
+.pto-status-badge{font-size:10px;font-family:'DM Mono',monospace;padding:3px 9px;border-radius:20px;text-transform:uppercase;letter-spacing:0.05em;flex-shrink:0}
+.pto-status-approved{background:rgba(0,180,160,0.12);color:var(--teal)}
+.pto-status-pending{background:rgba(232,160,32,0.12);color:var(--gold)}
+.pto-type-badge{font-size:9px;font-family:'DM Mono',monospace;padding:2px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:0.06em;flex-shrink:0;white-space:nowrap}
+.pto-card-actions{display:flex;gap:4px;opacity:0;transition:opacity var(--tr)}
+.pto-card:hover .pto-card-actions{opacity:1}
+/* PTO CALENDAR */
+.pto-calendar-section{padding:0 32px 20px;border-bottom:2px solid var(--rule2)}
+.pto-cal-topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 0 14px;flex-wrap:wrap;gap:8px}
+.pto-cal-label{font-size:10px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.13em;color:var(--ink3)}
+.pto-legend{display:flex;gap:12px;flex-wrap:wrap}
+.pto-legend-item{display:flex;align-items:center;gap:5px;font-size:10px;font-family:'Inter',sans-serif;color:var(--ink2);letter-spacing:0.02em}
+.pto-legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.pto-months-row{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.pto-month{background:var(--surface);border:1px solid var(--rule);border-radius:var(--r-lg);overflow:hidden}
+.pto-month-hdr{background:var(--surface2);padding:10px 16px 9px;border-bottom:1px solid var(--rule);display:flex;justify-content:space-between;align-items:baseline}
+.pto-month-nm{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;letter-spacing:-0.2px}
+.pto-month-yr{font-size:11px;font-family:'DM Mono',monospace;color:var(--ink3)}
+.pto-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;padding:8px 4px 10px}
+.pto-dow{font-size:10px;font-family:'Inter',sans-serif;font-weight:600;text-align:center;color:var(--ink2);letter-spacing:0.02em;padding:2px 0 8px}
+.pto-dow.weekend{opacity:0.35}
+.pto-day{min-height:58px;padding:4px 0 2px;display:flex;flex-direction:column;gap:0;transition:background 0.12s}
+.pto-day.is-today{background:var(--nv-dim);outline:1px solid rgba(118,185,0,0.3);outline-offset:-1px;border-radius:2px}
+.pto-day.is-weekend{opacity:0.55}
+.pto-day.is-pad{visibility:hidden;pointer-events:none}
+.pto-day-num{font-size:11px;font-family:'Inter',sans-serif;font-weight:500;color:var(--ink2);line-height:1;padding:0 4px 4px;text-align:center}
+.pto-day.is-today .pto-day-num{color:var(--nv);font-weight:700}
+/* Bars (continuous across consecutive days) */
+.pto-bars{display:flex;flex-direction:column;gap:2px;width:100%;margin-top:1px}
+.pto-bar{height:14px;display:flex;align-items:center;cursor:pointer;transition:opacity 0.12s}
+.pto-bar:hover{opacity:0.72}
+.pto-bar-label{font-size:9px;font-weight:700;font-family:'DM Mono',monospace;padding:0 5px;white-space:nowrap;overflow:hidden;letter-spacing:0.03em;line-height:14px}
+.pto-bar-more{font-size:8px;font-family:'Inter',sans-serif;color:var(--ink3);padding:0 4px;line-height:14px}
+/* Multi-member picker in PTO modal */
+.member-picker{display:flex;flex-direction:column;gap:1px;max-height:160px;overflow-y:auto;border:1px solid var(--rule2);border-radius:var(--r);padding:5px 6px;background:var(--surface2)}
+.member-pick-row{display:flex;align-items:center;gap:9px;padding:5px 6px;cursor:pointer;border-radius:3px;transition:background 0.1s}
+.member-pick-row:hover{background:var(--surface3)}
+.member-pick-check{width:14px;height:14px;accent-color:var(--nv);cursor:pointer;flex-shrink:0}
+.member-pick-name{font-size:13px;color:var(--ink2);transition:color 0.1s;user-select:none}
+.member-pick-row:has(input:checked) .member-pick-name{color:var(--ink);font-weight:500}
+/* Split-section divider */
+.pto-section-divider{display:flex;align-items:center;gap:12px;padding:14px 32px 0}
+.pto-section-divider span{font-size:10px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.13em;color:var(--ink3);white-space:nowrap}
+.pto-section-divider::after{content:'';flex:1;height:1px;background:var(--rule2)}
+/* Upcoming filter row */
+.pto-upcoming-filters{display:flex;align-items:center;gap:10px;padding:10px 32px 0;flex-wrap:wrap}
+/* Active (currently happening) entry */
+.pto-card-active{border-color:rgba(118,185,0,0.35)!important;box-shadow:0 0 0 1px var(--nv-dim)}
+.pto-active-badge{font-size:8px;font-family:'DM Mono',monospace;padding:2px 7px;border-radius:2px;background:var(--nv-dim);color:var(--nv);letter-spacing:0.08em;font-weight:700;flex-shrink:0}
+/* PUBLICATIONS */
+.pub-list{padding:0 32px 32px;display:flex;flex-direction:column;gap:10px}
+.pub-card{background:var(--surface);border:1px solid var(--rule);border-radius:var(--r-lg);padding:16px 18px;transition:all var(--tr)}
+.pub-card:hover{border-color:var(--rule2);box-shadow:var(--shadow)}
+.pub-card-header{display:flex;align-items:flex-start;gap:12px}
+.pub-type-icon{width:34px;height:34px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:9px;font-family:'DM Mono',monospace;font-weight:700;letter-spacing:0.04em}
+.pub-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--ink);line-height:1.3}
+.pub-venue{font-size:12px;color:var(--ink2);font-family:'Inter',sans-serif;margin-top:3px}
+.pub-meta{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px;align-items:center}
+.pub-status-badge{font-size:10px;font-family:'DM Mono',monospace;padding:3px 9px;border-radius:20px;text-transform:uppercase;letter-spacing:0.05em}
+.pub-status-submitted{background:rgba(232,160,32,0.12);color:var(--gold)}
+.pub-status-accepted{background:rgba(74,144,217,0.12);color:var(--blue)}
+.pub-status-published{background:rgba(118,185,0,0.12);color:var(--nv)}
+.pub-date{font-size:11px;color:var(--ink3);font-family:'DM Mono',monospace}
+.pub-authors{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.pub-author-chip{padding:2px 8px;border-radius:20px;font-size:10px;font-family:'DM Mono',monospace;background:var(--surface3);color:var(--ink2);border:1px solid var(--rule2)}
+.pub-card-footer{display:flex;justify-content:flex-end;gap:4px;padding-top:10px;border-top:1px solid var(--rule);margin-top:10px;opacity:0;transition:opacity var(--tr)}
+.pub-card:hover .pub-card-footer{opacity:1}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--surface3);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--nv-dim)}
+@media(max-width:620px){
+  .members-grid{grid-template-columns:1fr;padding:0 16px 16px}
+  .section-header{padding:16px 16px 12px}
+  .filter-bar,.stats-row{padding-left:16px;padding-right:16px;margin-left:16px;margin-right:16px}
+  .projects-list{padding:0 16px 16px}
+  .field-row{grid-template-columns:1fr}
+  .topbar-tabs .tab-btn span{display:none}
+  .project-card.is-sub{margin-left:10px}
+}
+/* ── ACCESS CONTROL ─────────────────────────────────────────────────────── */
+body.view-only .btn-nv,
+body.view-only .btn-danger,
+body.view-only .icon-btn.nv,
+body.view-only .icon-btn.danger,
+body.view-only .admin-only{display:none!important}
+/* User identity button */
+.user-btn{display:flex;align-items:center;gap:7px;background:transparent;border:1px solid var(--rule);border-radius:20px;padding:4px 10px 4px 5px;cursor:pointer;transition:all var(--tr);color:var(--ink3);font-family:'Inter',sans-serif;font-size:11px;font-weight:500;white-space:nowrap}
+.user-btn:hover{border-color:var(--rule2);background:var(--surface2);color:var(--ink)}
+.user-btn.is-admin{border-color:rgba(118,185,0,0.3);color:var(--nv)}
+.user-btn.is-viewer{border-color:rgba(224,80,80,0.25);color:var(--red)}
+.user-btn-avatar{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;font-family:'DM Mono',monospace;flex-shrink:0;color:#000}
+.user-btn-lock{width:10px;height:10px;flex-shrink:0;opacity:0.7}
+/* Admin settings panel */
+.admin-member-list{display:flex;flex-direction:column;gap:1px;max-height:260px;overflow-y:auto;border:1px solid var(--rule2);border-radius:var(--r);padding:4px;background:var(--surface2)}
+.admin-member-row{display:flex;align-items:center;gap:9px;padding:6px 8px;border-radius:3px;transition:background 0.1s}
+.admin-member-row:hover{background:var(--surface3)}
+.admin-member-check{width:14px;height:14px;accent-color:var(--nv);cursor:pointer;flex-shrink:0}
+.admin-member-name{font-size:13px;color:var(--ink2);flex:1}
+.admin-member-role{font-size:9px;color:var(--ink3);font-family:'DM Mono',monospace}
+/* Calendar sync modal */
+.sync-tabs{display:flex;gap:0;border-bottom:1px solid var(--rule2);margin-bottom:18px}
+.sync-tab{padding:8px 16px;font-size:11px;font-family:'Syne',sans-serif;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3);background:transparent;border:none;border-bottom:2px solid transparent;cursor:pointer;margin-bottom:-1px;transition:all var(--tr)}
+.sync-tab.active{color:var(--nv);border-bottom-color:var(--nv)}
+.sync-tab-panel{display:none}.sync-tab-panel.active{display:block}
+.ms-step{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--rule)}
+.ms-step:last-child{border-bottom:none}
+.ms-step-n{width:18px;height:18px;border-radius:50%;background:var(--surface3);color:var(--ink3);font-size:9px;font-family:'DM Mono',monospace;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.ms-step-body{font-size:12px;color:var(--ink2);line-height:1.5}
+.ms-step-body strong{color:var(--ink);display:block;margin-bottom:1px}
+/* ICS review table */
+.ics-review-wrap{max-height:290px;overflow-y:auto;border:1px solid var(--rule2);border-radius:var(--r)}
+.ics-table{width:100%;border-collapse:collapse;font-size:11px}
+.ics-table th{text-align:left;padding:6px 8px;border-bottom:1px solid var(--rule2);font-size:9px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink3);background:var(--surface2);position:sticky;top:0}
+.ics-table td{padding:6px 8px;border-bottom:1px solid var(--rule);color:var(--ink2);vertical-align:middle}
+.ics-table tr:last-child td{border-bottom:none}
+.ics-table select{background:var(--surface3);border:1px solid var(--rule2);color:var(--ink2);font-size:11px;padding:2px 4px;border-radius:2px;outline:none;max-width:130px}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-brand">
+    <svg class="nv-eye" viewBox="0 0 28 20" fill="none">
+      <ellipse cx="14" cy="10" rx="13" ry="9" stroke="#76b900" stroke-width="1.2" fill="rgba(118,185,0,0.07)"/>
+      <circle cx="14" cy="10" r="4.5" fill="#76b900"/>
+      <circle cx="15.4" cy="8.6" r="1.6" fill="#000"/>
+    </svg>
+    <div class="brand-stack">
+      <div class="brand-tag">Project Charter</div>
+      <div class="brand-name">Data Center Engineering — <em>Thermal Team</em></div>
+    </div>
+  </div>
+  <div class="topbar-tabs">
+    <button class="tab-btn active" onclick="switchView('members')" id="tab-members">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+      <span>Team</span>
+    </button>
+    <button class="tab-btn" onclick="switchView('projects')" id="tab-projects">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      <span>Projects</span>
+    </button>
+    <button class="tab-btn" onclick="switchView('timeline')" id="tab-timeline">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><polyline points="8 8 3 12 8 16"/><polyline points="16 8 21 12 16 16"/></svg>
+      <span>Timeline</span>
+    </button>
+    <button class="tab-btn" onclick="switchView('streams')" id="tab-streams">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/><path d="M15.54 8.46a5 5 0 010 7.07M8.46 8.46a5 5 0 000 7.07"/></svg>
+      <span>Streams</span>
+    </button>
+    <button class="tab-btn" onclick="switchView('career')" id="tab-career">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      <span>Career</span>
+    </button>
+    <button class="tab-btn" onclick="switchView('pto')" id="tab-pto">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <span>PTO &amp; Travel</span>
+    </button>
+    <button class="tab-btn" onclick="switchView('pubs')" id="tab-pubs">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+      <span>Publications</span>
+    </button>
+  </div>
+  <div class="topbar-right">
+    <div class="save-indicator local" id="save-indicator"><span id="save-indicator-text">● LOCAL</span></div>
+    <button class="btn btn-ghost btn-sm" onclick="syncNow()" id="sync-btn" title="Sync to GitHub now">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 11-.57-8.38"/></svg><span id="sync-btn-label">Sync</span>
+    </button>
+    <button class="btn btn-ghost btn-sm" onclick="openGitHubSettings()" title="GitHub Settings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>GitHub
+    </button>
+    <button class="btn btn-ghost btn-sm" onclick="saveToJSON()" title="Export JSON backup">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Export
+    </button>
+    <button class="btn btn-ghost btn-sm" onclick="exportCSV()" title="Export CSV">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>CSV
+    </button>
+    <button class="btn btn-ghost btn-sm admin-only" onclick="openAdminSettings()" title="Admin Settings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M6.34 17.66l-1.41 1.41M4.93 4.93l1.41 1.41M17.66 17.66l1.41-1.41M21 12h-2M5 12H3M12 21v-2M12 5V3"/></svg>Admin
+    </button>
+    <button class="user-btn" id="user-btn" onclick="openUserSelector()">
+      <div class="user-btn-avatar" id="user-btn-avatar" style="background:#222;color:#888">?</div>
+      <span id="user-btn-name">Sign in</span>
+      <svg class="user-btn-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" id="user-btn-lock"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+    </button>
+    <input type="file" id="file-input" accept=".json" style="display:none" onchange="loadFromJSON(event)">
+    <input type="file" id="ics-file-input" accept=".ics" style="display:none" onchange="_handleICSFile(event)">
+  </div>
+</div>
+
+<!-- MEMBERS VIEW -->
+<div class="view active" id="view-members">
+  <div class="section-header">
+    <div><div class="section-title">Team <em>Members</em></div><div class="section-sub" id="members-sub"></div></div>
+    <div class="section-actions">
+      <button class="btn btn-nv" onclick="openAddMember()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add Member</button>
+    </div>
+  </div>
+  <div class="filter-bar">
+    <div class="search-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input class="search-inp" id="member-search" placeholder="Search members…" oninput="renderMembers()"></div>
+    <select class="filter-select" id="member-stream-filter" onchange="renderMembers()"><option value="">All Streams</option></select>
+    <select class="filter-select" id="member-layer-filter" onchange="renderMembers()"><option value="">All Layers</option><option value="management">Management</option><option value="ic">Contributors</option></select>
+  </div>
+  <div class="stats-row" id="member-stats"></div>
+  <div class="members-grid" id="members-grid"></div>
+</div>
+
+<!-- PROJECTS VIEW -->
+<div class="view" id="view-projects">
+  <div class="section-header">
+    <div><div class="section-title">Projects <em>&amp; Subprojects</em></div><div class="section-sub" id="projects-sub"></div></div>
+    <div class="section-actions">
+      <button class="btn btn-nv" onclick="openAddProject(null)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>New Project</button>
+    </div>
+  </div>
+  <div class="filter-bar">
+    <div class="search-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input class="search-inp" id="project-search" placeholder="Search projects…" oninput="renderProjects()"></div>
+    <select class="filter-select" id="project-status-filter" onchange="renderProjects()"><option value="">All Status</option><option>Active</option><option>Planned</option><option>Complete</option><option>On Hold</option></select>
+    <select class="filter-select" id="project-priority-filter" onchange="renderProjects()"><option value="">All Priorities</option><option>High</option><option>Medium</option><option>Low</option></select>
+  </div>
+  <div class="stats-row" id="project-stats"></div>
+  <div class="projects-list" id="projects-list"></div>
+</div>
+
+<!-- TIMELINE VIEW -->
+<div class="view" id="view-timeline">
+  <div class="section-header">
+    <div><div class="section-title">Work<em>stream</em> Timeline</div><div class="section-sub" id="timeline-sub"></div></div>
+    <div class="section-actions">
+      <button class="btn btn-outline btn-sm" onclick="shiftMonths(-12)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:11px;height:11px"><polyline points="15 18 9 12 15 6"/></svg>Prev Year</button>
+      <button class="btn btn-outline btn-sm" onclick="resetMonths()">This Year</button>
+      <button class="btn btn-outline btn-sm" onclick="shiftMonths(12)">Next Year<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:11px;height:11px"><polyline points="9 18 15 12 9 6"/></svg></button>
+      <button class="btn btn-nv btn-sm" onclick="openAddTask(null,null)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add Task</button>
+    </div>
+  </div>
+  <div class="filter-bar">
+    <select class="filter-select" id="tl-stream-filter" onchange="renderTimeline()"><option value="">All Streams</option></select>
+    <select class="filter-select" id="tl-project-filter" onchange="renderTimeline()"><option value="">All Projects</option></select>
+  </div>
+  <div class="timeline-wrap"><table class="timeline-table" id="timeline-table"></table></div>
+</div>
+
+<!-- STREAMS VIEW -->
+<div class="view" id="view-streams">
+  <div class="section-header">
+    <div>
+      <div class="section-title">Team <em>Streams</em></div>
+      <div class="section-sub">Organise members into streams · click a colour swatch to recolour instantly</div>
+    </div>
+    <div class="section-actions">
+      <button class="btn btn-nv" onclick="openAddStream()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add Stream
+      </button>
+    </div>
+  </div>
+  <div class="streams-panel" id="streams-list"></div>
+</div>
+
+<!-- CAREER EXPECTATIONS VIEW -->
+<div class="view" id="view-career">
+  <div class="section-header">
+    <div><div class="section-title">Career <em>Expectations</em></div><div class="section-sub">Growth targets, development areas and review cycles per team member</div></div>
+  </div>
+  <div class="filter-bar">
+    <div class="search-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input class="search-inp" id="career-search" placeholder="Search by name or goal…" oninput="renderCareer()"></div>
+    <select class="filter-select" id="career-stream-filter" onchange="renderCareer()"><option value="">All Streams</option></select>
+  </div>
+  <div class="career-grid" id="career-grid"></div>
+</div>
+
+<!-- PTO & TRAVELS VIEW -->
+<div class="view" id="view-pto">
+  <div class="section-header">
+    <div><div class="section-title">PTOs <em>&amp; Travels</em></div><div class="section-sub" id="pto-sub">3-month calendar · upcoming from this week</div></div>
+    <div class="section-actions">
+      <button class="btn btn-ghost btn-sm admin-only" onclick="openCalendarSync()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 11-.57-8.38"/></svg>Sync Calendars</button>
+      <button class="btn btn-nv" onclick="openAddPTO()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add Entry</button>
+    </div>
+  </div>
+
+  <!-- ── TOP HALF: 3-month calendar ── -->
+  <div class="pto-calendar-section">
+    <div class="pto-cal-topbar">
+      <div class="pto-cal-label">Team Calendar</div>
+      <div class="pto-legend" id="pto-legend"></div>
+    </div>
+    <div class="pto-months-row" id="pto-calendar"></div>
+  </div>
+
+  <!-- ── SPLIT DIVIDER ── -->
+  <div class="pto-section-divider"><span>Upcoming · This week &amp; forward</span></div>
+
+  <!-- ── BOTTOM HALF: upcoming entries ── -->
+  <div class="pto-upcoming-filters">
+    <select class="filter-select" id="pto-type-filter" onchange="renderPTO()"><option value="">All Types</option><option>PTO</option><option>Business Travel</option><option>Conference</option><option>Remote Work</option></select>
+    <select class="filter-select" id="pto-member-filter" onchange="renderPTO()"><option value="">All Members</option></select>
+  </div>
+  <div class="stats-row" id="pto-stats"></div>
+  <div class="pto-list" id="pto-list"></div>
+</div>
+
+<!-- PUBLICATIONS VIEW -->
+<div class="view" id="view-pubs">
+  <div class="section-header">
+    <div><div class="section-title">Conference <em>Publications</em></div><div class="section-sub">Papers, talks, posters and presentations by the team</div></div>
+    <div class="section-actions">
+      <button class="btn btn-nv" onclick="openAddPub()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add Publication</button>
+    </div>
+  </div>
+  <div class="filter-bar">
+    <div class="search-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input class="search-inp" id="pub-search" placeholder="Search title or venue…" oninput="renderPublications()"></div>
+    <select class="filter-select" id="pub-status-filter" onchange="renderPublications()"><option value="">All Statuses</option><option>Submitted</option><option>Accepted</option><option>Published</option></select>
+    <select class="filter-select" id="pub-type-filter" onchange="renderPublications()"><option value="">All Types</option><option>Paper</option><option>Talk</option><option>Poster</option><option>Presentation</option></select>
+  </div>
+  <div class="stats-row" id="pub-stats"></div>
+  <div class="pub-list" id="pub-list"></div>
+</div>
+
+<div class="overlay" id="modal-overlay" onclick="handleOverlayClick(event)"><div class="modal" id="modal-box"></div></div>
+<div class="toast" id="toast"><div class="toast-dot" id="toast-dot"></div><span id="toast-msg"></span></div>
+
+<script>
+/* ─────────────────────────────────────────────────────────────────────────
+   DCE Thermal Charter — GitHub-backed collaborative charter
+   ─────────────────────────────────────────────────────────────────────────
+   SETUP (one-time per team member):
+   1. Host this file on GitHub Pages (Settings → Pages → Deploy from branch)
+   2. Click the [GitHub] button in the top bar
+   3. Enter your repo (owner/repo), branch, data file path, and a PAT token
+      (github.com/settings/tokens → classic → repo scope)
+   4. Click "Save & Sync" — your changes will auto-commit going forward
+
+   DATA FILE: charter-data.json is created automatically in your repo.
+   All team members read/write to the same file. Last writer wins (with
+   automatic conflict resolution on 409).
+   ─────────────────────────────────────────────────────────────────────────── */
+const LS_KEY='dce_thermal_v7';
+const DEFAULT_STREAMS={'Leadership':{color:'#76b900',bg:'rgba(118,185,0,0.10)'},'Systems SW':{color:'#e05050',bg:'rgba(224,80,80,0.10)'},'Platform SW':{color:'#4a90d9',bg:'rgba(74,144,217,0.10)'},'Integration Eng.':{color:'#00b4a0',bg:'rgba(0,180,160,0.10)'},'Systems Eng.':{color:'#e8a020',bg:'rgba(232,160,32,0.10)'},'Project Mgmt':{color:'#b060d0',bg:'rgba(176,96,208,0.10)'}};
+let STREAMS={...DEFAULT_STREAMS};
+const STREAM_COLORS=[
+  {color:'#76b900',bg:'rgba(118,185,0,0.10)'},{color:'#e05050',bg:'rgba(224,80,80,0.10)'},
+  {color:'#4a90d9',bg:'rgba(74,144,217,0.10)'},{color:'#00b4a0',bg:'rgba(0,180,160,0.10)'},
+  {color:'#e8a020',bg:'rgba(232,160,32,0.10)'},{color:'#b060d0',bg:'rgba(176,96,208,0.10)'},
+  {color:'#e8693f',bg:'rgba(232,105,63,0.10)'},{color:'#50c8e8',bg:'rgba(80,200,232,0.10)'},
+  {color:'#e05090',bg:'rgba(224,80,144,0.10)'},{color:'#8888cc',bg:'rgba(136,136,204,0.10)'},
+];
+const PROJECT_COLORS=['#76b900','#e05050','#4a90d9','#00b4a0','#e8a020','#b060d0','#e8693f','#00c8b4','#d4a020','#6090e0'];
+const AVATAR_PAIRS=[['#1a2a0a','#76b900'],['#0a1a2a','#4a90d9'],['#0a2018','#00b4a0'],['#2a1a0a','#e8a020'],['#1a0a2a','#b060d0'],['#2a0a0a','#e05050'],['#0a0a2a','#6090e0'],['#1a1a0a','#c8b400']];
+const MGMT_KEYWORDS=['director','manager','lead','head','vp','chief','cto','ceo','president'];
+function isManagement(m){return m.layer==='management'||MGMT_KEYWORDS.some(k=>m.role.toLowerCase().includes(k));}
+
+let members=[],projects=[],tasks=[];
+let nextMemberId=1,nextProjectId=1,nextTaskId=1,monthOffset=0;
+const TOTAL_MONTHS=12;
+let autoSaveTimer=null,_tempPhoto='',_tempLinks=[];
+let careerGoals={},timeoffs=[],publications=[];
+let nextTimeoffId=1,nextPubId=1;
+let adminUsers=[];  // member IDs with edit access; empty = everyone
+let msClientId=''; // Azure AD app client ID for Graph API
+let currentUserId=null; // resolved at load from localStorage/sessionStorage
+let _pendingICSEvents=[];
+
+function defaultData(){
+  members=[
+    // ── Management ───────────────────────────────────────────────────────
+    {id:1,name:'Ali Heydari',role:'Director',stream:'Leadership',layer:'management',photo:'',links:[],email:'aheydari@nvidia.com',phone:'',notes:''},
+    {id:2,name:'Saket Karajgikar',role:'Sr. Engineering Manager',stream:'Leadership',layer:'management',photo:'',links:[],email:'skarajgikar@nvidia.com',phone:'',notes:''},
+    {id:3,name:'Mohammad Tradat',role:'Engineering Manager',stream:'Leadership',layer:'management',photo:'',links:[],email:'mtradat@nvidia.com',phone:'',notes:'Manager: Ali Heydari · EMP 00048206 · Location: US, NY, Remote'},
+    // ── Ali Heydari's direct IC reports ──────────────────────────────────
+    {id:4,name:'Doug Asav',role:'Software Engineer',stream:'Systems SW',layer:'ic',photo:'',links:[],email:'dasav@nvidia.com',phone:'',notes:''},
+    {id:5,name:'Greg Busch',role:'Software Engineer',stream:'Systems SW',layer:'ic',photo:'',links:[],email:'gbusch@nvidia.com',phone:'',notes:''},
+    {id:6,name:'Kourosh Nemati',role:'Software Engineer',stream:'Systems SW',layer:'ic',photo:'',links:[],email:'knemati@nvidia.com',phone:'',notes:''},
+    {id:7,name:'Peter YT Chen',role:'Software Engineer',stream:'Systems SW',layer:'ic',photo:'',links:[],email:'peterchen@nvidia.com',phone:'',notes:''},
+    {id:8,name:'Sergio Escobar',role:'Software Engineer',stream:'Systems SW',layer:'ic',photo:'',links:[],email:'sescobar@nvidia.com',phone:'',notes:''},
+    {id:9,name:'Tanya Mutter',role:'Software Engineer',stream:'Systems SW',layer:'ic',photo:'',links:[],email:'tmutter@nvidia.com',phone:'',notes:''},
+    {id:10,name:'Yaman Manaseth',role:'Software Engineer',stream:'Systems SW',layer:'ic',photo:'',links:[],email:'ymanaseth@nvidia.com',phone:'',notes:''},
+    // ── Saket Karajgikar's team ───────────────────────────────────────────
+    {id:11,name:'Bahareh Eslami',role:'Software Engineer',stream:'Platform SW',layer:'ic',photo:'',links:[],email:'beslami@nvidia.com',phone:'',notes:''},
+    {id:12,name:'Pardeen Shafi',role:'Software Engineer',stream:'Platform SW',layer:'ic',photo:'',links:[],email:'pshafi@nvidia.com',phone:'',notes:''},
+    {id:13,name:'Dulal Soud',role:'Software Engineer',stream:'Platform SW',layer:'ic',photo:'',links:[],email:'psoud@nvidia.com',phone:'',notes:''},
+    {id:14,name:'Sean Suanalan',role:'Software Engineer',stream:'Platform SW',layer:'ic',photo:'',links:[],email:'ssuanalan@nvidia.com',phone:'',notes:''},
+    {id:15,name:'Vahideh Radmard',role:'Software Engineer',stream:'Platform SW',layer:'ic',photo:'',links:[],email:'vradmard@nvidia.com',phone:'',notes:''},
+    // ── Mohammad Tradat's team ────────────────────────────────────────────
+    {id:16,name:'Harold Miyamura',role:'Software Engineer',stream:'Integration Eng.',layer:'ic',photo:'',links:[],email:'hmiyamura@nvidia.com',phone:'+1 (408) 4101928',notes:''},
+    {id:17,name:'Himanshu Modi',role:'Software Engineer',stream:'Integration Eng.',layer:'ic',photo:'',links:[],email:'himanshum@nvidia.com',phone:'',notes:''},
+    {id:18,name:'Raha Kalantaropur',role:'Software Engineer',stream:'Integration Eng.',layer:'ic',photo:'',links:[],email:'rkalantaropur@nvidia.com',phone:'',notes:''},
+    {id:19,name:'Utshas Chowdhury',role:'Software Engineer',stream:'Integration Eng.',layer:'ic',photo:'',links:[],email:'uchowdhury@nvidia.com',phone:'',notes:''},
+  ];
+  projects=[];
+  tasks=[];
+  STREAMS={...DEFAULT_STREAMS};
+  careerGoals={};timeoffs=[];publications=[];nextTimeoffId=1;nextPubId=1;
+  adminUsers=[];msClientId='';
+  nextMemberId=20;nextProjectId=1;nextTaskId=1;monthOffset=0;
+}
+
+// ── GITHUB CONFIG ─────────────────────────────────────────────────────────────
+const GH_CONFIG_KEY='dce_gh_config_v1';
+let ghConfig={owner:'',repo:'',branch:'main',path:'charter-data.json',token:''};
+let _ghSha=null; // sha of the remote file for update calls
+let _ghSyncTimer=null;
+
+function loadGHConfig(){
+  try{const raw=localStorage.getItem(GH_CONFIG_KEY);if(raw)ghConfig=JSON.parse(raw);}catch(e){}
+}
+function saveGHConfig(){localStorage.setItem(GH_CONFIG_KEY,JSON.stringify(ghConfig));}
+function ghConfigured(){return !!(ghConfig.token&&ghConfig.owner&&ghConfig.repo);}
+
+async function ghAPI(path,opts={}){
+  const url='https://api.github.com/repos/'+ghConfig.owner+'/'+ghConfig.repo+path;
+  const res=await fetch(url,{headers:{Authorization:'token '+ghConfig.token,'Content-Type':'application/json','Accept':'application/vnd.github.v3+json'},...opts});
+  return res;
+}
+
+function buildPayload(){
+  return{members,projects,tasks,streams:STREAMS,nextMemberId,nextProjectId,nextTaskId,monthOffset,careerGoals,timeoffs,publications,nextTimeoffId,nextPubId,adminUsers,msClientId};
+}
+
+// ── PERSISTENCE ────────────────────────────────────────────────────────────────
+function persist(){
+  try{localStorage.setItem(LS_KEY,JSON.stringify(buildPayload()));setInd('local');}catch(e){setInd('error');}
+}
+function scheduleAutoSave(){
+  clearTimeout(autoSaveTimer); clearTimeout(_ghSyncTimer);
+  setInd('unsaved');
+  // always cache locally immediately
+  try{localStorage.setItem(LS_KEY,JSON.stringify(buildPayload()));}catch(e){}
+  if(ghConfigured()){
+    _ghSyncTimer=setTimeout(()=>saveToGitHub(),1800);
+  } else {
+    autoSaveTimer=setTimeout(persist,800);
+  }
+}
+function setInd(s){
+  const el=document.getElementById('save-indicator');
+  const txt=document.getElementById('save-indicator-text');
+  const syncLbl=document.getElementById('sync-btn-label');
+  if(!el)return;
+  const map={synced:'● SYNCED',syncing:'● SYNCING…',unsaved:'● UNSAVED',local:'● LOCAL',error:'● SYNC ERROR'};
+  if(txt)txt.textContent=map[s]||'● '+s.toUpperCase();
+  el.className='save-indicator '+s;
+  if(syncLbl)syncLbl.textContent=s==='syncing'?'…':'Sync';
+}
+
+async function loadFromGitHub(){
+  if(!ghConfigured())return false;
+  setInd('syncing');
+  try{
+    const res=await ghAPI('/contents/'+ghConfig.path+'?ref='+encodeURIComponent(ghConfig.branch));
+    if(!res.ok){setInd('local');return false;}
+    const data=await res.json();
+    _ghSha=data.sha;
+    const content=JSON.parse(decodeURIComponent(escape(atob(data.content.replace(/\n/g,'')))));
+    applyData(content);
+    try{localStorage.setItem(LS_KEY,JSON.stringify(content));}catch(e){}
+    setInd('synced');
+    showToast('Synced from GitHub','#76b900');
+    return true;
+  }catch(e){setInd('local');return false;}
+}
+
+async function saveToGitHub(){
+  if(!ghConfigured()){persist();return;}
+  setInd('syncing');
+  try{
+    const payload=buildPayload();
+    // encode to base64 (handles Unicode)
+    const jsonStr=JSON.stringify(payload,null,2);
+    const content=btoa(unescape(encodeURIComponent(jsonStr)));
+    const body={message:'Update charter data ['+new Date().toISOString().slice(0,16).replace('T',' ')+'] by '+((currentUserId&&getMember(currentUserId)?.name)||'team member'),content,branch:ghConfig.branch};
+    if(_ghSha)body.sha=_ghSha;
+    const res=await ghAPI('/contents/'+ghConfig.path,{method:'PUT',body:JSON.stringify(body)});
+    if(res.ok){
+      const d=await res.json();_ghSha=d.content?.sha;
+      setInd('synced');
+      try{localStorage.setItem(LS_KEY,jsonStr);}catch(e){}
+    } else if(res.status===409){
+      // Conflict: another member committed — fetch latest then retry
+      showToast('Conflict — refreshing from GitHub…','#e8a020');
+      await loadFromGitHub();
+      await saveToGitHub();
+    } else if(res.status===422&&!_ghSha){
+      // File already exists but we don't have sha — fetch sha then retry
+      const r2=await ghAPI('/contents/'+ghConfig.path+'?ref='+encodeURIComponent(ghConfig.branch));
+      if(r2.ok){const d2=await r2.json();_ghSha=d2.sha;}
+      await saveToGitHub();
+    } else {
+      const err=await res.json().catch(()=>({}));
+      setInd('error');
+      showToast('GitHub error '+(err.message||res.status),'#e05050');
+      persist(); // fall back to local
+    }
+  }catch(e){
+    setInd('local');persist();
+    showToast('Offline — saved locally','#e8a020');
+  }
+}
+
+async function syncNow(){
+  if(!ghConfigured()){openGitHubSettings();return;}
+  // Pull first, then push if we have local unsaved changes
+  const pulled=await loadFromGitHub();
+  if(pulled)refreshCurrentView();
+}
+
+// ── GITHUB SETTINGS MODAL ──────────────────────────────────────────────────
+function openGitHubSettings(){
+  const c=ghConfig;
+  openModal(`<div class="modal-header">
+    <div class="modal-title"><em>GitHub</em> Sync Settings</div>
+    <div class="modal-subtitle">Changes auto-commit to charter-data.json in your repo</div>
+  </div>
+  <div style="background:rgba(74,144,217,0.06);border:1px solid rgba(74,144,217,0.2);border-radius:var(--r);padding:10px 13px;margin-bottom:14px;font-size:11px;color:var(--ink2);line-height:1.6;font-family:'Inter',sans-serif">
+    <strong style="color:var(--blue);display:block;margin-bottom:3px">How it works</strong>
+    Every change is auto-committed to <code style="font-family:'DM Mono',monospace;color:var(--nv)">${c.path||'charter-data.json'}</code> in your repo. All team members read from the same file. Use a <a href="https://github.com/settings/tokens" target="_blank" style="color:var(--nv)">GitHub Personal Access Token</a> with <code style="font-family:'DM Mono',monospace">repo</code> scope.
+  </div>
+  <div class="field-row">
+    <div class="field"><label>GitHub Username / Org *</label><input id="gh-owner" value="${c.owner}" placeholder="e.g. nvidia-team"></div>
+    <div class="field"><label>Repository Name *</label><input id="gh-repo" value="${c.repo}" placeholder="e.g. dce-thermal-charter"></div>
+  </div>
+  <div class="field-row">
+    <div class="field"><label>Branch</label><input id="gh-branch" value="${c.branch||'main'}" placeholder="main"></div>
+    <div class="field"><label>Data file path</label><input id="gh-path" value="${c.path||'charter-data.json'}" placeholder="charter-data.json"></div>
+  </div>
+  <div class="field">
+    <label>Personal Access Token (stored locally, never shared) *</label>
+    <input id="gh-token" type="password" value="${c.token}" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off">
+  </div>
+  <div id="gh-test-result" style="min-height:18px;font-size:11px;font-family:'DM Mono',monospace;margin-top:4px"></div>
+  <div class="modal-footer">
+    <button class="btn btn-outline left" onclick="testGHConnection()">Test Connection</button>
+    <button class="btn btn-danger" onclick="clearGHConfig()">Disconnect</button>
+    <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-nv" onclick="saveGHSettings()">Save &amp; Sync</button>
+  </div>`);
+  setTimeout(()=>{if(!c.owner){const el=document.getElementById('gh-owner');if(el)el.focus();}},60);
+}
+
+async function testGHConnection(){
+  const owner=(document.getElementById('gh-owner').value||'').trim();
+  const repo=(document.getElementById('gh-repo').value||'').trim();
+  const token=(document.getElementById('gh-token').value||'').trim();
+  const el=document.getElementById('gh-test-result');
+  if(!owner||!repo||!token){el.textContent='⚠ Fill in all required fields first';el.style.color='var(--gold)';return;}
+  el.textContent='Testing…';el.style.color='var(--ink3)';
+  try{
+    const res=await fetch('https://api.github.com/repos/'+owner+'/'+repo,{headers:{Authorization:'token '+token,Accept:'application/vnd.github.v3+json'}});
+    if(res.ok){el.textContent='✓ Connected — repo access confirmed';el.style.color='var(--nv)';}
+    else if(res.status===401){el.textContent='✗ Invalid token';el.style.color='var(--red)';}
+    else if(res.status===404){el.textContent='✗ Repo not found (check name or permissions)';el.style.color='var(--red)';}
+    else{el.textContent='✗ Error '+res.status;el.style.color='var(--red)';}
+  }catch(e){el.textContent='✗ Network error';el.style.color='var(--red)';}
+}
+
+async function saveGHSettings(){
+  const owner=(document.getElementById('gh-owner').value||'').trim();
+  const repo=(document.getElementById('gh-repo').value||'').trim();
+  const branch=(document.getElementById('gh-branch').value||'main').trim();
+  const path=(document.getElementById('gh-path').value||'charter-data.json').trim();
+  const token=(document.getElementById('gh-token').value||'').trim();
+  if(!owner||!repo||!token){showToast('Owner, repo and token required','#e05050');return;}
+  ghConfig={owner,repo,branch,path,token};
+  saveGHConfig();
+  _ghSha=null; // reset sha — will fetch on load
+  closeModal();
+  showToast('GitHub connected — syncing…','#4a90d9');
+  const ok=await loadFromGitHub();
+  if(ok)refreshCurrentView();else await saveToGitHub(); // push local data if file doesn't exist yet
+}
+
+function clearGHConfig(){
+  if(!confirm('Disconnect GitHub sync? Data stays in localStorage only.'))return;
+  ghConfig={owner:'',repo:'',branch:'main',path:'charter-data.json',token:''};
+  saveGHConfig();_ghSha=null;
+  closeModal();setInd('local');
+  showToast('GitHub disconnected','#e8a020');
+}
+function applyData(d){
+  members=d.members||[];projects=d.projects||[];tasks=d.tasks||[];
+  STREAMS=d.streams&&Object.keys(d.streams).length?d.streams:{...DEFAULT_STREAMS};
+  nextMemberId=d.nextMemberId||members.length+1;nextProjectId=d.nextProjectId||projects.length+1;nextTaskId=d.nextTaskId||tasks.length+1;monthOffset=d.monthOffset||d.weekOffset||0;
+  const _baseYear=new Date().getFullYear();
+  tasks.forEach(t=>{if(!t.startMonth){const sm=new Date(_baseYear,Math.max(0,(t.startWeek||1)-1),1),em=new Date(_baseYear,Math.max(0,(t.endWeek||1)-1),1);t.startMonth=sm.toISOString().slice(0,7);t.endMonth=em.toISOString().slice(0,7);}});
+  projects.forEach(p=>{if(!p.startMonth){const sm=new Date(_baseYear,Math.max(0,(p.startWeek||1)-1),1),em=new Date(_baseYear,Math.max(0,(p.endWeek||1)-1),1);p.startMonth=sm.toISOString().slice(0,7);p.endMonth=em.toISOString().slice(0,7);}});
+  careerGoals=d.careerGoals||{};timeoffs=d.timeoffs||[];publications=d.publications||[];nextTimeoffId=d.nextTimeoffId||1;nextPubId=d.nextPubId||1;
+  adminUsers=d.adminUsers||[];msClientId=d.msClientId||'';
+  timeoffs.forEach(t=>{if(!t.memberIds)t.memberIds=[t.memberId].filter(Boolean);});
+  projects.forEach(p=>{if(p.parentId===undefined)p.parentId=null;if(!p.links)p.links=[];});
+  members.forEach(m=>{if(!m.links)m.links=[];if(!m.photo)m.photo='';});
+}
+function loadFromLS(){
+  try{
+    const raw=localStorage.getItem(LS_KEY);if(!raw){defaultData();return;}
+    applyData(JSON.parse(raw));setInd('local');
+  }catch(e){defaultData();}
+}
+function saveToJSON(){
+  const b=new Blob([JSON.stringify({members,projects,tasks,nextMemberId,nextProjectId,nextTaskId,monthOffset,savedAt:new Date().toISOString()},null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='dce-thermal-'+new Date().toISOString().slice(0,10)+'.json';a.click();showToast('JSON saved','#76b900');
+}
+function triggerLoad(){document.getElementById('file-input').click();}
+function loadFromJSON(e){
+  const file=e.target.files[0];if(!file)return;
+  const r=new FileReader();
+  r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(!d.members||!d.projects)throw 0;
+    members=d.members;projects=d.projects;tasks=d.tasks||[];nextMemberId=d.nextMemberId||members.length+1;nextProjectId=d.nextProjectId||projects.length+1;nextTaskId=d.nextTaskId||tasks.length+1;monthOffset=d.monthOffset||0;
+    const _by=new Date().getFullYear();tasks.forEach(t=>{if(!t.startMonth){const sm=new Date(_by,Math.max(0,(t.startWeek||1)-1),1),em=new Date(_by,Math.max(0,(t.endWeek||1)-1),1);t.startMonth=sm.toISOString().slice(0,7);t.endMonth=em.toISOString().slice(0,7);}});
+    projects.forEach(p=>{if(!p.startMonth){const sm=new Date(_by,Math.max(0,(p.startWeek||1)-1),1),em=new Date(_by,Math.max(0,(p.endWeek||1)-1),1);p.startMonth=sm.toISOString().slice(0,7);p.endMonth=em.toISOString().slice(0,7);}});
+    projects.forEach(p=>{if(p.parentId===undefined)p.parentId=null;if(!p.links)p.links=[];});
+    members.forEach(m=>{if(!m.links)m.links=[];if(!m.photo)m.photo='';});
+    persist();refreshCurrentView();showToast('Loaded','#76b900');
+  }catch(err){showToast('Invalid JSON','#e05050');}};
+  r.readAsText(file);e.target.value='';
+}
+
+// HELPERS
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function initials(n){return n.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();}
+function getStream(n){return STREAMS[n]||{color:'#555',bg:'rgba(85,85,85,0.1)'};}
+function getProject(id){return projects.find(p=>p.id===id);}
+function getMember(id){return members.find(m=>m.id===id);}
+function avatarStyle(id){const[bg,t]=AVATAR_PAIRS[(id-1)%AVATAR_PAIRS.length];return `background:${bg};color:${t}`;}
+function topLevelProjects(){return projects.filter(p=>!p.parentId);}
+function subprojectsOf(pid){return projects.filter(p=>p.parentId===pid);}
+function allDescendants(pid){const res=[],q=[pid];while(q.length){const c=q.shift();projects.filter(p=>p.parentId===c).forEach(x=>{res.push(x.id);q.push(x.id);});}return res;}
+function val(id){const el=document.getElementById(id);return el?el.value:'';}
+let currentView='members';
+function refreshCurrentView(){if(currentView==='members')renderMembers();else if(currentView==='projects')renderProjects();else if(currentView==='streams')renderStreams();else if(currentView==='career')renderCareer();else if(currentView==='pto')renderPTO();else if(currentView==='pubs')renderPublications();else renderTimeline();}
+
+// ── STREAMS MANAGEMENT ────────────────────────────────────────────────────
+function renderStreams(){
+  const list=document.getElementById('streams-list');if(!list)return;
+  const names=Object.keys(STREAMS);
+  if(!names.length){list.innerHTML=`<div class="stream-add-hint">No streams yet — click Add Stream to create one.</div>`;return;}
+  list.innerHTML=names.map((name,i)=>{
+    const s=STREAMS[name];
+    const count=members.filter(m=>m.stream===name).length;
+    const swatches=STREAM_COLORS.map(c=>`<div class="sc-swatch${c.color===s.color?' active':''}" style="background:${c.color}" onclick="setStreamColor(${i})" data-idx="${i}" title="${c.color}"></div>`).join('');
+    const canDelete=name!=='Leadership';
+    return `<div class="stream-row">
+      <div class="stream-row-main">
+        <div class="stream-color-bar" id="scb-${i}" style="background:${s.color}"></div>
+        <div class="stream-row-info">
+          <div class="stream-row-name" id="srn-${i}">${esc(name)}</div>
+          <div class="stream-row-meta">${count} member${count!==1?'s':''} · ${s.color}</div>
+        </div>
+        <div class="stream-palette" id="sp-${i}">${swatches}</div>
+        <div class="stream-row-btns">
+          <button class="btn btn-ghost btn-sm" onclick="startRenameStream(${i})">Rename</button>
+          ${canDelete?`<button class="btn btn-danger btn-sm" onclick="deleteStream(${i})">Delete</button>`:''}
+        </div>
+      </div>
+      <div class="stream-rename-row" id="srr-${i}">
+        <input class="stream-rename-inp" id="sri-${i}" value="${esc(name)}"
+          onkeydown="if(event.key==='Enter')saveRenameStream(${i});if(event.key==='Escape')cancelRenameStream(${i})">
+        <button class="btn btn-nv btn-sm" onclick="saveRenameStream(${i})">Save</button>
+        <button class="btn btn-ghost btn-sm" onclick="cancelRenameStream(${i})">Cancel</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function _streamNames(){return Object.keys(STREAMS);}
+
+function startRenameStream(i){
+  const row=document.getElementById('srr-'+i);if(!row)return;
+  row.classList.add('open');
+  const inp=document.getElementById('sri-'+i);if(inp){inp.focus();inp.select();}
+}
+function cancelRenameStream(i){
+  const row=document.getElementById('srr-'+i);if(row)row.classList.remove('open');
+  // restore input value
+  const name=_streamNames()[i];
+  const inp=document.getElementById('sri-'+i);if(inp&&name)inp.value=name;
+}
+function saveRenameStream(i){
+  const names=_streamNames();
+  const oldName=names[i];if(!oldName)return;
+  const inp=document.getElementById('sri-'+i);
+  const newName=(inp?inp.value:'').trim();
+  if(!newName){showToast('Name cannot be empty','#e05050');return;}
+  if(newName===oldName){cancelRenameStream(i);return;}
+  if(STREAMS[newName]){showToast('A stream with that name already exists','#e05050');return;}
+  // Rebuild STREAMS preserving insertion order
+  const rebuilt={};
+  names.forEach(n=>{ rebuilt[n===oldName?newName:n]=STREAMS[n]; });
+  STREAMS=rebuilt;
+  members.forEach(m=>{if(m.stream===oldName)m.stream=newName;});
+  markChanged();renderStreams();renderMembers();
+  showToast(`Renamed to "${newName}"`, '#76b900');
+}
+function deleteStream(i){
+  const name=_streamNames()[i];if(!name)return;
+  const count=members.filter(m=>m.stream===name).length;
+  if(count>0){showToast(`Reassign ${count} member${count!==1?'s':''} to another stream first`,'#e05050');return;}
+  if(!confirm(`Delete stream "${name}"?`))return;
+  delete STREAMS[name];
+  markChanged();renderStreams();
+  showToast(`"${name}" deleted`,'#76b900');
+}
+function setStreamColor(i){
+  // Called from swatch click — read colour from the clicked element via event
+  const el=event.target;
+  const color=el.style.background;
+  const name=_streamNames()[i];if(!name||!color)return;
+  // Find matching bg from STREAM_COLORS
+  const match=STREAM_COLORS.find(c=>c.color===color)||{color,bg:color.replace(')',',0.10)').replace('rgb','rgba')};
+  STREAMS[name]={color:match.color,bg:match.bg};
+  markChanged();renderStreams();renderMembers();
+  showToast('Colour updated','#76b900');
+}
+function openAddStream(){
+  const swatches=STREAM_COLORS.map((c,i)=>`<div class="color-swatch${i===1?' selected':''}" style="background:${c.color}" data-color="${c.color}" data-bg="${c.bg}" onclick="document.querySelectorAll('#ns-palette .color-swatch').forEach(s=>s.classList.remove('selected'));this.classList.add('selected')"></div>`).join('');
+  openModal(`<div class="modal-header"><div class="modal-title">Add <em>Stream</em></div><div class="modal-subtitle">New team stream</div></div>
+    <div class="field"><label>Stream Name *</label><input id="ns-name" placeholder="e.g. Firmware Eng." style="width:100%;background:var(--bg2);border:1px solid var(--rule2);color:var(--ink);font-family:'Inter',sans-serif;font-size:13px;padding:10px 12px;border-radius:var(--r);outline:none" onkeydown="if(event.key==='Enter')saveNewStream()"></div>
+    <div class="field"><label>Colour</label><div class="color-options" id="ns-palette">${swatches}</div></div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-nv" onclick="saveNewStream()">Add Stream</button></div>`);
+  setTimeout(()=>{const inp=document.getElementById('ns-name');if(inp)inp.focus();},60);
+}
+function saveNewStream(){
+  const name=(document.getElementById('ns-name')||{}).value?.trim();
+  if(!name){showToast('Stream name required','#e05050');return;}
+  if(STREAMS[name]){showToast('Stream already exists','#e05050');return;}
+  const sel=document.querySelector('#ns-palette .color-swatch.selected');
+  const color=sel?sel.dataset.color:'#8888cc';
+  const bg=sel?sel.dataset.bg:'rgba(136,136,204,0.10)';
+  STREAMS[name]={color,bg};
+  markChanged();closeModal();renderStreams();renderMembers();
+  showToast(`Stream "${name}" added`,'#76b900');
+}
+function switchView(n){currentView=n;document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.getElementById('view-'+n).classList.add('active');document.getElementById('tab-'+n).classList.add('active');refreshCurrentView();}
+function markChanged(){scheduleAutoSave();}
+function showToast(msg,color='#76b900'){document.getElementById('toast-dot').style.background=color;document.getElementById('toast-msg').textContent=msg;const t=document.getElementById('toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400);}
+
+// PHOTO
+// Auto-crops and resizes to 400×180 (≈2.2:1 ratio matching the card banner area),
+// anchored to the top of the image so faces/heads are preserved.
+function resizeAndCropPhoto(file){
+  return new Promise((res,rej)=>{
+    const reader=new FileReader();
+    reader.onerror=rej;
+    reader.onload=ev=>{
+      const img=new Image();
+      img.onerror=rej;
+      img.onload=()=>{
+        const TW=300,TH=300; // square crop — ideal for circular display
+        const canvas=document.createElement('canvas');
+        canvas.width=TW;canvas.height=TH;
+        const ctx=canvas.getContext('2d');
+        // Crop to a square, anchored to the top-centre (face area)
+        const side=Math.min(img.width,img.height);
+        const sx=(img.width-side)/2; // centre horizontally
+        const sy=0;                   // top anchor — preserves head/face
+        ctx.drawImage(img,sx,sy,side,side,0,0,TW,TH);
+        res(canvas.toDataURL('image/jpeg',0.92));
+      };
+      img.src=ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+function initPhotoUpload(existing){_tempPhoto=existing||'';updatePhotoPreview();}
+function updatePhotoPreview(){
+  const w=document.getElementById('photo-upload-area');if(!w)return;
+  if(_tempPhoto){
+    w.innerHTML=`<img src="${_tempPhoto}" class="photo-preview" alt="preview"><p>Click to change</p><button type="button" onclick="clearPhoto()" style="margin-top:6px;font-size:9px;font-family:'DM Mono',monospace;background:transparent;border:1px solid rgba(224,80,80,0.4);color:#e05050;padding:3px 8px;border-radius:3px;cursor:pointer;letter-spacing:0.06em">REMOVE</button><input type="file" id="pfi" accept="image/*" style="position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%">`;
+  }else{
+    w.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:28px;height:28px;margin:0 auto 6px;display:block;color:#555"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 10-16 0"/></svg><p>Click to upload photo</p><p style="margin-top:3px;font-size:9px;opacity:0.4">JPG / PNG — auto-fitted to card</p><input type="file" id="pfi" accept="image/*" style="position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%">`;
+  }
+  const inp=document.getElementById('pfi');
+  if(inp)inp.addEventListener('change',async e=>{
+    const f=e.target.files[0];if(!f)return;
+    showToast('Fitting photo…','#4a90d9');
+    _tempPhoto=await resizeAndCropPhoto(f);
+    updatePhotoPreview();
+  });
+}
+function clearPhoto(){event.stopPropagation();_tempPhoto='';updatePhotoPreview();}
+
+// LINKS UI
+function initLinks(links){_tempLinks=JSON.parse(JSON.stringify(links||[]));}
+function renderLinksUI(){
+  const el=document.getElementById('links-container');if(!el)return;
+  el.innerHTML=_tempLinks.map((l,i)=>`<div class="link-row">
+    <input class="lbl-inp" placeholder="Label" value="${esc(l.label||'')}" oninput="_tempLinks[${i}].label=this.value">
+    <input class="url-inp" placeholder="https://…" value="${esc(l.url||'')}" oninput="_tempLinks[${i}].url=this.value">
+    <div class="link-remove" onclick="_tempLinks.splice(${i},1);renderLinksUI()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+  </div>`).join('');
+}
+function addLink(){_tempLinks.push({label:'',url:''});renderLinksUI();}
+function renderLinkBadges(links){
+  if(!links||!links.length)return '';
+  return links.filter(l=>l.url).map(l=>`<a class="link-badge" href="${esc(l.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="${esc(l.url)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>${esc(l.label||'Link')}</a>`).join('');
+}
+
+// MEMBERS RENDER
+function renderMembers(){
+  const q=(document.getElementById('member-search').value||'').toLowerCase();
+  const sf=document.getElementById('member-stream-filter').value;
+  const lf=document.getElementById('member-layer-filter').value;
+  const ss=document.getElementById('member-stream-filter');const sc=ss.value;
+  ss.innerHTML='<option value="">All Streams</option>';
+  Object.keys(STREAMS).forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;if(s===sc)o.selected=true;ss.appendChild(o);});
+  const filtered=members.filter(m=>(!q||m.name.toLowerCase().includes(q)||m.role.toLowerCase().includes(q))&&(!sf||m.stream===sf)&&(!lf||(lf==='management'?isManagement(m):!isManagement(m))));
+  const mgmtC=members.filter(isManagement).length,icC=members.length-mgmtC;
+  document.getElementById('member-stats').innerHTML=`<div class="stat-box"><div class="stat-n">${members.length}</div><div class="stat-l">Total</div></div><div class="stat-box"><div class="stat-n" style="color:var(--nv)">${mgmtC}</div><div class="stat-l">Management</div></div><div class="stat-box"><div class="stat-n">${icC}</div><div class="stat-l">Contributors</div></div><div class="stat-box"><div class="stat-n">${projects.filter(p=>p.status==='Active').length}</div><div class="stat-l">Active Projects</div></div>`;
+  document.getElementById('members-sub').textContent=`${mgmtC} managers · ${icC} individual contributors`;
+  const grid=document.getElementById('members-grid');
+  if(!filtered.length){grid.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><p>No members found</p></div>`;return;}
+  const mgmt=filtered.filter(isManagement),ics=filtered.filter(m=>!isManagement(m));
+  function cardHTML(m){
+    const s=getStream(m.stream),tc=tasks.filter(t=>t.memberId===m.id).length,isMgmt=isManagement(m);
+    const photoEl=m.photo?`<img class="member-photo" src="${m.photo}" alt="${esc(m.name)}">`:`<div class="member-photo-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 10-16 0"/></svg><span>No Photo</span></div>`;
+    return `<div class="member-card${isMgmt?' is-mgmt':''}" style="--stream-color:${s.color};--stream-bg:${s.bg}">
+      <div class="member-photo-area"><div class="member-photo-wrap" onclick="openEditMember(${m.id})">${photoEl}<div class="member-photo-overlay"><span>EDIT</span></div></div></div>
+      <div class="member-body">
+        <div class="member-name">${esc(m.name)}</div>
+        <div class="member-role">${esc(m.role)}</div>
+        <div style="display:flex;align-items:center;flex-wrap:wrap;gap:3px;margin-top:4px"><div class="stream-badge"><div class="stream-dot"></div>${m.stream}</div>${isMgmt?'<div class="mgt-badge">MGT</div>':''}</div>
+        ${m.email?`<div class="member-email">✉ ${esc(m.email)}</div>`:''}
+        ${m.links&&m.links.filter(l=>l.url).length?`<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:8px">${renderLinkBadges(m.links)}</div>`:''}
+        <div class="member-card-footer">
+          <div class="member-task-count">${tc} task${tc===1?'':'s'}</div>
+          <div class="member-card-actions">
+            <div class="icon-btn nv" onclick="openEditMember(${m.id})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4z"/></svg></div>
+            <div class="icon-btn danger" onclick="deleteMember(${m.id})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg></div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }
+  let html='';
+  if(mgmt.length)html+=`<div class="layer-divider"><div class="layer-divider-label">Management Layer</div><div class="layer-divider-line"></div><div class="layer-divider-count">${mgmt.length}</div></div>${mgmt.map(cardHTML).join('')}`;
+  if(ics.length)html+=`<div class="layer-divider" style="padding-top:${mgmt.length?'16px':'4px'}"><div class="layer-divider-label">Individual Contributors</div><div class="layer-divider-line"></div><div class="layer-divider-count">${ics.length}</div></div>${ics.map(cardHTML).join('')}`;
+  grid.innerHTML=html;
+}
+
+function memberFormHTML(m){
+  return `<div class="field"><label>Profile Photo</label><div class="photo-upload-area" id="photo-upload-area" style="position:relative"></div></div>
+    <div class="field-row"><div class="field"><label>Full Name *</label><input id="m-name" value="${m?esc(m.name):''}" placeholder="Dr. Jane Smith"></div><div class="field"><label>Role *</label><input id="m-role" value="${m?esc(m.role):''}" placeholder="Thermal Engineer"></div></div>
+    <div class="field-row">
+      <div class="field"><label>Stream *</label><select id="m-stream">${Object.keys(STREAMS).map(s=>`<option${m&&s===m.stream?' selected':''}>${s}</option>`).join('')}</select></div>
+      <div class="field"><label>Layer</label><select id="m-layer"><option value="ic"${!m||m.layer!=='management'?' selected':''}>Individual Contributor</option><option value="management"${m&&m.layer==='management'?' selected':''}>Management</option></select></div>
+    </div>
+    <div class="field-row"><div class="field"><label>Email</label><input id="m-email" type="email" value="${m?esc(m.email||''):''}" placeholder="name@nvidia.com"></div><div class="field"><label>Phone</label><input id="m-phone" value="${m?esc(m.phone||''):''}" placeholder="+1 555 000"></div></div>
+    <div class="field"><label>Notes</label><textarea id="m-notes">${m?esc(m.notes||''):''}</textarea></div>
+    <div class="field"><label>Links / Profiles</label><div id="links-container" class="links-list"></div><button type="button" class="add-link-btn" onclick="addLink()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add Link</button></div>`;
+}
+function openAddMember(){openModal(`<div class="modal-header"><div class="modal-title">Add <em>Member</em></div><div class="modal-subtitle">Data Center Engineering — Thermal Team</div></div>${memberFormHTML(null)}<div class="modal-footer"><button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-nv" onclick="saveMember()">Add</button></div>`);initPhotoUpload('');initLinks([]);renderLinksUI();}
+function openEditMember(id){const m=getMember(id);if(!m)return;openModal(`<div class="modal-header"><div class="modal-title"><em>Edit</em> Member</div><div class="modal-subtitle">${esc(m.name)}</div></div>${memberFormHTML(m)}<div class="modal-footer"><button class="btn btn-danger left" onclick="deleteMember(${id})">Delete</button><button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-nv" onclick="updateMember(${id})">Save</button></div>`);initPhotoUpload(m.photo||'');initLinks(m.links||[]);renderLinksUI();}
+function saveMember(){const name=val('m-name').trim(),role=val('m-role').trim();if(!name||!role){showToast('Name & role required','#e05050');return;}members.push({id:nextMemberId++,name,role,stream:val('m-stream'),layer:val('m-layer')||'ic',photo:_tempPhoto,links:JSON.parse(JSON.stringify(_tempLinks)),email:val('m-email'),phone:val('m-phone'),notes:val('m-notes')});closeModal();markChanged();renderMembers();showToast('Member added','#76b900');}
+function updateMember(id){const m=getMember(id);if(!m)return;const name=val('m-name').trim(),role=val('m-role').trim();if(!name||!role){showToast('Name & role required','#e05050');return;}Object.assign(m,{name,role,stream:val('m-stream'),layer:val('m-layer')||'ic',photo:_tempPhoto,links:JSON.parse(JSON.stringify(_tempLinks)),email:val('m-email'),phone:val('m-phone'),notes:val('m-notes')});closeModal();markChanged();renderMembers();showToast('Member updated','#76b900');}
+function deleteMember(id){if(!confirm('Remove member? Tasks will also be removed.'))return;members=members.filter(m=>m.id!==id);tasks=tasks.filter(t=>t.memberId!==id);closeModal();markChanged();renderMembers();showToast('Removed');}
+
+// PROJECTS RENDER
+function renderProjects(){
+  const q=(document.getElementById('project-search').value||'').toLowerCase();
+  const sf=document.getElementById('project-status-filter').value,pf=document.getElementById('project-priority-filter').value;
+  const subs=projects.filter(p=>p.parentId).length,active=projects.filter(p=>p.status==='Active').length;
+  const avgP=Math.round(projects.reduce((s,p)=>s+p.progress,0)/Math.max(projects.length,1));
+  document.getElementById('projects-sub').textContent=`${topLevelProjects().length} projects · ${subs} subprojects · ${active} active`;
+  document.getElementById('project-stats').innerHTML=`<div class="stat-box"><div class="stat-n">${topLevelProjects().length}</div><div class="stat-l">Projects</div></div><div class="stat-box"><div class="stat-n">${subs}</div><div class="stat-l">Subprojects</div></div><div class="stat-box"><div class="stat-n" style="color:var(--teal)">${active}</div><div class="stat-l">Active</div></div><div class="stat-box"><div class="stat-n" style="color:var(--red)">${projects.filter(p=>p.priority==='High').length}</div><div class="stat-l">High Priority</div></div><div class="stat-box"><div class="stat-n">${avgP}<em>%</em></div><div class="stat-l">Avg Progress</div></div>`;
+  const root=topLevelProjects().filter(p=>(!q||p.name.toLowerCase().includes(q)||p.desc.toLowerCase().includes(q))&&(!sf||p.status===sf)&&(!pf||p.priority===pf));
+  const list=document.getElementById('projects-list');
+  if(!root.length){list.innerHTML=`<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg><p>No projects found</p></div>`;return;}
+  list.innerHTML=root.map(p=>projectCardHTML(p,false)).join('');
+}
+
+function projectCardHTML(p,isSub){
+  const owner=getMember(p.owner),ptasks=tasks.filter(t=>t.projectId===p.id),subs=subprojectsOf(p.id);
+  const r=13,circ=2*Math.PI*r,dash=circ*(p.progress/100);
+  const sc=p.status.replace(/\s/g,'').toLowerCase();
+  return `<div class="project-card${isSub?' is-sub':''}" id="pcard-${p.id}" style="${isSub?`--sub-color:${p.color}`:''}">
+    <div class="project-card-header" onclick="toggleExpand(${p.id})">
+      <div class="project-color-bar" style="background:${p.color}"></div>
+      <div class="project-info">
+        <div class="project-name-row"><div class="project-name">${esc(p.name)}</div>${isSub?'<span class="sub-tag">SUB</span>':''}</div>
+        <div class="project-desc">${esc(p.desc||'')}</div>
+        <div class="project-badges">
+          <span class="badge badge-status-${sc}">${p.status}</span>
+          <span class="badge badge-priority-${p.priority.toLowerCase()}">${p.priority}</span>
+          ${owner?`<span class="badge" style="background:var(--surface3);color:var(--ink2)">${initials(owner.name)}</span>`:''}
+          ${subs.length&&!isSub?`<span class="badge" style="background:var(--nv-dim);color:var(--nv);border:1px solid rgba(118,185,0,0.2)">${subs.length} sub</span>`:''}
+          ${renderLinkBadges(p.links||[])}
+        </div>
+      </div>
+      <div class="project-card-right">
+        <div><svg class="progress-ring" viewBox="0 0 32 32"><circle cx="16" cy="16" r="${r}" stroke="var(--rule2)" stroke-width="2.5"/><circle cx="16" cy="16" r="${r}" stroke="${p.color}" stroke-width="2.5" stroke-dasharray="${dash} ${circ}" transform="rotate(-90 16 16)"/></svg><div class="project-pct">${p.progress}%</div></div>
+        <div class="project-dates"><div>${fmtMonthRange(p.startMonth,p.endMonth)}</div><div>${ptasks.length} task${ptasks.length===1?'':'s'}</div></div>
+        <div class="project-card-actions">
+          ${!isSub?`<div class="icon-btn nv" onclick="event.stopPropagation();openAddProject(${p.id})" title="Add subproject"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>`:''}
+          <div class="icon-btn nv" onclick="event.stopPropagation();openEditProject(${p.id})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4z"/></svg></div>
+          <div class="icon-btn danger" onclick="event.stopPropagation();deleteProject(${p.id})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg></div>
+        </div>
+      </div>
+    </div>
+    <div class="project-expand-section" id="pexp-${p.id}">
+      <div class="sub-projects-list">${subs.length?`<div class="sub-projects-label">Subprojects</div>${subs.map(sp=>projectCardHTML(sp,true)).join('')}`:''}<div class="add-inline" onclick="openAddProject(${p.id})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:11px;height:11px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add subproject</div></div>
+      <div class="project-tasks-section">
+        <div class="mini-task-list">${ptasks.length?ptasks.map(t=>{const mem=getMember(t.memberId);return `<div class="mini-task"><div class="mini-task-label">${esc(t.label)}</div><div class="mini-task-assignee">${mem?initials(mem.name):'?'}</div><div class="mini-task-weeks">${fmtMonthRange(t.startMonth,t.endMonth)}</div><div class="mini-task-actions"><div class="icon-btn nv" onclick="openEditTask(${t.id})" style="width:22px;height:22px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:10px;height:10px"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4z"/></svg></div><div class="icon-btn danger" onclick="deleteTask(${t.id})" style="width:22px;height:22px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:10px;height:10px"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></div></div></div>`;}).join(''):`<div style="font-size:10px;color:var(--ink3);font-family:'DM Mono',monospace">No tasks yet</div>`}</div>
+        <div class="add-inline" onclick="openAddTask(${p.id},null)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:11px;height:11px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add task</div>
+      </div>
+    </div>
+  </div>`;
+}
+function toggleExpand(id){const el=document.getElementById('pexp-'+id);if(el)el.classList.toggle('open');}
+
+function projectFormHTML(p,parentId){
+  const parentOpts=`<option value="">None (top-level)</option>${topLevelProjects().filter(tp=>!p||tp.id!==p.id).map(tp=>`<option value="${tp.id}"${p&&p.parentId===tp.id?' selected':parentId===tp.id?' selected':''}>${esc(tp.name)}</option>`).join('')}`;
+  return `<div class="field"><label>Project Name *</label><input id="p-name" value="${p?esc(p.name):''}" placeholder="e.g. Coolant Loop Analysis"></div>
+    <div class="field"><label>Description</label><textarea id="p-desc">${p?esc(p.desc||''):''}</textarea></div>
+    <div class="field"><label>Parent Project</label><select id="p-parent">${parentOpts}</select></div>
+    <div class="field-row"><div class="field"><label>Status</label><select id="p-status">${['Active','Planned','Complete','On Hold'].map(s=>`<option${p&&p.status===s?' selected':''}>${s}</option>`).join('')}</select></div><div class="field"><label>Priority</label><select id="p-priority">${['High','Medium','Low'].map(s=>`<option${p&&p.priority===s?' selected':''}>${s}</option>`).join('')}</select></div></div>
+    <div class="field-row"><div class="field"><label>Start Month</label><input id="p-start" type="month" value="${p?esc(p.startMonth||''):_defaultStartMonth()}"></div><div class="field"><label>End Month</label><input id="p-end" type="month" value="${p?esc(p.endMonth||''):_defaultEndMonth(6)}"></div></div>
+    <div class="field-row"><div class="field"><label>Progress %</label><input id="p-progress" type="number" min="0" max="100" value="${p?p.progress:0}"></div><div class="field"><label>Owner</label><select id="p-owner">${members.map(m=>`<option value="${m.id}"${p&&m.id===p.owner?' selected':''}>${esc(m.name)}</option>`).join('')}</select></div></div>
+    <div class="field"><label>Color</label><div class="color-options">${PROJECT_COLORS.map((c,i)=>`<div class="color-swatch${p?c===p.color?' selected':'':i===0?' selected':''}" style="background:${c}" onclick="selectColor(this,'${c}')"></div>`).join('')}</div><input type="hidden" id="p-color" value="${p?p.color:PROJECT_COLORS[0]}"></div>
+    <div class="field"><label>Links / References</label><div id="links-container" class="links-list"></div><button type="button" class="add-link-btn" onclick="addLink()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add Link</button></div>`;
+}
+function openAddProject(parentId){const pn=parentId?getProject(parentId)?.name:'';openModal(`<div class="modal-header"><div class="modal-title">${parentId?'New <em>Subproject</em>':'New <em>Project</em>'}</div><div class="modal-subtitle">${parentId?`Under: ${esc(pn)}`:'Add to charter'}</div></div>${projectFormHTML(null,parentId)}<div class="modal-footer"><button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-nv" onclick="saveProject()">Create</button></div>`);initLinks([]);renderLinksUI();if(parentId)setTimeout(()=>{const el=document.getElementById('p-parent');if(el)el.value=parentId;},30);}
+function openEditProject(id){const p=getProject(id);if(!p)return;openModal(`<div class="modal-header"><div class="modal-title"><em>Edit</em> Project</div><div class="modal-subtitle">${esc(p.name)}</div></div>${projectFormHTML(p,null)}<div class="modal-footer"><button class="btn btn-danger left" onclick="deleteProject(${id})">Delete</button><button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-nv" onclick="updateProject(${id})">Save</button></div>`);initLinks(p.links||[]);renderLinksUI();}
+function selectColor(el,color){document.querySelectorAll('.color-swatch').forEach(s=>s.classList.remove('selected'));el.classList.add('selected');document.getElementById('p-color').value=color;}
+function collectP(){const sm=val('p-start')||_defaultStartMonth(),em=val('p-end')||_defaultEndMonth(6);return{name:val('p-name').trim(),desc:val('p-desc').trim(),parentId:parseInt(document.getElementById('p-parent').value)||null,color:document.getElementById('p-color').value,status:val('p-status'),priority:val('p-priority'),startMonth:sm,endMonth:em<sm?sm:em,progress:Math.min(100,Math.max(0,parseInt(val('p-progress'))||0)),owner:parseInt(document.getElementById('p-owner')?.value)||members[0]?.id,links:JSON.parse(JSON.stringify(_tempLinks))};}
+function saveProject(){const d=collectP();if(!d.name){showToast('Name required','#e05050');return;}projects.push({id:nextProjectId++,...d});closeModal();markChanged();renderProjects();showToast('Project created','#76b900');}
+function updateProject(id){const p=getProject(id);if(!p)return;const d=collectP();if(!d.name){showToast('Name required','#e05050');return;}if(d.parentId===id||allDescendants(id).includes(d.parentId)){showToast('Cannot be own parent','#e05050');return;}Object.assign(p,d);closeModal();markChanged();renderProjects();showToast('Project updated','#76b900');}
+function deleteProject(id){const desc=allDescendants(id);if(!confirm(`Delete project${desc.length?` and ${desc.length} subproject(s)`:''}?`))return;projects=projects.filter(p=>![id,...desc].includes(p.id));tasks=tasks.filter(t=>![id,...desc].includes(t.projectId));closeModal();markChanged();renderProjects();showToast('Deleted');}
+
+// TASKS
+function taskFormHTML(t,ppid){return `<div class="field"><label>Assigned To *</label><select id="t-member">${members.map(m=>`<option value="${m.id}"${t&&m.id===t.memberId?' selected':''}>${esc(m.name)} — ${esc(m.role)}</option>`).join('')}</select></div><div class="field"><label>Project</label><select id="t-project"><option value="">No project</option>${projects.map(p=>`<option value="${p.id}"${t&&p.id===t.projectId?' selected':ppid===p.id?' selected':''}>${p.parentId?'↳ ':''}${esc(p.name)}</option>`).join('')}</select></div><div class="field"><label>Task Label *</label><input id="t-label" value="${t?esc(t.label):''}" placeholder="e.g. CFD simulation run"></div><div class="field-row"><div class="field"><label>Start Month</label><input id="t-start" type="month" value="${t?esc(t.startMonth||''):_defaultStartMonth()}"></div><div class="field"><label>End Month</label><input id="t-end" type="month" value="${t?esc(t.endMonth||''):_defaultEndMonth(1)}"></div></div>`;}
+function openAddTask(ppid,pmid){openModal(`<div class="modal-header"><div class="modal-title">New <em>Task</em></div><div class="modal-subtitle">Assign to a team member</div></div>${taskFormHTML(null,ppid)}<div class="modal-footer"><button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-nv" onclick="saveTask()">Add</button></div>`);if(ppid)setTimeout(()=>{const el=document.getElementById('t-project');if(el)el.value=ppid;},30);if(pmid)setTimeout(()=>{const el=document.getElementById('t-member');if(el)el.value=pmid;},30);}
+function openEditTask(id){const t=tasks.find(x=>x.id===id);if(!t)return;openModal(`<div class="modal-header"><div class="modal-title"><em>Edit</em> Task</div><div class="modal-subtitle">${esc(t.label)}</div></div>${taskFormHTML(t,null)}<div class="modal-footer"><button class="btn btn-danger left" onclick="deleteTask(${id})">Delete</button><button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-nv" onclick="updateTask(${id})">Save</button></div>`);}
+function saveTask(){const label=val('t-label').trim();if(!label){showToast('Label required','#e05050');return;}const s=val('t-start')||_defaultStartMonth(),e=val('t-end')||_defaultEndMonth(1);if(e<s){showToast('End must be ≥ start','#e05050');return;}tasks.push({id:nextTaskId++,memberId:parseInt(document.getElementById('t-member').value),projectId:parseInt(document.getElementById('t-project').value)||null,label,startMonth:s,endMonth:e});closeModal();markChanged();renderProjects();renderTimeline();showToast('Task added','#76b900');}
+function updateTask(id){const t=tasks.find(x=>x.id===id);if(!t)return;const label=val('t-label').trim();if(!label){showToast('Label required','#e05050');return;}const s=val('t-start')||_defaultStartMonth(),e=val('t-end')||_defaultEndMonth(1);if(e<s){showToast('End must be ≥ start','#e05050');return;}t.label=label;t.memberId=parseInt(document.getElementById('t-member').value);t.projectId=parseInt(document.getElementById('t-project').value)||null;t.startMonth=s;t.endMonth=e;closeModal();markChanged();renderProjects();renderTimeline();showToast('Task updated','#76b900');}
+function deleteTask(id){tasks=tasks.filter(t=>t.id!==id);closeModal();markChanged();renderProjects();renderTimeline();showToast('Task removed');}
+
+// TIMELINE — Month/Year based
+const MONTH_NAMES=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+function _defaultStartMonth(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;}
+function _defaultEndMonth(plusMonths){const d=new Date();d.setMonth(d.getMonth()+plusMonths);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;}
+function fmtMonth(key){if(!key)return '—';const[y,m]=key.split('-');return `${MONTH_NAMES[parseInt(m,10)-1]} '${String(y).slice(2)}`;}
+function fmtMonthRange(s,e){const fs=fmtMonth(s),fe=fmtMonth(e);return fs===fe?fs:`${fs} – ${fe}`;}
+
+function _windowMonths(){
+  // Anchor to Jan 1 of the current year; monthOffset shifts in whole-year steps
+  const now=new Date();
+  const base=new Date(now.getFullYear(),monthOffset,1); // monthOffset=0 → Jan this year; +12 → Jan next year
+  return Array.from({length:TOTAL_MONTHS},(_,i)=>{
+    const d=new Date(base.getFullYear(),base.getMonth()+i,1);
+    const mo=d.getMonth()+1;
+    return {year:d.getFullYear(),month:mo,key:`${d.getFullYear()}-${String(mo).padStart(2,'0')}`,label:MONTH_NAMES[d.getMonth()],q:Math.ceil(mo/3)};
+  });
+}
+
+function shiftMonths(dir){monthOffset+=dir;markChanged();renderTimeline();}
+function resetMonths(){monthOffset=0;markChanged();renderTimeline();}
+
+function renderTimeline(){
+  const sf=document.getElementById('tl-stream-filter').value,pf=parseInt(document.getElementById('tl-project-filter').value)||null;
+  const ss=document.getElementById('tl-stream-filter');const sc=ss.value;ss.innerHTML='<option value="">All Streams</option>';Object.keys(STREAMS).forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;if(s===sc)o.selected=true;ss.appendChild(o);});
+  const ps=document.getElementById('tl-project-filter');const pc=ps.value;ps.innerHTML='<option value="">All Projects</option>';projects.forEach(p=>{const o=document.createElement('option');o.value=p.id;o.textContent=(p.parentId?'↳ ':'')+p.name;if(String(p.id)===pc)o.selected=true;ps.appendChild(o);});
+
+  const months=_windowMonths();
+  const TODAY_KEY=_defaultStartMonth();
+  const firstM=months[0],lastM=months[months.length-1];
+  const rangeLabel=firstM.year===lastM.year?`${firstM.label} – ${lastM.label} ${firstM.year}`:`${firstM.label} ${firstM.year} – ${lastM.label} ${lastM.year}`;
+  document.getElementById('timeline-sub').textContent=`${rangeLabel} · ${tasks.length} task${tasks.length!==1?'s':''}`;
+  const tbl=document.getElementById('timeline-table');
+  const firstKey=months[0].key;
+
+  // Whether a month key is the last in its quarter (Mar, Jun, Sep, Dec)
+  function isQEnd(key){const mo=parseInt(key.split('-')[1],10);return mo===3||mo===6||mo===9||mo===12;}
+
+  // Build year spans for row-1 header
+  const yearSpans=[];months.forEach(m=>{const last=yearSpans[yearSpans.length-1];if(last&&last.year===m.year)last.span++;else yearSpans.push({year:m.year,span:1});});
+
+  // Build quarter spans for row-2 header
+  const qSpans=[];months.forEach(m=>{const last=qSpans[qSpans.length-1];if(last&&last.q===m.q&&last.year===m.year)last.span++;else qSpans.push({q:m.q,year:m.year,span:1});});
+  const qNames=['','Q1','Q2','Q3','Q4'];const qCls=['','q1','q2','q3','q4'];
+
+  // Greedy lane packing
+  function assignLanes(mTasks){
+    const sorted=[...mTasks].sort((a,b)=>a.startMonth<b.startMonth?-1:a.startMonth>b.startMonth?1:0);
+    const lanes=[];
+    sorted.forEach(task=>{
+      let placed=false;
+      for(let i=0;i<lanes.length;i++){
+        if(lanes[i][lanes[i].length-1].endMonth<task.startMonth){lanes[i].push(task);placed=true;break;}
+      }
+      if(!placed)lanes.push([task]);
+    });
+    return lanes;
+  }
+
+  // Render one month cell — show label on first visible cell of each task
+  function mkCell(t,mk,m,today){
+    const qend=isQEnd(mk);
+    const base_cls=`tl-week-cell${today?' week-today':''}${qend?' tl-q-end':''}`;
+    if(!t)return `<td class="${base_cls}"></td>`;
+    const proj=t.projectId?getProject(t.projectId):null,str=getStream(m.stream),clr=proj?proj.color:str.color;
+    const isS=mk===t.startMonth,isE=mk===t.endMonth;
+    // Show label on start OR on the first visible month if task started before the window
+    const showLabel=isS||(mk===firstKey&&t.startMonth<firstKey);
+    const br=isS&&isE?'4px':isS?'4px 0 0 4px':isE?'0 4px 4px 0':'0';
+    const leftBorder=isS?`border-left:3px solid ${clr};`:'';
+    const rightBorder=isE?`border-right:3px solid ${clr}30;`:'';
+    return `<td class="${base_cls}" style="padding:0 2px"><div class="tl-block" style="background:${clr}28;border-radius:${br};${leftBorder}${rightBorder}" onclick="openEditTask(${t.id})" title="${esc(t.label)}">${showLabel?`<span class="tl-block-label" style="color:${clr}">${esc(t.label)}</span>`:''}</div></td>`;
+  }
+
+  // Three-row header: Year · Quarter · Month
+  const yearRow=yearSpans.map(ys=>`<th class="week-col" colspan="${ys.span}">${ys.year}</th>`).join('');
+  const quarterRow=qSpans.map(qs=>`<th class="week-col tl-q-header ${qCls[qs.q]}" colspan="${qs.span}">${qNames[qs.q]}</th>`).join('');
+  const monthRow=months.map(m=>`<th class="week-col${m.key===TODAY_KEY?' week-today-header':''}">${m.label}</th>`).join('');
+  let html=`<thead class="tl-head"><tr><th class="name-col" rowspan="3">Member</th>${yearRow}</tr><tr>${quarterRow}</tr><tr>${monthRow}</tr></thead><tbody>`;
+
+  const mgmt=members.filter(isManagement),ics=members.filter(m=>!isManagement(m));
+
+  function renderGroup(label,color,grpMembers){
+    if(!grpMembers.length)return '';
+    let s=`<tr class="tl-group-header" style="--group-color:${color}"><td colspan="${TOTAL_MONTHS+1}" style="color:${color}">◆ ${label}</td></tr>`;
+    grpMembers.filter(m=>!sf||m.stream===sf).forEach(m=>{
+      const mTasks=tasks.filter(t=>t.memberId===m.id&&(!pf||t.projectId===pf));
+      const avatarInner=m.photo?`<img src="${m.photo}" alt="${esc(m.name)}">`:`<span>${initials(m.name)}</span>`;
+      const lanes=assignLanes(mTasks);
+      const numLanes=Math.max(1,lanes.length);
+      if(numLanes===1){
+        const laneTasks=lanes[0]||[];
+        s+=`<tr class="tl-row"><td class="tl-name-cell"><div class="tl-member-info"><div class="tl-avatar" style="${m.photo?'':avatarStyle(m.id)}">${avatarInner}</div><div><div class="tl-name">${m.name.split(' ')[0]} ${m.name.split(' ').pop()}</div><div class="tl-role">${m.role}</div></div></div></td>${months.map(mo=>mkCell(laneTasks.find(t=>mo.key>=t.startMonth&&mo.key<=t.endMonth),mo.key,m,mo.key===TODAY_KEY)).join('')}</tr>`;
+      } else {
+        lanes.forEach((laneTasks,li)=>{
+          const isFirst=li===0,isLast=li===numLanes-1;
+          const firstTask=laneTasks[0];
+          const proj=firstTask&&firstTask.projectId?getProject(firstTask.projectId):null;
+          const laneTag=proj?proj.name:(firstTask?firstTask.label:'');
+          const nameCell=isFirst
+            ?`<td class="tl-name-cell"><div class="tl-member-info"><div class="tl-avatar" style="${m.photo?'':avatarStyle(m.id)}">${avatarInner}</div><div><div class="tl-name">${m.name.split(' ')[0]} ${m.name.split(' ').pop()}</div><div class="tl-role">${m.role}</div></div></div></td>`
+            :`<td class="tl-name-cell tl-lane-cell"><div class="tl-lane-pip"><span class="tl-lane-tag">${esc(laneTag)}</span></div></td>`;
+          s+=`<tr class="tl-row${isFirst?'':' tl-lane-row'}${isLast?' tl-lane-last':''}">${nameCell}${months.map(mo=>mkCell(laneTasks.find(t=>mo.key>=t.startMonth&&mo.key<=t.endMonth),mo.key,m,mo.key===TODAY_KEY)).join('')}</tr>`;
+        });
+      }
+    });
+    return s;
+  }
+
+  if(mgmt.length)html+=renderGroup('Leadership / Management','#76b900',mgmt);
+  const icStreams={};ics.forEach(m=>{if(!icStreams[m.stream])icStreams[m.stream]=[];icStreams[m.stream].push(m);});
+  Object.entries(icStreams).forEach(([stream,mems])=>html+=renderGroup(stream,getStream(stream).color,mems));
+  html+='</tbody>';tbl.innerHTML=html;
+}
+
+// ── CAREER EXPECTATIONS ───────────────────────────────────────────────────────
+function renderCareer(){
+  const q=(document.getElementById('career-search').value||'').toLowerCase();
+  const sf=document.getElementById('career-stream-filter');
+  if(sf){const sc=sf.value;sf.innerHTML='<option value="">All Streams</option>';Object.keys(STREAMS).forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;if(s===sc)o.selected=true;sf.appendChild(o);});}
+  const streamF=sf?sf.value:'';
+  const filtered=members.filter(m=>{const g=careerGoals[m.id]||{};const txt=m.name.toLowerCase()+(g.nextRole||'').toLowerCase()+(g.notes||'').toLowerCase();return (!q||txt.includes(q))&&(!streamF||m.stream===streamF);});
+  const grid=document.getElementById('career-grid');
+  if(!filtered.length){grid.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><p>No results found</p></div>`;return;}
+  grid.innerHTML=filtered.map(m=>{
+    const g=careerGoals[m.id]||{};
+    const s=getStream(m.stream);
+    const tags=(g.growthAreas||[]).map(t=>`<span class="career-tag">${esc(t)}</span>`).join('');
+    const hasDates=g.lastReview||g.nextReview;
+    return `<div class="career-card" style="--stream-color:${s.color};--stream-bg:${s.bg}">
+      <div class="career-card-body">
+        <div class="career-name">${esc(m.name)}</div>
+        <div class="career-role">${esc(m.role)} · <span style="color:${s.color}">${esc(m.stream)}</span></div>
+        <div class="career-target">${g.nextRole?`<span class="career-target-label">Target →</span><span class="career-target-val">${esc(g.nextRole)}</span>`:`<span class="career-target-label" style="opacity:0.4">No target set — click Edit to add</span>`}</div>
+        ${tags?`<div class="career-tags">${tags}</div>`:''}
+        ${hasDates?`<div class="career-dates">${g.lastReview?`<div class="career-date-pair"><div class="career-date-lbl">Last Review</div><div class="career-date-val">${esc(g.lastReview)}</div></div>`:''} ${g.nextReview?`<div class="career-date-pair"><div class="career-date-lbl">Next Review</div><div class="career-date-val">${esc(g.nextReview)}</div></div>`:''}</div>`:''}
+        ${g.notes?`<div class="career-notes">${esc(g.notes)}</div>`:''}
+      </div>
+      <div class="career-card-footer">
+        <button class="btn btn-ghost btn-sm" onclick="openEditCareer(${m.id})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:11px;height:11px"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4z"/></svg>Edit</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+function openEditCareer(memberId){
+  const m=getMember(memberId);if(!m)return;
+  const g=careerGoals[memberId]||{};
+  openModal(`<div class="modal-header"><div class="modal-title">Career <em>Expectations</em></div><div class="modal-subtitle">${esc(m.name)} · ${esc(m.role)}</div></div>
+    <div class="field"><label>Target Role / Next Level</label><input id="cg-nextrole" value="${esc(g.nextRole||'')}" placeholder="e.g. Staff Engineer, Senior Manager…"></div>
+    <div class="field"><label>Growth Areas <span style="opacity:0.5;font-weight:400">(comma-separated)</span></label><input id="cg-areas" value="${esc((g.growthAreas||[]).join(', '))}" placeholder="e.g. Architecture, Leadership, Machine Learning…"></div>
+    <div class="field-row">
+      <div class="field"><label>Last Review Date</label><input id="cg-last" type="date" value="${esc(g.lastReview||'')}"></div>
+      <div class="field"><label>Next Review Date</label><input id="cg-next" type="date" value="${esc(g.nextReview||'')}"></div>
+    </div>
+    <div class="field"><label>Notes</label><textarea id="cg-notes">${esc(g.notes||'')}</textarea></div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-nv" onclick="saveCareer(${memberId})">Save</button></div>`);
+  setTimeout(()=>{const inp=document.getElementById('cg-nextrole');if(inp)inp.focus();},60);
+}
+function saveCareer(memberId){
+  const nextRole=val('cg-nextrole').trim();
+  const areasRaw=val('cg-areas').trim();
+  const growthAreas=areasRaw?areasRaw.split(',').map(s=>s.trim()).filter(Boolean):[];
+  careerGoals[memberId]={nextRole,growthAreas,lastReview:val('cg-last'),nextReview:val('cg-next'),notes:val('cg-notes').trim()};
+  markChanged();closeModal();renderCareer();showToast('Career goals saved','#76b900');
+}
+
+// ── PTO & TRAVELS ─────────────────────────────────────────────────────────────
+const PTO_TYPE_COLORS={'PTO':{color:'#00b4a0',bg:'rgba(0,180,160,0.12)',chip:'rgba(0,180,160,0.28)'},'Business Travel':{color:'#4a90d9',bg:'rgba(74,144,217,0.12)',chip:'rgba(74,144,217,0.28)'},'Conference':{color:'#b060d0',bg:'rgba(176,96,208,0.12)',chip:'rgba(176,96,208,0.28)'},'Remote Work':{color:'#e8a020',bg:'rgba(232,160,32,0.12)',chip:'rgba(232,160,32,0.28)'}};
+
+function _todayStr(){return new Date().toISOString().slice(0,10);}
+function _thisMonday(){
+  const d=new Date();const dow=d.getDay();
+  d.setDate(d.getDate()-(dow===0?6:dow-1));
+  return d.toISOString().slice(0,10);
+}
+// Monday-first cell array: null = padding, else 'YYYY-MM-DD'
+function _monthCells(year,month){
+  const firstDow=new Date(year,month-1,1).getDay(); // 0=Sun
+  const pad=firstDow===0?6:firstDow-1;
+  const days=new Date(year,month,0).getDate();
+  const cells=Array(pad).fill(null);
+  for(let d=1;d<=days;d++)cells.push(`${year}-${String(month).padStart(2,'0')}-${String(d).padStart(2,'0')}`);
+  return cells;
+}
+function _renderCalMonth(year,month,todayStr){
+  const cells=_monthCells(year,month);
+  const daysInMonth=new Date(year,month,0).getDate();
+  const firstDayOfMonth=`${year}-${String(month).padStart(2,'0')}-01`;
+  const lastDayOfMonth=`${year}-${String(month).padStart(2,'0')}-${String(daysInMonth).padStart(2,'0')}`;
+  const DOW=['Mo','Tu','We','Th','Fr','Sa','Su'];
+  const dowHTML=DOW.map((d,i)=>`<div class="pto-dow${i>=5?' weekend':''}">${d}</div>`).join('');
+  // Assign a stable lane (vertical slot) per member — one lane per member ID
+  const laneMap={};members.forEach((m,i)=>{laneMap[m.id]=i;});
+  const MAX_BARS=4;
+  const daysHTML=cells.map(date=>{
+    if(!date)return `<div class="pto-day is-pad"></div>`;
+    const dayNum=parseInt(date.split('-')[2],10);
+    const dow=new Date(date+'T12:00').getDay();
+    const isWeekend=dow===0||dow===6;
+    const isToday=date===todayStr;
+    // Expand entries: each (entry × memberId) pair = one potential bar
+    const pairs=[];
+    timeoffs.forEach(t=>{
+      if(date<t.startDate||date>t.endDate)return;
+      (t.memberIds||[t.memberId]).filter(Boolean).forEach(mid=>{pairs.push({t,mid});});
+    });
+    // Deduplicate: one bar per member (keep the entry that started earliest)
+    const seenM=new Set();
+    const uniq=pairs.filter(p=>{if(seenM.has(p.mid))return false;seenM.add(p.mid);return true;})
+      .sort((a,b)=>(laneMap[a.mid]||0)-(laneMap[b.mid]||0));
+    const shown=uniq.slice(0,MAX_BARS),extra=uniq.length-shown.length;
+    const barsHTML=shown.map(({t,mid})=>{
+      const m=getMember(mid);
+      const tc=PTO_TYPE_COLORS[t.type]||{color:'#888',chip:'rgba(136,136,136,0.28)'};
+      const ini=m?initials(m.name):'?';
+      const allNames=(t.memberIds||[t.memberId]).filter(Boolean).map(id=>getMember(id)?.name||'').filter(Boolean).join(', ');
+      const tip=`${allNames} · ${t.type}${t.label?' · '+t.label:''}`;
+      // Clip entry boundaries to this month so bars start/end correctly at month edges
+      const effStart=t.startDate<firstDayOfMonth?firstDayOfMonth:t.startDate;
+      const effEnd=t.endDate>lastDayOfMonth?lastDayOfMonth:t.endDate;
+      const isFirst=date===effStart;
+      const isLast=date===effEnd;
+      const brL=isFirst?'3px':'0';
+      const brR=isLast?'3px':'0';
+      const br=`${brL} ${brR} ${brR} ${brL}`;
+      // Bleed 1px into the cell gap so adjacent bars look like a single ribbon
+      const ml=isFirst?'0':'-1px';
+      const mr=isLast?'0':'-1px';
+      return `<div class="pto-bar" style="background:${tc.chip};border-radius:${br};margin-left:${ml};margin-right:${mr}" onclick="event.stopPropagation();openEditPTO(${t.id})" title="${esc(tip)}">${isFirst?`<span class="pto-bar-label" style="color:${tc.color}">${ini}</span>`:''}</div>`;
+    }).join('');
+    const moreHTML=extra>0?`<div class="pto-bar-more">+${extra}</div>`:'';
+    return `<div class="pto-day${isToday?' is-today':''}${isWeekend?' is-weekend':''}">
+      <div class="pto-day-num">${dayNum}</div>
+      ${barsHTML||moreHTML?`<div class="pto-bars">${barsHTML}${moreHTML}</div>`:''}
+    </div>`;
+  }).join('');
+  return `<div class="pto-month">
+    <div class="pto-month-hdr">
+      <div class="pto-month-nm">${MONTH_NAMES[month-1]}</div>
+      <div class="pto-month-yr">${year}</div>
+    </div>
+    <div class="pto-cal-grid">${dowHTML}${daysHTML}</div>
+  </div>`;
+}
+
+function renderPTO(){
+  const todayStr=_todayStr();
+  const now=new Date();
+
+  // ── TOP HALF: 3-month calendars ──────────────────────────────────────────
+  const calEl=document.getElementById('pto-calendar');
+  if(calEl){
+    calEl.innerHTML=[0,1,2].map(off=>{
+      const d=new Date(now.getFullYear(),now.getMonth()+off,1);
+      return _renderCalMonth(d.getFullYear(),d.getMonth()+1,todayStr);
+    }).join('');
+  }
+  // Legend
+  const legEl=document.getElementById('pto-legend');
+  if(legEl)legEl.innerHTML=Object.entries(PTO_TYPE_COLORS).map(([type,tc])=>
+    `<div class="pto-legend-item"><div class="pto-legend-dot" style="background:${tc.color}"></div>${type}</div>`).join('');
+
+  // ── BOTTOM HALF: upcoming from this week ─────────────────────────────────
+  const monday=_thisMonday();
+  const tf=document.getElementById('pto-type-filter').value;
+  const mf=document.getElementById('pto-member-filter');
+  if(mf){
+    const sc=mf.value;mf.innerHTML='<option value="">All Members</option>';
+    members.forEach(m=>{const o=document.createElement('option');o.value=m.id;o.textContent=m.name;if(String(m.id)===sc)o.selected=true;mf.appendChild(o);});
+  }
+  const mfv=mf?mf.value:'';
+  // All entries that end on or after Monday of this week
+  const upcoming=timeoffs
+    .filter(t=>t.endDate>=monday&&(!tf||t.type===tf)&&(!mfv||String(t.memberId)===mfv))
+    .sort((a,b)=>a.startDate<b.startDate?-1:1);
+
+  // Stats (total team view, not filtered)
+  const ptoC=timeoffs.filter(t=>t.type==='PTO').length,
+        travC=timeoffs.filter(t=>t.type==='Business Travel').length,
+        confC=timeoffs.filter(t=>t.type==='Conference').length,
+        apprC=timeoffs.filter(t=>t.approved).length;
+  const statEl=document.getElementById('pto-stats');
+  if(statEl)statEl.innerHTML=`<div class="stat-box"><div class="stat-n">${timeoffs.length}</div><div class="stat-l">Total</div></div><div class="stat-box"><div class="stat-n" style="color:var(--teal)">${ptoC}</div><div class="stat-l">PTO</div></div><div class="stat-box"><div class="stat-n" style="color:var(--blue)">${travC}</div><div class="stat-l">Biz Travel</div></div><div class="stat-box"><div class="stat-n" style="color:#b060d0">${confC}</div><div class="stat-l">Conference</div></div><div class="stat-box"><div class="stat-n" style="color:var(--nv)">${apprC}</div><div class="stat-l">Approved</div></div><div class="stat-box"><div class="stat-n" style="color:var(--gold)">${upcoming.length}</div><div class="stat-l">Upcoming</div></div>`;
+
+  const subEl=document.getElementById('pto-sub');
+  if(subEl)subEl.textContent=`${upcoming.length} upcoming from week of ${monday}`;
+
+  const list=document.getElementById('pto-list');
+  if(!list)return;
+  if(!upcoming.length){
+    list.innerHTML=`<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><p>${timeoffs.length?'No upcoming entries match the filter':'No entries yet — click Add Entry to get started'}</p></div>`;
+    return;
+  }
+  list.innerHTML=upcoming.map(t=>{
+    const tc=PTO_TYPE_COLORS[t.type]||{color:'#888',bg:'rgba(136,136,136,0.12)'};
+    const isActive=t.startDate<=todayStr&&t.endDate>=todayStr;
+    const memberNames=(t.memberIds||[t.memberId]).filter(Boolean).map(id=>getMember(id)?.name||'').filter(Boolean).join(', ')||'Unknown';
+    return `<div class="pto-card${isActive?' pto-card-active':''}">
+      <div class="pto-type-dot" style="background:${tc.color}"></div>
+      <div class="pto-date-range">${esc(t.startDate||'–')} → ${esc(t.endDate||'–')}</div>
+      <div class="pto-info"><div class="pto-label">${esc(t.label||t.type)}</div><div class="pto-member">${esc(memberNames)}</div></div>
+      ${isActive?`<div class="pto-active-badge">NOW</div>`:''}
+      <div class="pto-type-badge" style="background:${tc.bg};color:${tc.color}">${esc(t.type)}</div>
+      <div class="pto-status-badge ${t.approved?'pto-status-approved':'pto-status-pending'}">${t.approved?'Approved':'Pending'}</div>
+      <div class="pto-card-actions">
+        <div class="icon-btn nv" onclick="openEditPTO(${t.id})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4z"/></svg></div>
+        <div class="icon-btn danger" onclick="deletePTO(${t.id})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+function _ptoFormHTML(t){
+  const existingIds=t?(t.memberIds||(t.memberId?[t.memberId]:[])):[];
+  const types=['PTO','Business Travel','Conference','Remote Work'];
+  const isTrip=t&&(t.type==='Business Travel'||t.type==='Conference');
+  const primaryId=existingIds[0]||null;
+  const memberOptions=members.map(m=>`<option value="${m.id}"${primaryId===m.id?' selected':''}>${esc(m.name)}</option>`).join('');
+  const pickerItems=members.map(m=>`<label class="member-pick-row"><input type="checkbox" class="member-pick-check" value="${m.id}"${existingIds.includes(m.id)?' checked':''}><span class="member-pick-name">${esc(m.name)}</span></label>`).join('');
+  return `<div id="pt-single-wrap" class="field"${isTrip?' style="display:none"':''}>
+      <label>Member *</label><select id="pt-member">${memberOptions}</select>
+    </div>
+    <div id="pt-multi-wrap" class="field"${!isTrip?' style="display:none"':''}>
+      <label>Team Members *</label>
+      <div class="member-picker">${pickerItems}</div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label>Type *</label><select id="pt-type" onchange="_ptoTypeToggle(this.value)">${types.map(tp=>`<option${t&&t.type===tp?' selected':''}>${tp}</option>`).join('')}</select></div>
+      <div class="field"><label>Status</label><select id="pt-approved"><option value="0"${t&&!t.approved?' selected':''}>Pending</option><option value="1"${t&&t.approved?' selected':''}>Approved</option></select></div>
+    </div>
+    <div class="field"><label>Label / Description</label><input id="pt-label" value="${t?esc(t.label||''):''}" placeholder="e.g. Family vacation, GTC 2026…"></div>
+    <div class="field-row">
+      <div class="field"><label>Start Date *</label><input id="pt-start" type="date" value="${t?esc(t.startDate||''):''}"></div>
+      <div class="field"><label>End Date *</label><input id="pt-end" type="date" value="${t?esc(t.endDate||''):''}"></div>
+    </div>
+    <div class="field"><label>Notes</label><textarea id="pt-notes">${t?esc(t.notes||''):''}</textarea></div>`;
+}
+function _ptoTypeToggle(tp){
+  const isTrip=tp==='Business Travel'||tp==='Conference';
+  const sw=document.getElementById('pt-single-wrap'),mw=document.getElementById('pt-multi-wrap');
+  if(sw)sw.style.display=isTrip?'none':'';
+  if(mw)mw.style.display=isTrip?'':'none';
+}
+function openAddPTO(){
+  openModal(`<div class="modal-header"><div class="modal-title">Add <em>PTO / Travel</em></div><div class="modal-subtitle">Team time-off and travel calendar</div></div>${_ptoFormHTML(null)}<div class="modal-footer"><button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-nv" onclick="savePTO(0)">Add Entry</button></div>`);
+  setTimeout(()=>{const el=document.getElementById('pt-type');if(el)el.focus();},60);
+}
+function openEditPTO(id){
+  const t=timeoffs.find(x=>x.id===id);if(!t)return;
+  const mNames=(t.memberIds||[t.memberId]).filter(Boolean).map(id=>getMember(id)?.name||'').filter(Boolean).join(', ');
+  openModal(`<div class="modal-header"><div class="modal-title"><em>Edit</em> PTO / Travel</div><div class="modal-subtitle">${esc(mNames||'Unknown')} · ${esc(t.type)}</div></div>${_ptoFormHTML(t)}<div class="modal-footer"><button class="btn btn-danger left" onclick="deletePTO(${id})">Delete</button><button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-nv" onclick="savePTO(${id})">Save</button></div>`);
+}
+function savePTO(id){
+  const type=val('pt-type')||'PTO';
+  const isTrip=type==='Business Travel'||type==='Conference';
+  let memberIds,memberId;
+  if(isTrip){
+    memberIds=Array.from(document.querySelectorAll('.member-pick-check:checked')).map(b=>parseInt(b.value));
+    if(!memberIds.length){showToast('Select at least one team member','#e05050');return;}
+    memberId=memberIds[0];
+  }else{
+    memberId=parseInt(val('pt-member'));
+    if(!memberId){showToast('Member required','#e05050');return;}
+    memberIds=[memberId];
+  }
+  const startDate=val('pt-start'),endDate=val('pt-end');
+  if(!startDate||!endDate){showToast('Dates required','#e05050');return;}
+  const entry={id:id||nextTimeoffId++,memberId,memberIds,type,label:val('pt-label').trim(),startDate,endDate,approved:val('pt-approved')==='1',notes:val('pt-notes').trim()};
+  if(id){const idx=timeoffs.findIndex(x=>x.id===id);if(idx>=0)timeoffs[idx]=entry;else timeoffs.push(entry);}else{timeoffs.push(entry);}
+  markChanged();closeModal();renderPTO();showToast(id?'Entry updated':'Entry added','#76b900');
+}
+function deletePTO(id){if(!confirm('Remove this entry?'))return;timeoffs=timeoffs.filter(x=>x.id!==id);closeModal();markChanged();renderPTO();showToast('Entry removed');}
+
+// ── CONFERENCE PUBLICATIONS ───────────────────────────────────────────────────
+const PUB_TYPE_COLORS={'Paper':{color:'#4a90d9',bg:'rgba(74,144,217,0.12)'},'Talk':{color:'#76b900',bg:'rgba(118,185,0,0.12)'},'Poster':{color:'#b060d0',bg:'rgba(176,96,208,0.12)'},'Presentation':{color:'#e8a020',bg:'rgba(232,160,32,0.12)'}};
+function renderPublications(){
+  const q=(document.getElementById('pub-search').value||'').toLowerCase();
+  const sf=document.getElementById('pub-status-filter').value;
+  const tf=document.getElementById('pub-type-filter').value;
+  const filtered=publications.filter(p=>{const txt=(p.title||'').toLowerCase()+(p.venue||'').toLowerCase();return (!q||txt.includes(q))&&(!sf||p.status===sf)&&(!tf||p.type===tf);}).sort((a,b)=>a.date<b.date?1:-1);
+  const submitted=publications.filter(p=>p.status==='Submitted').length,accepted=publications.filter(p=>p.status==='Accepted').length,published=publications.filter(p=>p.status==='Published').length;
+  document.getElementById('pub-stats').innerHTML=`<div class="stat-box"><div class="stat-n">${publications.length}</div><div class="stat-l">Total</div></div><div class="stat-box"><div class="stat-n" style="color:var(--gold)">${submitted}</div><div class="stat-l">Submitted</div></div><div class="stat-box"><div class="stat-n" style="color:var(--blue)">${accepted}</div><div class="stat-l">Accepted</div></div><div class="stat-box"><div class="stat-n" style="color:var(--nv)">${published}</div><div class="stat-l">Published</div></div>`;
+  const list=document.getElementById('pub-list');
+  if(!filtered.length){list.innerHTML=`<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><p>${publications.length?'No publications match the filters':'No publications yet — click Add Publication to get started'}</p></div>`;return;}
+  list.innerHTML=filtered.map(p=>{
+    const tc=PUB_TYPE_COLORS[p.type]||{color:'#888',bg:'rgba(136,136,136,0.12)'};
+    const authors=(p.authorIds||[]).map(id=>{const m=getMember(id);return m?`<span class="pub-author-chip">${esc(m.name.split(' ')[0]+' '+m.name.split(' ').pop())}</span>`:null;}).filter(Boolean).join('');
+    const statusClass='pub-status-'+(p.status||'submitted').toLowerCase();
+    return `<div class="pub-card">
+      <div class="pub-card-header">
+        <div class="pub-type-icon" style="background:${tc.bg};color:${tc.color}">${(p.type||'?').slice(0,3).toUpperCase()}</div>
+        <div style="flex:1;min-width:0">
+          <div class="pub-title">${p.link?`<a href="${esc(p.link)}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none" onmouseover="this.style.color='var(--nv)'" onmouseout="this.style.color='inherit'">${esc(p.title)}</a>`:esc(p.title||'Untitled')}</div>
+          <div class="pub-venue">${esc(p.venue||'')}</div>
+        </div>
+      </div>
+      <div class="pub-meta">
+        <span class="pub-status-badge ${statusClass}">${esc(p.status||'')}</span>
+        ${p.date?`<span class="pub-date">${esc(p.date)}</span>`:''}
+        <span class="pub-status-badge" style="background:${tc.bg};color:${tc.color}">${esc(p.type)}</span>
+      </div>
+      ${authors?`<div class="pub-authors">${authors}</div>`:''}
+      <div class="pub-card-footer">
+        <button class="btn btn-ghost btn-sm" onclick="openEditPub(${p.id})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:11px;height:11px"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4z"/></svg>Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deletePub(${p.id})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:11px;height:11px"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>Delete</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+function _pubFormHTML(p){
+  const types=['Paper','Talk','Poster','Presentation'];
+  const statuses=['Submitted','Accepted','Published'];
+  const authorChecks=members.map(m=>{
+    const checked=p&&(p.authorIds||[]).includes(m.id)?'checked':'';
+    return `<label style="display:flex;align-items:center;gap:7px;font-size:12px;font-family:'Inter',sans-serif;color:var(--ink2);cursor:pointer;padding:3px 0"><input type="checkbox" value="${m.id}" ${checked} style="accent-color:var(--nv);width:13px;height:13px"> ${esc(m.name)}</label>`;
+  }).join('');
+  return `<div class="field"><label>Title *</label><input id="pb-title" value="${p?esc(p.title||''):''}" placeholder="Paper or talk title…"></div>
+    <div class="field-row">
+      <div class="field"><label>Type *</label><select id="pb-type">${types.map(t=>`<option${p&&p.type===t?' selected':''}>${t}</option>`).join('')}</select></div>
+      <div class="field"><label>Status</label><select id="pb-status">${statuses.map(s=>`<option${p&&p.status===s?' selected':''}>${s}</option>`).join('')}</select></div>
+    </div>
+    <div class="field"><label>Venue / Conference</label><input id="pb-venue" value="${p?esc(p.venue||''):''}" placeholder="e.g. ISSCC 2026, GTC 2026…"></div>
+    <div class="field-row">
+      <div class="field"><label>Month / Year</label><input id="pb-date" type="month" value="${p?esc(p.date||''):''}"></div>
+      <div class="field"><label>Link / DOI / URL</label><input id="pb-link" type="url" value="${p?esc(p.link||''):''}" placeholder="https://…"></div>
+    </div>
+    <div class="field"><label>Authors <span style="opacity:0.5;font-weight:400">(select all that apply)</span></label><div id="pb-authors" style="max-height:150px;overflow-y:auto;padding:8px;background:var(--bg2);border:1px solid var(--rule2);border-radius:var(--r);display:flex;flex-direction:column;gap:2px">${authorChecks}</div></div>
+    <div class="field"><label>Notes</label><textarea id="pb-notes">${p?esc(p.notes||''):''}</textarea></div>`;
+}
+function openAddPub(){
+  openModal(`<div class="modal-header"><div class="modal-title">Add <em>Publication</em></div><div class="modal-subtitle">Conference papers, talks, posters and presentations</div></div>${_pubFormHTML(null)}<div class="modal-footer"><button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-nv" onclick="savePub(0)">Add Publication</button></div>`);
+  setTimeout(()=>{const inp=document.getElementById('pb-title');if(inp)inp.focus();},60);
+}
+function openEditPub(id){
+  const p=publications.find(x=>x.id===id);if(!p)return;
+  openModal(`<div class="modal-header"><div class="modal-title"><em>Edit</em> Publication</div><div class="modal-subtitle">${esc(p.title||'')}</div></div>${_pubFormHTML(p)}<div class="modal-footer"><button class="btn btn-danger left" onclick="deletePub(${id})">Delete</button><button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-nv" onclick="savePub(${id})">Save</button></div>`);
+}
+function savePub(id){
+  const title=val('pb-title').trim();
+  if(!title){showToast('Title required','#e05050');return;}
+  const checkboxes=document.querySelectorAll('#pb-authors input[type=checkbox]:checked');
+  const authorIds=Array.from(checkboxes).map(c=>parseInt(c.value));
+  const entry={id:id||nextPubId++,title,type:val('pb-type')||'Paper',status:val('pb-status')||'Submitted',venue:val('pb-venue').trim(),date:val('pb-date'),link:val('pb-link').trim(),authorIds,notes:val('pb-notes').trim()};
+  if(id){const idx=publications.findIndex(x=>x.id===id);if(idx>=0)publications[idx]=entry;else publications.push(entry);}else{publications.push(entry);}
+  markChanged();closeModal();renderPublications();showToast(id?'Publication updated':'Publication added','#76b900');
+}
+function deletePub(id){if(!confirm('Remove this publication?'))return;publications=publications.filter(x=>x.id!==id);closeModal();markChanged();renderPublications();showToast('Publication removed');}
+
+// MODAL
+function openModal(html){document.getElementById('modal-box').innerHTML=html;document.getElementById('modal-overlay').classList.add('open');}
+function closeModal(){document.getElementById('modal-overlay').classList.remove('open');}
+function handleOverlayClick(e){if(e.target===document.getElementById('modal-overlay'))closeModal();}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+// CSV
+function exportCSV(){
+  const rows=[['Type','Name','Role/Desc','Parent','Status','StartWk','EndWk','Progress','Owner','Links']];
+  members.forEach(m=>rows.push(['Member',m.name,m.role,'',m.stream,'','','','',(m.links||[]).map(l=>l.url).filter(Boolean).join(' | ')]));
+  projects.forEach(p=>{const par=p.parentId?getProject(p.parentId)?.name:'';const own=getMember(p.owner)?.name||'';rows.push(['Project',p.name,p.desc,par,p.status,p.startMonth||'',p.endMonth||'',p.progress+'%',own,(p.links||[]).map(l=>l.url).filter(Boolean).join(' | ')]);});
+  tasks.forEach(t=>{const m=getMember(t.memberId),proj=t.projectId?getProject(t.projectId):null;rows.push(['Task',t.label,m?m.name:'',proj?proj.name:'','',t.startMonth||'',t.endMonth||'','','','']);});
+  const csv=rows.map(r=>r.map(c=>`"${String(c||'').replace(/"/g,'""')}"`).join(',')).join('\n');
+  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='dce-thermal-charter.csv';a.click();showToast('CSV exported','#4a90d9');
+}
+
+// ── ACCESS CONTROL ────────────────────────────────────────────────────────────
+function _isAdmin(){return !adminUsers.length||adminUsers.includes(currentUserId);}
+function _loadUserIdentity(){
+  // localStorage = "remember me"; sessionStorage = session-only
+  const ls=localStorage.getItem('dce_user_id');
+  const ss=sessionStorage.getItem('dce_user_id');
+  currentUserId=ss?parseInt(ss):ls?parseInt(ls):null;
+}
+function applyAccessMode(){
+  const admin=_isAdmin();
+  document.body.classList.toggle('view-only',!admin);
+  const btn=document.getElementById('user-btn');
+  const avatarEl=document.getElementById('user-btn-avatar');
+  const nameEl=document.getElementById('user-btn-name');
+  const lockEl=document.getElementById('user-btn-lock');
+  if(!btn)return;
+  const m=getMember(currentUserId);
+  const pair=m?AVATAR_PAIRS[m.id%AVATAR_PAIRS.length]:['#1e1e1e','#555'];
+  if(avatarEl){avatarEl.style.background=pair[0];avatarEl.style.color=pair[1];avatarEl.textContent=m?initials(m.name):'?';}
+  if(nameEl)nameEl.textContent=m?m.name.split(' ')[0]:'Sign in';
+  if(lockEl)lockEl.style.opacity=admin?'0.5':'0.9';
+  btn.className=`user-btn ${m?(admin?'is-admin':'is-viewer'):''}`;
+  // Open lock path when admin
+  if(lockEl)lockEl.innerHTML=admin
+    ?'<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>'
+    :'<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/><line x1="12" y1="15" x2="12" y2="17"/>';
+}
+function openUserSelector(){
+  const rows=members.map(m=>{
+    const pair=AVATAR_PAIRS[m.id%AVATAR_PAIRS.length];
+    const isCur=m.id===currentUserId;
+    return `<div class="admin-member-row" onclick="setCurrentUser(${m.id})" style="cursor:pointer;${isCur?'background:var(--nv-dim);':''}">
+      <div class="user-btn-avatar" style="background:${pair[0]};color:${pair[1]};width:28px;height:28px;font-size:9px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:DM Mono,monospace;font-weight:700;flex-shrink:0">${initials(m.name)}</div>
+      <div style="flex:1"><div class="admin-member-name"${isCur?' style="color:var(--nv)"':''}>${esc(m.name)}</div><div class="admin-member-role">${esc(m.role)}</div></div>
+      ${isCur?'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--nv)" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>':''}
+    </div>`;
+  }).join('');
+  openModal(`<div class="modal-header"><div class="modal-title">Who <em>are you?</em></div><div class="modal-subtitle">Your identity determines your edit access</div></div>
+    <div style="padding:0 28px 4px">
+      <div class="admin-member-list">${rows}</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:12px;padding:0 2px">
+        <input type="checkbox" id="user-remember" style="accent-color:var(--nv)">
+        <label for="user-remember" style="font-size:12px;color:var(--ink3);cursor:pointer">Remember me on this device</label>
+      </div>
+      ${adminUsers.length?`<p style="font-size:11px;color:var(--ink3);margin-top:10px;padding:8px 10px;background:var(--surface2);border-radius:var(--r)">Admins: ${adminUsers.map(id=>getMember(id)?.name||'').filter(Boolean).join(', ')}</p>`:'<p style="font-size:11px;color:var(--teal);margin-top:10px">Open mode — everyone has edit access. Admins can be configured in Admin Settings.</p>'}
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal()">Cancel</button></div>`);
+}
+function setCurrentUser(id){
+  currentUserId=id;
+  sessionStorage.setItem('dce_user_id',id);
+  const rememberEl=document.getElementById('user-remember');
+  if(rememberEl?.checked)localStorage.setItem('dce_user_id',id);
+  else localStorage.removeItem('dce_user_id');
+  closeModal();applyAccessMode();
+  showToast(`Signed in as ${getMember(id)?.name||''}`,_isAdmin()?'#76b900':'#4a90d9');
+}
+function openAdminSettings(){
+  const rows=members.map(m=>`<label class="admin-member-row" style="cursor:pointer">
+    <input type="checkbox" class="admin-member-check" value="${m.id}"${adminUsers.includes(m.id)?' checked':''}>
+    <span class="admin-member-name">${esc(m.name)}</span>
+    <span class="admin-member-role">${esc(m.role)}</span>
+  </label>`).join('');
+  openModal(`<div class="modal-header"><div class="modal-title"><em>Admin</em> Settings</div><div class="modal-subtitle">Configure who can edit the charter</div></div>
+    <div style="padding:0 28px">
+      <div class="field"><label>Admin Members (leave all unchecked = everyone can edit)</label>
+        <div class="admin-member-list">${rows}</div>
+      </div>
+      <div class="field"><label>Microsoft Graph Client ID <span style="color:var(--ink3);font-weight:400">(for calendar sync)</span></label>
+        <input id="ms-client-id" value="${esc(msClientId)}" placeholder="Azure AD Application (client) ID…">
+        <div style="font-size:11px;color:var(--ink3);margin-top:5px">Register an app at <strong style="color:var(--ink2)">portal.azure.com</strong> → Azure Active Directory → App registrations. Add <em>Calendars.Read</em> scope and set Redirect URI to this file's URL.</div>
+      </div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-nv" onclick="saveAdminSettings()">Save Settings</button></div>`);
+}
+function saveAdminSettings(){
+  adminUsers=Array.from(document.querySelectorAll('.admin-member-check:checked')).map(b=>parseInt(b.value));
+  msClientId=document.getElementById('ms-client-id')?.value.trim()||'';
+  markChanged();closeModal();applyAccessMode();
+  showToast('Admin settings saved','#76b900');
+}
+
+// ── CALENDAR SYNC ─────────────────────────────────────────────────────────────
+function openCalendarSync(){
+  openModal(`<div class="modal-header"><div class="modal-title">Sync <em>Calendars</em></div><div class="modal-subtitle">Auto-populate PTO and travel from Outlook</div></div>
+    <div style="padding:0 28px 8px">
+      <div class="sync-tabs">
+        <button class="sync-tab active" onclick="_syncTab('ms',this)">Microsoft 365</button>
+        <button class="sync-tab" onclick="_syncTab('ics',this)">Import .ics File</button>
+      </div>
+      <div class="sync-tab-panel active" id="sync-panel-ms">
+        ${msClientId
+          ?`<p style="font-size:12px;color:var(--ink2);margin-bottom:14px">Sign in with your Microsoft account to read your Outlook calendar. Each team member can sync their own calendar.</p>
+            <button class="btn btn-nv" onclick="_connectMSGraph()" style="width:100%;justify-content:center">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><rect x="1" y="1" width="10" height="10" fill="#f25022"/><rect x="13" y="1" width="10" height="10" fill="#7fba00"/><rect x="1" y="13" width="10" height="10" fill="#00a4ef"/><rect x="13" y="13" width="10" height="10" fill="#ffb900"/></svg>
+              Sign in with Microsoft
+            </button>
+            <p style="font-size:11px;color:var(--ink3);margin-top:10px">Reads your calendar for the next 90 days and detects OOO, travel, and conference events.</p>`
+          :`<p style="font-size:12px;color:var(--gold);margin-bottom:10px">No Azure App Client ID configured. Open Admin Settings to add it.</p>
+            <div style="font-size:12px;color:var(--ink2)">
+              ${['Register an app in <strong style="color:var(--ink)">portal.azure.com → Azure Active Directory → App registrations</strong>','Set the Redirect URI to the path of this HTML file on your machine','Add the <strong style="color:var(--ink)">Calendars.Read</strong> API permission','Copy the Application (client) ID into <strong style="color:var(--ink)">Admin Settings</strong>'].map((s,i)=>`<div class="ms-step"><div class="ms-step-n">${i+1}</div><div class="ms-step-body">${s}</div></div>`).join('')}
+            </div>
+            <button class="btn btn-ghost" onclick="closeModal();openAdminSettings()" style="margin-top:14px">Open Admin Settings</button>`}
+      </div>
+      <div class="sync-tab-panel" id="sync-panel-ics">
+        <p style="font-size:12px;color:var(--ink2);margin-bottom:12px">Export your calendar from Outlook as an .ics file, then import it here. Works offline — no app registration needed.</p>
+        <p style="font-size:11px;color:var(--ink3);margin-bottom:14px">In Outlook: <strong style="color:var(--ink2)">File → Open &amp; Export → Import/Export → Export to a file → iCalendar</strong></p>
+        <div style="display:flex;align-items:center;gap:10px">
+          <select id="ics-member-sel" class="filter-select" style="flex:1">
+            <option value="">— Select team member —</option>
+            ${members.map(m=>`<option value="${m.id}"${m.id===currentUserId?' selected':''}>${esc(m.name)}</option>`).join('')}
+          </select>
+          <button class="btn btn-nv" onclick="document.getElementById('ics-file-input').click()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Choose .ics
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal()">Close</button></div>`);
+}
+function _syncTab(id,btn){
+  document.querySelectorAll('.sync-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.sync-tab-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('sync-panel-'+id)?.classList.add('active');
+}
+
+// ── ICS IMPORT ────────────────────────────────────────────────────────────────
+function _handleICSFile(evt){
+  const memberId=parseInt(document.getElementById('ics-member-sel')?.value)||currentUserId;
+  if(!memberId){showToast('Select a team member first','#e05050');return;}
+  const file=evt.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const events=_parseICS(e.target.result,memberId);
+    evt.target.value='';
+    if(!events.length){showToast('No PTO/travel events found in this file','#e8a020');return;}
+    closeModal();
+    _showICSReview(events,file.name);
+  };
+  reader.readAsText(file);
+}
+function _parseICS(text,defaultMemberId){
+  const unfolded=text.replace(/\r?\n[ \t]/g,'');
+  const lines=unfolded.split(/\r?\n/);
+  const results=[];let cur=null;
+  for(const line of lines){
+    if(line==='BEGIN:VEVENT'){cur={};continue;}
+    if(line==='END:VEVENT'){if(cur)results.push(cur);cur=null;continue;}
+    if(!cur)continue;
+    const ci=line.indexOf(':');if(ci<0)continue;
+    const k=line.slice(0,ci).toUpperCase(),v=line.slice(ci+1).trim();
+    if(k.startsWith('DTSTART'))cur.dtstart=v;
+    else if(k.startsWith('DTEND'))cur.dtend=v;
+    else if(k==='SUMMARY')cur.summary=v.replace(/\\,/g,',').replace(/\\n/g,' ');
+    else if(k==='DESCRIPTION')cur.desc=(v||'').replace(/\\n/g,' ').replace(/\\,/g,',');
+    else if(k==='X-MICROSOFT-CDO-BUSYSTATUS'||k==='TRANSP')cur.busystatus=v;
+  }
+  const parsed=[];
+  for(const ev of results){
+    if(!ev.dtstart||!ev.dtend)continue;
+    const allDay=!ev.dtstart.includes('T');
+    const start=_icsDate(ev.dtstart,false);
+    const end=_icsDate(ev.dtend,allDay);// Outlook all-day DTEND is exclusive; subtract 1 day
+    if(!start||!end||end<start)continue;
+    // Detect type; skip if unclassifiable and not OOF
+    const tp=_classifyPTO(ev.summary,ev.desc,ev.busystatus);
+    if(!tp)continue;
+    parsed.push({summary:ev.summary||'',startDate:start,endDate:end,type:tp,memberId:defaultMemberId});
+  }
+  return parsed;
+}
+function _icsDate(val,subtractDay){
+  const bare=val.replace(/T.*$/,'').replace(/-/g,'');
+  if(bare.length!==8)return null;
+  const d=new Date(Date.UTC(parseInt(bare.slice(0,4)),parseInt(bare.slice(4,6))-1,parseInt(bare.slice(6,8))));
+  if(subtractDay)d.setUTCDate(d.getUTCDate()-1);
+  return d.toISOString().slice(0,10);
+}
+function _classifyPTO(summary,desc,busystatus){
+  const t=((summary||'')+' '+(desc||'')).toLowerCase();
+  if(/conference|summit|workshop|symposium|gtc\b|hot.?chips|mlsys|neurips|icml|asplos|sc\b|ieee|acm/.test(t))return 'Conference';
+  if(/\btravel\b|offsite|on.?site|business.?trip|flight|hotel|airport/.test(t))return 'Business Travel';
+  if(/remote|wfh|work.?from.?home|home.?office/.test(t))return 'Remote Work';
+  if(/ooo|out.of.office|vacation|pto\b|holiday|personal.?day|sick|medical|family/.test(t)||busystatus==='OOF')return 'PTO';
+  return null;
+}
+function _showICSReview(events,sourceLabel){
+  _pendingICSEvents=events;
+  const typeOpts=['PTO','Business Travel','Conference','Remote Work'];
+  const rows=events.map((ev,i)=>`<tr>
+    <td><input type="checkbox" checked id="ics-chk-${i}" style="accent-color:var(--nv)"></td>
+    <td style="white-space:nowrap;font-family:'DM Mono',monospace;font-size:10px;color:var(--ink3)">${ev.startDate}${ev.startDate!==ev.endDate?' → '+ev.endDate:''}</td>
+    <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(ev.summary)}">${esc(ev.summary||'(no title)')}</td>
+    <td><select id="ics-type-${i}" class="filter-select" style="font-size:11px;padding:3px 6px">${typeOpts.map(t=>`<option${ev.type===t?' selected':''}>${t}</option>`).join('')}</select></td>
+    <td><select id="ics-mem-${i}" class="filter-select" style="font-size:11px;padding:3px 6px"><option value="">—</option>${members.map(m=>`<option value="${m.id}"${ev.memberId===m.id?' selected':''}>${esc(m.name)}</option>`).join('')}</select></td>
+  </tr>`).join('');
+  openModal(`<div class="modal-header"><div class="modal-title">Review <em>Import</em></div><div class="modal-subtitle">${esc(sourceLabel)} · ${events.length} event${events.length!==1?'s':''} detected</div></div>
+    <div style="padding:0 28px">
+      <p style="font-size:12px;color:var(--ink3);margin-bottom:10px">Uncheck events to skip them. Adjust type and member as needed.</p>
+      <div class="ics-review-wrap">
+        <table class="ics-table"><thead><tr><th></th><th>Dates</th><th>Event Title</th><th>Type</th><th>Member</th></tr></thead>
+        <tbody>${rows}</tbody></table>
+      </div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-nv" onclick="_importICSEntries()">Import Selected</button></div>`);
+}
+function _importICSEntries(){
+  let added=0;
+  _pendingICSEvents.forEach((ev,i)=>{
+    if(!document.getElementById(`ics-chk-${i}`)?.checked)return;
+    const type=document.getElementById(`ics-type-${i}`)?.value;
+    const memberId=parseInt(document.getElementById(`ics-mem-${i}`)?.value)||null;
+    if(!memberId)return;
+    // Skip exact duplicates
+    const dup=timeoffs.some(t=>t.memberId===memberId&&t.startDate===ev.startDate&&t.endDate===ev.endDate);
+    if(dup)return;
+    timeoffs.push({id:nextTimeoffId++,memberId,memberIds:[memberId],type:type||ev.type,label:ev.summary.slice(0,60),startDate:ev.startDate,endDate:ev.endDate,approved:false,notes:'Auto-imported from calendar'});
+    added++;
+  });
+  markChanged();closeModal();renderPTO();
+  showToast(`Imported ${added} entr${added!==1?'ies':'y'}`,'#76b900');
+}
+
+// ── MICROSOFT GRAPH ───────────────────────────────────────────────────────────
+let _msalApp=null;
+async function _connectMSGraph(){
+  if(!msClientId){showToast('Configure Client ID in Admin Settings first','#e8a020');return;}
+  try{
+    if(!window.msal){
+      await new Promise((res,rej)=>{
+        const s=document.createElement('script');
+        s.src='https://alcdn.msauth.net/browser/2.38.3/js/msal-browser.min.js';
+        s.onload=res;s.onerror=rej;document.head.appendChild(s);
+      });
+    }
+    const cfg={auth:{clientId:msClientId,authority:'https://login.microsoftonline.com/organizations',redirectUri:window.location.href.split('?')[0]},cache:{cacheLocation:'sessionStorage'}};
+    _msalApp=new msal.PublicClientApplication(cfg);
+    await _msalApp.initialize();
+    const result=await _msalApp.loginPopup({scopes:['Calendars.Read','User.Read']});
+    if(!result?.account)return;
+    const tokenResp=await _msalApp.acquireTokenSilent({scopes:['Calendars.Read'],account:result.account});
+    await _fetchGraphCalendar(tokenResp.accessToken,result.account.username);
+  }catch(err){
+    console.error(err);
+    showToast('Microsoft login failed — '+err.message,'#e05050');
+  }
+}
+async function _fetchGraphCalendar(token,userEmail){
+  const start=new Date().toISOString(),end=new Date(Date.now()+90*864e5).toISOString();
+  const url=`https://graph.microsoft.com/v1.0/me/calendarView?startDateTime=${start}&endDateTime=${end}&$select=subject,start,end,showAs,isAllDay&$top=100&$orderby=start/dateTime`;
+  try{
+    const resp=await fetch(url,{headers:{Authorization:`Bearer ${token}`,'Prefer':'outlook.timezone="UTC"'}});
+    if(!resp.ok)throw new Error(`Graph API error ${resp.status}`);
+    const data=await resp.json();
+    const m=members.find(x=>x.email&&x.email.toLowerCase()===userEmail.toLowerCase());
+    const memberId=m?m.id:currentUserId;
+    const events=(data.value||[]).map(ev=>{
+      const allDay=ev.isAllDay;
+      const startDate=(allDay?ev.start.date:ev.start.dateTime?.slice(0,10))||'';
+      let endDate=(allDay?ev.end.date:ev.end.dateTime?.slice(0,10))||'';
+      if(allDay&&endDate){const d=new Date(endDate);d.setDate(d.getDate()-1);endDate=d.toISOString().slice(0,10);}
+      const tp=ev.showAs==='oof'?'PTO':_classifyPTO(ev.subject,'',ev.showAs==='oof'?'OOF':'');
+      if(!tp||!startDate||!endDate)return null;
+      return {summary:ev.subject||'',startDate,endDate,type:tp,memberId};
+    }).filter(Boolean);
+    closeModal();
+    if(!events.length){showToast('No PTO/travel events found in next 90 days','#e8a020');return;}
+    _showICSReview(events,userEmail);
+  }catch(err){
+    showToast('Calendar read failed — '+err.message,'#e05050');
+  }
+}
+
+loadGHConfig();
+loadFromLS();
+// After rendering, try to pull from GitHub in the background
+if(ghConfigured()){setTimeout(()=>loadFromGitHub().then(ok=>{if(ok)refreshCurrentView();}),400);}
+else{
+  // Show setup banner if not configured
+  setTimeout(()=>{
+    const existing=document.getElementById('gh-banner');
+    if(!existing){
+      const banner=document.createElement('div');
+      banner.id='gh-banner';
+      banner.className='gh-setup-banner';
+      banner.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg><span>GitHub sync not configured — changes are saved locally only. <a onclick="openGitHubSettings()">Connect GitHub →</a></span>';
+      document.querySelector('.view.active')?.before(banner);
+    }
+  },600);
+}
+_loadUserIdentity();
+renderMembers();
+applyAccessMode();
+// Prompt identity picker on first open if not already identified
+if(!currentUserId&&members.length)setTimeout(openUserSelector,300);
+</script>
+</body>
+</html>
