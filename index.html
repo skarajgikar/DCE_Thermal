@@ -900,17 +900,19 @@ function saveToJSON(){
   const b=new Blob([JSON.stringify({members,projects,tasks,nextMemberId,nextProjectId,nextTaskId,monthOffset,savedAt:new Date().toISOString()},null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='dce-thermal-'+new Date().toISOString().slice(0,10)+'.json';a.click();showToast('JSON saved','#76b900');
 }
-function triggerLoad(){document.getElementById('file-input').click();}
+function triggerLoad(){
+  const inp=document.createElement('input');
+  inp.type='file';inp.accept='.json';
+  inp.onchange=e=>loadFromJSON(e);
+  inp.click();
+}
 function loadFromJSON(e){
   const file=e.target.files[0];if(!file)return;
   const r=new FileReader();
   r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(!d.members||!d.projects)throw 0;
-    members=d.members;projects=d.projects;tasks=d.tasks||[];nextMemberId=d.nextMemberId||members.length+1;nextProjectId=d.nextProjectId||projects.length+1;nextTaskId=d.nextTaskId||tasks.length+1;monthOffset=d.monthOffset||0;
-    const _by=new Date().getFullYear();tasks.forEach(t=>{if(!t.startMonth){const sm=new Date(_by,Math.max(0,(t.startWeek||1)-1),1),em=new Date(_by,Math.max(0,(t.endWeek||1)-1),1);t.startMonth=sm.toISOString().slice(0,7);t.endMonth=em.toISOString().slice(0,7);}});
-    projects.forEach(p=>{if(!p.startMonth){const sm=new Date(_by,Math.max(0,(p.startWeek||1)-1),1),em=new Date(_by,Math.max(0,(p.endWeek||1)-1),1);p.startMonth=sm.toISOString().slice(0,7);p.endMonth=em.toISOString().slice(0,7);}});
-    projects.forEach(p=>{if(p.parentId===undefined)p.parentId=null;if(!p.links)p.links=[];});
-    members.forEach(m=>{if(!m.links)m.links=[];if(!m.photo)m.photo='';});
-    persist();refreshCurrentView();showToast('Loaded','#76b900');
+    applyData(d);
+    if(ghConfigured()){saveToGitHub();}else{persist();}
+    refreshCurrentView();showToast('Imported — syncing to GitHub…','#76b900');
   }catch(err){showToast('Invalid JSON','#e05050');}};
   r.readAsText(file);e.target.value='';
 }
