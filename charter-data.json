@@ -184,7 +184,7 @@
       "id": 16,
       "name": "Harold Miyamura",
       "role": "Software Engineer",
-      "stream": "Integration Eng.",
+      "stream": "Research & Development (R&D)",
       "layer": "ic",
       "photo": "",
       "links": [],
@@ -196,7 +196,7 @@
       "id": 17,
       "name": "Himanshu Modi",
       "role": "Software Engineer",
-      "stream": "Integration Eng.",
+      "stream": "Research & Development (R&D)",
       "layer": "ic",
       "photo": "",
       "links": [],
@@ -208,7 +208,7 @@
       "id": 18,
       "name": "Raha Kalantaropur",
       "role": "Software Engineer",
-      "stream": "Integration Eng.",
+      "stream": "Research & Development (R&D)",
       "layer": "ic",
       "photo": "",
       "links": [],
@@ -220,7 +220,7 @@
       "id": 19,
       "name": "Utshas Chowdhury",
       "role": "Software Engineer",
-      "stream": "Integration Eng.",
+      "stream": "Research & Development (R&D)",
       "layer": "ic",
       "photo": "",
       "links": [],
@@ -244,7 +244,7 @@
       "color": "#4a90d9",
       "bg": "rgba(74,144,217,0.10)"
     },
-    "Integration Eng.": {
+    "Research & Development (R&D)": {
       "color": "#00b4a0",
       "bg": "rgba(0,180,160,0.10)"
     },
