@@ -35,7 +35,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .tab-btn:hover{color:var(--ink)}
 .tab-btn.active{color:var(--nv);border-bottom-color:var(--nv)}
 .topbar-right{display:flex;align-items:center;gap:6px;padding:0 14px;border-left:1px solid var(--rule)}
-.save-indicator{font-family:'DM Mono',monospace;font-size:10px;color:var(--ink3);letter-spacing:0.06em;padding-right:10px;border-right:1px solid var(--rule);margin-right:2px;white-space:nowrap;display:flex;align-items:center;gap:5px}
+.save-indicator{font-family:'DM Mono',monospace;font-size:10px;color:var(--ink3);letter-spacing:0.06em;padding-right:10px;border-right:1px solid var(--rule);margin-right:2px;white-space:nowrap}
 .save-indicator.synced{color:rgba(118,185,0,0.75)}
 .save-indicator.syncing{color:var(--blue)}
 .save-indicator.unsaved{color:var(--gold)}
@@ -420,7 +420,6 @@ body.view-only .admin-only{display:none!important}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/><path d="M15.54 8.46a5 5 0 010 7.07M8.46 8.46a5 5 0 000 7.07"/></svg>
       <span>Streams</span>
     </button>
-
     <button class="tab-btn" onclick="switchView('pto')" id="tab-pto">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
       <span>PTO &amp; Travel</span>
@@ -431,9 +430,9 @@ body.view-only .admin-only{display:none!important}
     </button>
   </div>
   <div class="topbar-right">
-    <div class="save-indicator local" id="save-indicator"><span id="save-indicator-text">● LOCAL</span></div>
-    <button class="btn btn-ghost btn-sm" onclick="syncNow()" id="sync-btn" title="Sync to GitHub now">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 11-.57-8.38"/></svg><span id="sync-btn-label">Sync</span>
+    <div class="save-indicator local" id="save-indicator">● LOCAL</div>
+    <button class="btn btn-ghost btn-sm" onclick="syncNow()" title="Sync with GitHub">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 11-.57-8.38"/></svg>Sync
     </button>
     <button class="btn btn-ghost btn-sm" onclick="openGitHubSettings()" title="GitHub Settings">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>GitHub
@@ -528,8 +527,6 @@ body.view-only .admin-only{display:none!important}
   <div class="streams-panel" id="streams-list"></div>
 </div>
 
-
-
 <!-- PTO & TRAVELS VIEW -->
 <div class="view" id="view-pto">
   <div class="section-header">
@@ -582,20 +579,6 @@ body.view-only .admin-only{display:none!important}
 <div class="toast" id="toast"><div class="toast-dot" id="toast-dot"></div><span id="toast-msg"></span></div>
 
 <script>
-/* ─────────────────────────────────────────────────────────────────────────
-   DCE Thermal Charter — GitHub-backed collaborative charter
-   ─────────────────────────────────────────────────────────────────────────
-   SETUP (one-time per team member):
-   1. Host this file on GitHub Pages (Settings → Pages → Deploy from branch)
-   2. Click the [GitHub] button in the top bar
-   3. Enter your repo (owner/repo), branch, data file path, and a PAT token
-      (github.com/settings/tokens → classic → repo scope)
-   4. Click "Save & Sync" — your changes will auto-commit going forward
-
-   DATA FILE: charter-data.json is created automatically in your repo.
-   All team members read/write to the same file. Last writer wins (with
-   automatic conflict resolution on 409).
-   ─────────────────────────────────────────────────────────────────────────── */
 const LS_KEY='dce_thermal_v7';
 const DEFAULT_STREAMS={'Leadership':{color:'#76b900',bg:'rgba(118,185,0,0.10)'},'Systems SW':{color:'#e05050',bg:'rgba(224,80,80,0.10)'},'Platform SW':{color:'#4a90d9',bg:'rgba(74,144,217,0.10)'},'Integration Eng.':{color:'#00b4a0',bg:'rgba(0,180,160,0.10)'},'Systems Eng.':{color:'#e8a020',bg:'rgba(232,160,32,0.10)'},'Project Mgmt':{color:'#b060d0',bg:'rgba(176,96,208,0.10)'}};
 let STREAMS={...DEFAULT_STREAMS};
@@ -656,54 +639,32 @@ function defaultData(){
   nextMemberId=20;nextProjectId=1;nextTaskId=1;monthOffset=0;
 }
 
-// ── GITHUB CONFIG ─────────────────────────────────────────────────────────────
+// ── GITHUB SYNC ────────────────────────────────────────────────────────────────
 const GH_CONFIG_KEY='dce_gh_config_v1';
 let ghConfig={owner:'',repo:'',branch:'main',path:'charter-data.json',token:''};
-let _ghSha=null; // sha of the remote file for update calls
-let _ghSyncTimer=null;
-
-function loadGHConfig(){
-  try{const raw=localStorage.getItem(GH_CONFIG_KEY);if(raw)ghConfig=JSON.parse(raw);}catch(e){}
-}
+let _ghSha=null,_ghSyncTimer=null;
+function loadGHConfig(){try{const r=localStorage.getItem(GH_CONFIG_KEY);if(r)ghConfig=JSON.parse(r);}catch(e){}}
 function saveGHConfig(){localStorage.setItem(GH_CONFIG_KEY,JSON.stringify(ghConfig));}
 function ghConfigured(){return !!(ghConfig.token&&ghConfig.owner&&ghConfig.repo);}
-
 async function ghAPI(path,opts={}){
   const url='https://api.github.com/repos/'+ghConfig.owner+'/'+ghConfig.repo+path;
-  const res=await fetch(url,{headers:{Authorization:'token '+ghConfig.token,'Content-Type':'application/json','Accept':'application/vnd.github.v3+json'},...opts});
-  return res;
+  return fetch(url,{headers:{Authorization:'token '+ghConfig.token,'Content-Type':'application/json',Accept:'application/vnd.github.v3+json'},...opts});
 }
-
-function buildPayload(){
-  return{members,projects,tasks,streams:STREAMS,nextMemberId,nextProjectId,nextTaskId,monthOffset,careerGoals,timeoffs,publications,nextTimeoffId,nextPubId,adminUsers,msClientId};
-}
-
-// ── PERSISTENCE ────────────────────────────────────────────────────────────────
-function persist(){
-  try{localStorage.setItem(LS_KEY,JSON.stringify(buildPayload()));setInd('local');}catch(e){setInd('error');}
-}
+function buildPayload(){return{members,projects,tasks,streams:STREAMS,nextMemberId,nextProjectId,nextTaskId,monthOffset,careerGoals,timeoffs,publications,nextTimeoffId,nextPubId,adminUsers,msClientId};}
+// PERSISTENCE
+function persist(){try{localStorage.setItem(LS_KEY,JSON.stringify(buildPayload()));setInd('local');}catch(e){setInd('error');}}
 function scheduleAutoSave(){
-  clearTimeout(autoSaveTimer); clearTimeout(_ghSyncTimer);
-  setInd('unsaved');
-  // always cache locally immediately
+  clearTimeout(autoSaveTimer);clearTimeout(_ghSyncTimer);setInd('unsaved');
   try{localStorage.setItem(LS_KEY,JSON.stringify(buildPayload()));}catch(e){}
-  if(ghConfigured()){
-    _ghSyncTimer=setTimeout(()=>saveToGitHub(),800);
-  } else {
-    autoSaveTimer=setTimeout(persist,800);
-  }
+  if(ghConfigured()){_ghSyncTimer=setTimeout(saveToGitHub,800);}
+  else{autoSaveTimer=setTimeout(persist,800);}
 }
 function setInd(s){
-  const el=document.getElementById('save-indicator');
-  const txt=document.getElementById('save-indicator-text');
-  const syncLbl=document.getElementById('sync-btn-label');
-  if(!el)return;
-  const map={synced:'● SYNCED',syncing:'● SYNCING…',unsaved:'● UNSAVED',local:'● LOCAL',error:'● SYNC ERROR'};
-  if(txt)txt.textContent=map[s]||'● '+s.toUpperCase();
+  const el=document.getElementById('save-indicator');if(!el)return;
+  const map={synced:'● SYNCED',syncing:'● SYNCING…',unsaved:'● UNSAVED',local:'● LOCAL',error:'● ERROR'};
+  el.textContent=map[s]||'● '+s.toUpperCase();
   el.className='save-indicator '+s;
-  if(syncLbl)syncLbl.textContent=s==='syncing'?'…':'Sync';
 }
-
 async function loadFromGitHub(){
   if(!ghConfigured())return false;
   setInd('syncing');
@@ -713,114 +674,62 @@ async function loadFromGitHub(){
     const data=await res.json();
     _ghSha=data.sha;
     const content=JSON.parse(decodeURIComponent(escape(atob(data.content.replace(/\n/g,'')))));
-    // Safety: don't overwrite populated local data with an empty GitHub file
-    if((!content.members||content.members.length===0)&&members.length>0){
-      // GitHub file is empty but we have local data — push local up instead
-      setInd('local');
-      await saveToGitHub();
-      return false;
-    }
+    if((!content.members||content.members.length===0)&&members.length>0){setInd('local');await saveToGitHub();return false;}
     applyData(content);
     try{localStorage.setItem(LS_KEY,JSON.stringify(content));}catch(e){}
-    setInd('synced');
-    showToast('Synced from GitHub','#76b900');
-    return true;
+    setInd('synced');showToast('Synced from GitHub','#76b900');return true;
   }catch(e){setInd('local');return false;}
 }
-
 async function saveToGitHub(){
   if(!ghConfigured()){persist();return;}
   setInd('syncing');
   try{
-    const payload=buildPayload();
-    // encode to base64 (handles Unicode)
-    const jsonStr=JSON.stringify(payload,null,2);
+    const jsonStr=JSON.stringify(buildPayload(),null,2);
     const content=btoa(unescape(encodeURIComponent(jsonStr)));
-    const body={message:'Update charter data ['+new Date().toISOString().slice(0,16).replace('T',' ')+'] by '+((currentUserId&&getMember(currentUserId)?.name)||'team member'),content,branch:ghConfig.branch};
+    const body={message:'Update charter ['+new Date().toISOString().slice(0,16).replace('T',' ')+']',content,branch:ghConfig.branch};
     if(_ghSha)body.sha=_ghSha;
     const res=await ghAPI('/contents/'+ghConfig.path,{method:'PUT',body:JSON.stringify(body)});
-    if(res.ok){
-      const d=await res.json();_ghSha=d.content?.sha;
-      setInd('synced');
-      try{localStorage.setItem(LS_KEY,jsonStr);}catch(e){}
-    } else if(res.status===409){
-      // Conflict: another member committed — fetch latest then retry
-      showToast('Conflict — refreshing from GitHub…','#e8a020');
-      await loadFromGitHub();
-      await saveToGitHub();
-    } else if(res.status===422&&!_ghSha){
-      // File already exists but we don't have sha — fetch sha then retry
-      const r2=await ghAPI('/contents/'+ghConfig.path+'?ref='+encodeURIComponent(ghConfig.branch));
-      if(r2.ok){const d2=await r2.json();_ghSha=d2.sha;}
-      await saveToGitHub();
-    } else {
-      const err=await res.json().catch(()=>({}));
-      setInd('error');
-      showToast('GitHub error '+(err.message||res.status),'#e05050');
-      persist(); // fall back to local
-    }
-  }catch(e){
-    setInd('local');persist();
-    showToast('Offline — saved locally','#e8a020');
-  }
+    if(res.ok){const d=await res.json();_ghSha=d.content&&d.content.sha;setInd('synced');try{localStorage.setItem(LS_KEY,jsonStr);}catch(e){}}
+    else if(res.status===409){showToast('Conflict — refreshing…','#e8a020');await loadFromGitHub();await saveToGitHub();}
+    else if(res.status===422&&!_ghSha){const r2=await ghAPI('/contents/'+ghConfig.path+'?ref='+encodeURIComponent(ghConfig.branch));if(r2.ok){const d2=await r2.json();_ghSha=d2.sha;}await saveToGitHub();}
+    else{const err=await res.json().catch(()=>({}));setInd('error');showToast('GitHub error: '+(err.message||res.status),'#e05050');persist();}
+  }catch(e){setInd('local');persist();showToast('Offline — saved locally','#e8a020');}
 }
-
-async function syncNow(){
-  if(!ghConfigured()){openGitHubSettings();return;}
-  // Pull first, then push if we have local unsaved changes
-  const pulled=await loadFromGitHub();
-  if(pulled)refreshCurrentView();
-}
-
-// ── GITHUB SETTINGS MODAL ──────────────────────────────────────────────────
+async function syncNow(){if(!ghConfigured()){openGitHubSettings();return;}const ok=await loadFromGitHub();if(ok)refreshCurrentView();}
 function openGitHubSettings(){
   const c=ghConfig;
-  openModal(`<div class="modal-header">
-    <div class="modal-title"><em>GitHub</em> Sync Settings</div>
-    <div class="modal-subtitle">Changes auto-commit to charter-data.json in your repo</div>
-  </div>
-  <div style="background:rgba(74,144,217,0.06);border:1px solid rgba(74,144,217,0.2);border-radius:var(--r);padding:10px 13px;margin-bottom:14px;font-size:11px;color:var(--ink2);line-height:1.6;font-family:'Inter',sans-serif">
-    <strong style="color:var(--blue);display:block;margin-bottom:3px">How it works</strong>
-    Every change is auto-committed to <code style="font-family:'DM Mono',monospace;color:var(--nv)">${c.path||'charter-data.json'}</code> in your repo. All team members read from the same file. Use a <a href="https://github.com/settings/tokens" target="_blank" style="color:var(--nv)">GitHub Personal Access Token</a> with <code style="font-family:'DM Mono',monospace">repo</code> scope.
-  </div>
-  <div class="field-row">
-    <div class="field"><label>GitHub Username / Org *</label><input id="gh-owner" value="${c.owner}" placeholder="e.g. nvidia-team"></div>
-    <div class="field"><label>Repository Name *</label><input id="gh-repo" value="${c.repo}" placeholder="e.g. dce-thermal-charter"></div>
-  </div>
-  <div class="field-row">
-    <div class="field"><label>Branch</label><input id="gh-branch" value="${c.branch||'main'}" placeholder="main"></div>
-    <div class="field"><label>Data file path</label><input id="gh-path" value="${c.path||'charter-data.json'}" placeholder="charter-data.json"></div>
-  </div>
-  <div class="field">
-    <label>Personal Access Token (stored locally, never shared) *</label>
-    <input id="gh-token" type="password" value="${c.token}" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off">
-  </div>
-  <div id="gh-test-result" style="min-height:18px;font-size:11px;font-family:'DM Mono',monospace;margin-top:4px"></div>
-  <div class="modal-footer">
-    <button class="btn btn-outline left" onclick="testGHConnection()">Test Connection</button>
-    <button class="btn btn-danger" onclick="clearGHConfig()">Disconnect</button>
-    <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
-    <button class="btn btn-nv" onclick="saveGHSettings()">Save &amp; Sync</button>
-  </div>`);
+  openModal('<div class="modal-header"><div class="modal-title">'+
+    '<em>GitHub</em> Sync Settings</div><div class="modal-subtitle">Changes auto-commit to charter-data.json in your repo</div></div>'+
+    '<div style="background:rgba(74,144,217,0.06);border:1px solid rgba(74,144,217,0.2);border-radius:var(--r);padding:10px 13px;margin-bottom:14px;font-size:11px;color:var(--ink2);line-height:1.6">'+
+    'Each change auto-commits to <code style="font-family:monospace;color:var(--nv)">'+c.path+'</code> in your repo. Use a '+
+    '<a href="https://github.com/settings/tokens" target="_blank" style="color:var(--nv)">GitHub PAT</a> with <code style="font-family:monospace">repo</code> scope.</div>'+
+    '<div class="field-row"><div class="field"><label>GitHub Username / Org *</label><input id="gh-owner" value="'+c.owner+'" placeholder="e.g. myusername"></div>'+
+    '<div class="field"><label>Repository Name *</label><input id="gh-repo" value="'+c.repo+'" placeholder="e.g. dce-thermal-charter"></div></div>'+
+    '<div class="field-row"><div class="field"><label>Branch</label><input id="gh-branch" value="'+(c.branch||'main')+'" placeholder="main"></div>'+
+    '<div class="field"><label>Data file path</label><input id="gh-path" value="'+(c.path||'charter-data.json')+'" placeholder="charter-data.json"></div></div>'+
+    '<div class="field"><label>Personal Access Token *</label><input id="gh-token" type="password" value="'+c.token+'" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off"></div>'+
+    '<div id="gh-test-result" style="min-height:18px;font-size:11px;font-family:monospace;margin-top:4px"></div>'+
+    '<div class="modal-footer"><button class="btn btn-outline left" onclick="testGHConnection()">Test Connection</button>'+
+    '<button class="btn btn-danger" onclick="clearGHConfig()">Disconnect</button>'+
+    '<button class="btn btn-outline" onclick="closeModal()">Cancel</button>'+
+    '<button class="btn btn-nv" onclick="saveGHSettings()">Save &amp; Sync</button></div>');
   setTimeout(()=>{if(!c.owner){const el=document.getElementById('gh-owner');if(el)el.focus();}},60);
 }
-
 async function testGHConnection(){
   const owner=(document.getElementById('gh-owner').value||'').trim();
   const repo=(document.getElementById('gh-repo').value||'').trim();
   const token=(document.getElementById('gh-token').value||'').trim();
   const el=document.getElementById('gh-test-result');
-  if(!owner||!repo||!token){el.textContent='⚠ Fill in all required fields first';el.style.color='var(--gold)';return;}
+  if(!owner||!repo||!token){el.textContent='⚠ Fill in all fields first';el.style.color='var(--gold)';return;}
   el.textContent='Testing…';el.style.color='var(--ink3)';
   try{
     const res=await fetch('https://api.github.com/repos/'+owner+'/'+repo,{headers:{Authorization:'token '+token,Accept:'application/vnd.github.v3+json'}});
-    if(res.ok){el.textContent='✓ Connected — repo access confirmed';el.style.color='var(--nv)';}
+    if(res.ok){el.textContent='✓ Connected';el.style.color='var(--nv)';}
     else if(res.status===401){el.textContent='✗ Invalid token';el.style.color='var(--red)';}
-    else if(res.status===404){el.textContent='✗ Repo not found (check name or permissions)';el.style.color='var(--red)';}
+    else if(res.status===404){el.textContent='✗ Repo not found (check name/permissions)';el.style.color='var(--red)';}
     else{el.textContent='✗ Error '+res.status;el.style.color='var(--red)';}
   }catch(e){el.textContent='✗ Network error';el.style.color='var(--red)';}
 }
-
 async function saveGHSettings(){
   const owner=(document.getElementById('gh-owner').value||'').trim();
   const repo=(document.getElementById('gh-repo').value||'').trim();
@@ -828,21 +737,14 @@ async function saveGHSettings(){
   const path=(document.getElementById('gh-path').value||'charter-data.json').trim();
   const token=(document.getElementById('gh-token').value||'').trim();
   if(!owner||!repo||!token){showToast('Owner, repo and token required','#e05050');return;}
-  ghConfig={owner,repo,branch,path,token};
-  saveGHConfig();
-  _ghSha=null; // reset sha — will fetch on load
-  closeModal();
+  ghConfig={owner,repo,branch,path,token};saveGHConfig();_ghSha=null;closeModal();
   showToast('GitHub connected — syncing…','#4a90d9');
-  const ok=await loadFromGitHub();
-  if(ok)refreshCurrentView();else await saveToGitHub(); // push local data if file doesn't exist yet
+  const ok=await loadFromGitHub();if(ok)refreshCurrentView();else await saveToGitHub();
 }
-
 function clearGHConfig(){
-  if(!confirm('Disconnect GitHub sync? Data stays in localStorage only.'))return;
+  if(!confirm('Disconnect GitHub sync?'))return;
   ghConfig={owner:'',repo:'',branch:'main',path:'charter-data.json',token:''};
-  saveGHConfig();_ghSha=null;
-  closeModal();setInd('local');
-  showToast('GitHub disconnected','#e8a020');
+  saveGHConfig();_ghSha=null;closeModal();setInd('local');showToast('GitHub disconnected','#e8a020');
 }
 function applyData(d){
   members=d.members||[];projects=d.projects||[];tasks=d.tasks||[];
@@ -858,28 +760,18 @@ function applyData(d){
   members.forEach(m=>{if(!m.links)m.links=[];if(!m.photo)m.photo='';});
 }
 function loadFromLS(){
-  try{
-    const raw=localStorage.getItem(LS_KEY);if(!raw){defaultData();return;}
-    applyData(JSON.parse(raw));setInd('local');
-  }catch(e){defaultData();}
+  try{const raw=localStorage.getItem(LS_KEY);if(!raw){defaultData();return;}applyData(JSON.parse(raw));setInd('local');}catch(e){defaultData();}
 }
 function saveToJSON(){
   const b=new Blob([JSON.stringify({members,projects,tasks,nextMemberId,nextProjectId,nextTaskId,monthOffset,savedAt:new Date().toISOString()},null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='dce-thermal-'+new Date().toISOString().slice(0,10)+'.json';a.click();showToast('JSON saved','#76b900');
 }
-function triggerLoad(){
-  const inp=document.createElement('input');
-  inp.type='file';inp.accept='.json';
-  inp.onchange=e=>loadFromJSON(e);
-  inp.click();
-}
+function triggerLoad(){const inp=document.createElement('input');inp.type='file';inp.accept='.json';inp.onchange=e=>loadFromJSON(e);inp.click();}
 function loadFromJSON(e){
   const file=e.target.files[0];if(!file)return;
   const r=new FileReader();
   r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(!d.members||!d.projects)throw 0;
-    applyData(d);
-    if(ghConfigured()){saveToGitHub();}else{persist();}
-    refreshCurrentView();showToast('Imported — syncing to GitHub…','#76b900');
+    applyData(d);if(ghConfigured()){saveToGitHub();}else{persist();}refreshCurrentView();showToast('Imported','#76b900');
   }catch(err){showToast('Invalid JSON','#e05050');}};
   r.readAsText(file);e.target.value='';
 }
@@ -1316,6 +1208,57 @@ function renderTimeline(){
   const icStreams={};ics.forEach(m=>{if(!icStreams[m.stream])icStreams[m.stream]=[];icStreams[m.stream].push(m);});
   Object.entries(icStreams).forEach(([stream,mems])=>html+=renderGroup(stream,getStream(stream).color,mems));
   html+='</tbody>';tbl.innerHTML=html;
+}
+
+// ── CAREER EXPECTATIONS ───────────────────────────────────────────────────────
+function renderCareer(){
+  const q=(document.getElementById('career-search').value||'').toLowerCase();
+  const sf=document.getElementById('career-stream-filter');
+  if(sf){const sc=sf.value;sf.innerHTML='<option value="">All Streams</option>';Object.keys(STREAMS).forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;if(s===sc)o.selected=true;sf.appendChild(o);});}
+  const streamF=sf?sf.value:'';
+  const filtered=members.filter(m=>{const g=careerGoals[m.id]||{};const txt=m.name.toLowerCase()+(g.nextRole||'').toLowerCase()+(g.notes||'').toLowerCase();return (!q||txt.includes(q))&&(!streamF||m.stream===streamF);});
+  const grid=document.getElementById('career-grid');
+  if(!filtered.length){grid.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><p>No results found</p></div>`;return;}
+  grid.innerHTML=filtered.map(m=>{
+    const g=careerGoals[m.id]||{};
+    const s=getStream(m.stream);
+    const tags=(g.growthAreas||[]).map(t=>`<span class="career-tag">${esc(t)}</span>`).join('');
+    const hasDates=g.lastReview||g.nextReview;
+    return `<div class="career-card" style="--stream-color:${s.color};--stream-bg:${s.bg}">
+      <div class="career-card-body">
+        <div class="career-name">${esc(m.name)}</div>
+        <div class="career-role">${esc(m.role)} · <span style="color:${s.color}">${esc(m.stream)}</span></div>
+        <div class="career-target">${g.nextRole?`<span class="career-target-label">Target →</span><span class="career-target-val">${esc(g.nextRole)}</span>`:`<span class="career-target-label" style="opacity:0.4">No target set — click Edit to add</span>`}</div>
+        ${tags?`<div class="career-tags">${tags}</div>`:''}
+        ${hasDates?`<div class="career-dates">${g.lastReview?`<div class="career-date-pair"><div class="career-date-lbl">Last Review</div><div class="career-date-val">${esc(g.lastReview)}</div></div>`:''} ${g.nextReview?`<div class="career-date-pair"><div class="career-date-lbl">Next Review</div><div class="career-date-val">${esc(g.nextReview)}</div></div>`:''}</div>`:''}
+        ${g.notes?`<div class="career-notes">${esc(g.notes)}</div>`:''}
+      </div>
+      <div class="career-card-footer">
+        <button class="btn btn-ghost btn-sm" onclick="openEditCareer(${m.id})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:11px;height:11px"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4z"/></svg>Edit</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+function openEditCareer(memberId){
+  const m=getMember(memberId);if(!m)return;
+  const g=careerGoals[memberId]||{};
+  openModal(`<div class="modal-header"><div class="modal-title">Career <em>Expectations</em></div><div class="modal-subtitle">${esc(m.name)} · ${esc(m.role)}</div></div>
+    <div class="field"><label>Target Role / Next Level</label><input id="cg-nextrole" value="${esc(g.nextRole||'')}" placeholder="e.g. Staff Engineer, Senior Manager…"></div>
+    <div class="field"><label>Growth Areas <span style="opacity:0.5;font-weight:400">(comma-separated)</span></label><input id="cg-areas" value="${esc((g.growthAreas||[]).join(', '))}" placeholder="e.g. Architecture, Leadership, Machine Learning…"></div>
+    <div class="field-row">
+      <div class="field"><label>Last Review Date</label><input id="cg-last" type="date" value="${esc(g.lastReview||'')}"></div>
+      <div class="field"><label>Next Review Date</label><input id="cg-next" type="date" value="${esc(g.nextReview||'')}"></div>
+    </div>
+    <div class="field"><label>Notes</label><textarea id="cg-notes">${esc(g.notes||'')}</textarea></div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-nv" onclick="saveCareer(${memberId})">Save</button></div>`);
+  setTimeout(()=>{const inp=document.getElementById('cg-nextrole');if(inp)inp.focus();},60);
+}
+function saveCareer(memberId){
+  const nextRole=val('cg-nextrole').trim();
+  const areasRaw=val('cg-areas').trim();
+  const growthAreas=areasRaw?areasRaw.split(',').map(s=>s.trim()).filter(Boolean):[];
+  careerGoals[memberId]={nextRole,growthAreas,lastReview:val('cg-last'),nextReview:val('cg-next'),notes:val('cg-notes').trim()};
+  markChanged();closeModal();renderCareer();showToast('Career goals saved','#76b900');
 }
 
 // ── PTO & TRAVELS ─────────────────────────────────────────────────────────────
@@ -1892,26 +1835,26 @@ async function _fetchGraphCalendar(token,userEmail){
 
 loadGHConfig();
 loadFromLS();
-// After rendering, try to pull from GitHub in the background
-if(!ghConfigured()){
-  // Show setup banner if not configured
+if(ghConfigured()){
+  loadFromGitHub().then(ok=>{if(ok)refreshCurrentView();});
+} else {
   setTimeout(()=>{
     const existing=document.getElementById('gh-banner');
     if(!existing){
-      const banner=document.createElement('div');
-      banner.id='gh-banner';
-      banner.className='gh-setup-banner';
-      banner.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg><span>GitHub sync not configured — changes are saved locally only. <a onclick="openGitHubSettings()">Connect GitHub →</a></span>';
-      document.querySelector('.view.active')?.before(banner);
+      const b=document.createElement('div');b.id='gh-banner';b.className='gh-setup-banner';
+      b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg><span>GitHub sync not configured. <a onclick="openGitHubSettings()">Connect GitHub →</a></span>';
+      const v=document.querySelector('.view.active');if(v)v.before(b);
     }
-  },600);
+  },800);
 }
+window.addEventListener('beforeunload',()=>{
+  if(ghConfigured()){clearTimeout(_ghSyncTimer);try{localStorage.setItem(LS_KEY,JSON.stringify(buildPayload()));}catch(e){}saveToGitHub();}
+});
 _loadUserIdentity();
 renderMembers();
 applyAccessMode();
+// Prompt identity picker on first open if not already identified
 if(!currentUserId&&members.length)setTimeout(openUserSelector,300);
-
-// ── Save before tab closes so no changes are lost ──────────────────────────
-window.addEventListener('beforeunload',()=>{
-  if(ghConfigured()){
-    // Cancel debounce timer and save synchronous
+</script>
+</body>
+</html>
