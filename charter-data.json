@@ -1,0 +1,271 @@
+{
+  "members": [
+    {
+      "id": 1,
+      "name": "Ali Heydari",
+      "role": "Director",
+      "stream": "Leadership",
+      "layer": "management",
+      "photo": "",
+      "links": [],
+      "email": "aheydari@nvidia.com",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "id": 2,
+      "name": "Saket Karajgikar",
+      "role": "Sr. Engineering Manager",
+      "stream": "Leadership",
+      "layer": "management",
+      "photo": "",
+      "links": [],
+      "email": "skarajgikar@nvidia.com",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "id": 3,
+      "name": "Mohammad Tradat",
+      "role": "Engineering Manager",
+      "stream": "Leadership",
+      "layer": "management",
+      "photo": "",
+      "links": [],
+      "email": "mtradat@nvidia.com",
+      "phone": "",
+      "notes": "Manager: Ali Heydari · EMP 00048206 · Location: US, NY, Remote"
+    },
+    {
+      "id": 4,
+      "name": "Doug Asav",
+      "role": "Software Engineer",
+      "stream": "Systems SW",
+      "layer": "ic",
+      "photo": "",
+      "links": [],
+      "email": "dasav@nvidia.com",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "id": 5,
+      "name": "Greg Busch",
+      "role": "Software Engineer",
+      "stream": "Systems SW",
+      "layer": "ic",
+      "photo": "",
+      "links": [],
+      "email": "gbusch@nvidia.com",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "id": 6,
+      "name": "Kourosh Nemati",
+      "role": "Software Engineer",
+      "stream": "Systems SW",
+      "layer": "ic",
+      "photo": "",
+      "links": [],
+      "email": "knemati@nvidia.com",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "id": 7,
+      "name": "Peter YT Chen",
+      "role": "Software Engineer",
+      "stream": "Systems SW",
+      "layer": "ic",
+      "photo": "",
+      "links": [],
+      "email": "peterchen@nvidia.com",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "id": 8,
+      "name": "Sergio Escobar",
+      "role": "Software Engineer",
+      "stream": "Systems SW",
+      "layer": "ic",
+      "photo": "",
+      "links": [],
+      "email": "sescobar@nvidia.com",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "id": 9,
+      "name": "Tanya Mutter",
+      "role": "Software Engineer",
+      "stream": "Systems SW",
+      "layer": "ic",
+      "photo": "",
+      "links": [],
+      "email": "tmutter@nvidia.com",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "id": 10,
+      "name": "Yaman Manaseth",
+      "role": "Software Engineer",
+      "stream": "Systems SW",
+      "layer": "ic",
+      "photo": "",
+      "links": [],
+      "email": "ymanaseth@nvidia.com",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "id": 11,
+      "name": "Bahareh Eslami",
+      "role": "Software Engineer",
+      "stream": "Platform SW",
+      "layer": "ic",
+      "photo": "",
+      "links": [],
+      "email": "beslami@nvidia.com",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "id": 12,
+      "name": "Pardeen Shafi",
+      "role": "Software Engineer",
+      "stream": "Platform SW",
+      "layer": "ic",
+      "photo": "",
+      "links": [],
+      "email": "pshafi@nvidia.com",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "id": 13,
+      "name": "Dulal Soud",
+      "role": "Software Engineer",
+      "stream": "Platform SW",
+      "layer": "ic",
+      "photo": "",
+      "links": [],
+      "email": "psoud@nvidia.com",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "id": 14,
+      "name": "Sean Suanalan",
+      "role": "Software Engineer",
+      "stream": "Platform SW",
+      "layer": "ic",
+      "photo": "",
+      "links": [],
+      "email": "ssuanalan@nvidia.com",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "id": 15,
+      "name": "Vahideh Radmard",
+      "role": "Software Engineer",
+      "stream": "Platform SW",
+      "layer": "ic",
+      "photo": "",
+      "links": [],
+      "email": "vradmard@nvidia.com",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "id": 16,
+      "name": "Harold Miyamura",
+      "role": "Software Engineer",
+      "stream": "Integration Eng.",
+      "layer": "ic",
+      "photo": "",
+      "links": [],
+      "email": "hmiyamura@nvidia.com",
+      "phone": "+1 (408) 4101928",
+      "notes": ""
+    },
+    {
+      "id": 17,
+      "name": "Himanshu Modi",
+      "role": "Software Engineer",
+      "stream": "Integration Eng.",
+      "layer": "ic",
+      "photo": "",
+      "links": [],
+      "email": "himanshum@nvidia.com",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "id": 18,
+      "name": "Raha Kalantaropur",
+      "role": "Software Engineer",
+      "stream": "Integration Eng.",
+      "layer": "ic",
+      "photo": "",
+      "links": [],
+      "email": "rkalantaropur@nvidia.com",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "id": 19,
+      "name": "Utshas Chowdhury",
+      "role": "Software Engineer",
+      "stream": "Integration Eng.",
+      "layer": "ic",
+      "photo": "",
+      "links": [],
+      "email": "uchowdhury@nvidia.com",
+      "phone": "",
+      "notes": ""
+    }
+  ],
+  "projects": [],
+  "tasks": [],
+  "streams": {
+    "Leadership": {
+      "color": "#76b900",
+      "bg": "rgba(118,185,0,0.10)"
+    },
+    "Systems SW": {
+      "color": "#e05050",
+      "bg": "rgba(224,80,80,0.10)"
+    },
+    "Platform SW": {
+      "color": "#4a90d9",
+      "bg": "rgba(74,144,217,0.10)"
+    },
+    "Integration Eng.": {
+      "color": "#00b4a0",
+      "bg": "rgba(0,180,160,0.10)"
+    },
+    "Systems Eng.": {
+      "color": "#e8a020",
+      "bg": "rgba(232,160,32,0.10)"
+    },
+    "Project Mgmt": {
+      "color": "#b060d0",
+      "bg": "rgba(176,96,208,0.10)"
+    }
+  },
+  "nextMemberId": 20,
+  "nextProjectId": 1,
+  "nextTaskId": 1,
+  "monthOffset": 0,
+  "careerGoals": {},
+  "timeoffs": [],
+  "publications": [],
+  "nextTimeoffId": 1,
+  "nextPubId": 1,
+  "adminUsers": [],
+  "msClientId": ""
+}
