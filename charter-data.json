@@ -343,10 +343,27 @@
       "endDate": "2026-05-29",
       "approved": true,
       "notes": ""
+    },
+    {
+      "id": 2,
+      "memberId": 4,
+      "memberIds": [
+        4,
+        8,
+        12,
+        15,
+        17
+      ],
+      "type": "Business Travel",
+      "label": "Vertiv Factory, Mexico",
+      "startDate": "2026-06-01",
+      "endDate": "2026-06-03",
+      "approved": true,
+      "notes": ""
     }
   ],
   "publications": [],
-  "nextTimeoffId": 2,
+  "nextTimeoffId": 3,
   "nextPubId": 1,
   "adminUsers": [
     1,
