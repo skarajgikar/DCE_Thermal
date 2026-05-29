@@ -1977,8 +1977,7 @@ async function _fetchGraphCalendar(token,userEmail){
 loadGHConfig();
 loadFromLS();
 // After rendering, try to pull from GitHub in the background
-// (initial GitHub load handled in the block below)
-else{
+if(!ghConfigured()){
   // Show setup banner if not configured
   setTimeout(()=>{
     const existing=document.getElementById('gh-banner');
