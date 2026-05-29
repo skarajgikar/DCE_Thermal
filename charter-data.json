@@ -245,6 +245,20 @@
       "progress": 0,
       "owner": 2,
       "links": []
+    },
+    {
+      "id": 4,
+      "name": "DS9",
+      "desc": "Formerly known as Aurora/Brickyard",
+      "parentId": null,
+      "color": "#76b900",
+      "status": "Active",
+      "priority": "High",
+      "startMonth": "2026-05",
+      "endMonth": "2026-11",
+      "progress": 0,
+      "owner": 15,
+      "links": []
     }
   ],
   "tasks": [
@@ -312,7 +326,7 @@
     }
   },
   "nextMemberId": 20,
-  "nextProjectId": 4,
+  "nextProjectId": 5,
   "nextTaskId": 5,
   "monthOffset": 0,
   "careerGoals": {},
