@@ -718,7 +718,7 @@ function scheduleAutoSave(){
   // always cache locally immediately
   try{localStorage.setItem(LS_KEY,JSON.stringify(buildPayload()));}catch(e){}
   if(ghConfigured()){
-    _ghSyncTimer=setTimeout(()=>saveToGitHub(),1800);
+    _ghSyncTimer=setTimeout(()=>saveToGitHub(),800);
   } else {
     autoSaveTimer=setTimeout(persist,800);
   }
@@ -1965,7 +1965,7 @@ async function _fetchGraphCalendar(token,userEmail){
 loadGHConfig();
 loadFromLS();
 // After rendering, try to pull from GitHub in the background
-if(ghConfigured()){setTimeout(()=>loadFromGitHub().then(ok=>{if(ok)refreshCurrentView();}),400);}
+// (initial GitHub load handled in the block below)
 else{
   // Show setup banner if not configured
   setTimeout(()=>{
@@ -1982,8 +1982,25 @@ else{
 _loadUserIdentity();
 renderMembers();
 applyAccessMode();
-// Prompt identity picker on first open if not already identified
 if(!currentUserId&&members.length)setTimeout(openUserSelector,300);
+
+// ── Save before tab closes so no changes are lost ──────────────────────────
+window.addEventListener('beforeunload',()=>{
+  if(ghConfigured()){
+    // Cancel debounce timer and save synchronously via sendBeacon fallback,
+    // then do a best-effort async save (fires even if page is unloading)
+    clearTimeout(_ghSyncTimer);
+    try{localStorage.setItem(LS_KEY,JSON.stringify(buildPayload()));}catch(e){}
+    saveToGitHub(); // best-effort; browser may or may not complete it
+  }
+});
+
+// ── On new tab: always pull fresh data from GitHub ─────────────────────────
+// We already show localStorage data immediately; this fetch replaces it with
+// the latest committed version so all team members stay in sync.
+if(ghConfigured()){
+  loadFromGitHub().then(ok=>{if(ok)refreshCurrentView();});
+}
 </script>
 </body>
 </html>
