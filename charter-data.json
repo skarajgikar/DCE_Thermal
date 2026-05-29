@@ -257,8 +257,8 @@
       "bg": "rgba(176,96,208,0.10)"
     },
     "Fluids and Material Science": {
-      "color": "#e05050",
-      "bg": "rgba(224,80,80,0.10)"
+      "color": "rgb(232, 105, 63)",
+      "bg": "rgba(232, 105, 63,0.10)"
     }
   },
   "nextMemberId": 20,
