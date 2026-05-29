@@ -643,9 +643,45 @@ function defaultData(){
 const GH_CONFIG_KEY='dce_gh_config_v1';
 let ghConfig={owner:'',repo:'',branch:'main',path:'charter-data.json',token:''};
 let _ghSha=null,_ghSyncTimer=null;
-function loadGHConfig(){try{const r=localStorage.getItem(GH_CONFIG_KEY);if(r)ghConfig=JSON.parse(r);}catch(e){}}
+function detectRepoFromURL(){
+  // When hosted on GitHub Pages (*.github.io/repo/), derive owner+repo from URL
+  const host=window.location.hostname;
+  const path=window.location.pathname;
+  if(host.endsWith('.github.io')){
+    const owner=host.replace('.github.io','');
+    const repo=(path.split('/').filter(Boolean)[0])||'';
+    if(owner&&repo)return{owner,repo,branch:'main',path:'charter-data.json'};
+  }
+  return null;
+}
+function loadGHConfig(){
+  try{const r=localStorage.getItem(GH_CONFIG_KEY);if(r)ghConfig=JSON.parse(r);}catch(e){}
+  // Auto-fill repo info from URL if not already set
+  if(!ghConfig.owner){
+    const detected=detectRepoFromURL();
+    if(detected){ghConfig.owner=detected.owner;ghConfig.repo=detected.repo;ghConfig.branch=detected.branch;ghConfig.path=detected.path;}
+  }
+}
 function saveGHConfig(){localStorage.setItem(GH_CONFIG_KEY,JSON.stringify(ghConfig));}
 function ghConfigured(){return !!(ghConfig.token&&ghConfig.owner&&ghConfig.repo);}
+// Read-only: has repo info but no token (view-only users like VP)
+function ghReadable(){return !!(ghConfig.owner&&ghConfig.repo);}
+// Fetch latest data without a token using raw.githubusercontent.com (public repos only)
+async function loadReadOnly(){
+  if(!ghReadable())return false;
+  setInd('syncing');
+  try{
+    const url='https://raw.githubusercontent.com/'+ghConfig.owner+'/'+ghConfig.repo+'/'+encodeURIComponent(ghConfig.branch||'main')+'/'+ghConfig.path+'?_='+Date.now();
+    const res=await fetch(url);
+    if(!res.ok){setInd('local');return false;}
+    const content=await res.json();
+    if(!content.members||content.members.length===0){setInd('local');return false;}
+    applyData(content);
+    try{localStorage.setItem(LS_KEY,JSON.stringify(content));}catch(e){}
+    setInd('synced');
+    return true;
+  }catch(e){setInd('local');return false;}
+}
 async function ghAPI(path,opts={}){
   const url='https://api.github.com/repos/'+ghConfig.owner+'/'+ghConfig.repo+path;
   return fetch(url,{headers:{Authorization:'token '+ghConfig.token,'Content-Type':'application/json',Accept:'application/vnd.github.v3+json'},...opts});
@@ -695,7 +731,11 @@ async function saveToGitHub(){
     else{const err=await res.json().catch(()=>({}));setInd('error');showToast('GitHub error: '+(err.message||res.status),'#e05050');persist();}
   }catch(e){setInd('local');persist();showToast('Offline — saved locally','#e8a020');}
 }
-async function syncNow(){if(!ghConfigured()){openGitHubSettings();return;}const ok=await loadFromGitHub();if(ok)refreshCurrentView();}
+async function syncNow(){
+  if(ghConfigured()){const ok=await loadFromGitHub();if(ok)refreshCurrentView();}
+  else if(ghReadable()){const ok=await loadReadOnly();if(ok)refreshCurrentView();}
+  else{openGitHubSettings();}
+}
 function openGitHubSettings(){
   const c=ghConfig;
   openModal('<div class="modal-header"><div class="modal-title">'+
@@ -707,7 +747,7 @@ function openGitHubSettings(){
     '<div class="field"><label>Repository Name *</label><input id="gh-repo" value="'+c.repo+'" placeholder="e.g. dce-thermal-charter"></div></div>'+
     '<div class="field-row"><div class="field"><label>Branch</label><input id="gh-branch" value="'+(c.branch||'main')+'" placeholder="main"></div>'+
     '<div class="field"><label>Data file path</label><input id="gh-path" value="'+(c.path||'charter-data.json')+'" placeholder="charter-data.json"></div></div>'+
-    '<div class="field"><label>Personal Access Token *</label><input id="gh-token" type="password" value="'+c.token+'" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off"></div>'+
+    '<div class="field"><label>Personal Access Token <span style="opacity:0.5;font-weight:400">(optional — leave blank for read-only)</span></label><input id="gh-token" type="password" value="'+c.token+'" placeholder="ghp_xxxxxxxxxxxx — required to save changes" autocomplete="off"></div>'+
     '<div id="gh-test-result" style="min-height:18px;font-size:11px;font-family:monospace;margin-top:4px"></div>'+
     '<div class="modal-footer"><button class="btn btn-outline left" onclick="testGHConnection()">Test Connection</button>'+
     '<button class="btn btn-danger" onclick="clearGHConfig()">Disconnect</button>'+
@@ -736,10 +776,15 @@ async function saveGHSettings(){
   const branch=(document.getElementById('gh-branch').value||'main').trim();
   const path=(document.getElementById('gh-path').value||'charter-data.json').trim();
   const token=(document.getElementById('gh-token').value||'').trim();
-  if(!owner||!repo||!token){showToast('Owner, repo and token required','#e05050');return;}
+  if(!owner||!repo){showToast('Owner and repo required','#e05050');return;}
   ghConfig={owner,repo,branch,path,token};saveGHConfig();_ghSha=null;closeModal();
-  showToast('GitHub connected — syncing…','#4a90d9');
-  const ok=await loadFromGitHub();if(ok)refreshCurrentView();else await saveToGitHub();
+  if(token){
+    showToast('GitHub connected — syncing…','#4a90d9');
+    const ok=await loadFromGitHub();if(ok)refreshCurrentView();else await saveToGitHub();
+  } else {
+    showToast('Read-only mode — fetching latest data…','#4a90d9');
+    const ok=await loadReadOnly();if(ok)refreshCurrentView();
+  }
 }
 function clearGHConfig(){
   if(!confirm('Disconnect GitHub sync?'))return;
@@ -1837,6 +1882,9 @@ loadGHConfig();
 loadFromLS();
 if(ghConfigured()){
   loadFromGitHub().then(ok=>{if(ok)refreshCurrentView();});
+} else if(ghReadable()){
+  // No token but repo is known — fetch read-only (public repo, no auth needed)
+  loadReadOnly().then(ok=>{if(ok)refreshCurrentView();});
 } else {
   setTimeout(()=>{
     const existing=document.getElementById('gh-banner');
