@@ -217,7 +217,22 @@
       "notes": ""
     }
   ],
-  "projects": [],
+  "projects": [
+    {
+      "id": 1,
+      "name": "DSX V2",
+      "desc": "",
+      "parentId": null,
+      "color": "#76b900",
+      "status": "Active",
+      "priority": "High",
+      "startMonth": "2026-05",
+      "endMonth": "2026-11",
+      "progress": 0,
+      "owner": 2,
+      "links": []
+    }
+  ],
   "tasks": [],
   "streams": {
     "Leadership": {
@@ -250,7 +265,7 @@
     }
   },
   "nextMemberId": 20,
-  "nextProjectId": 1,
+  "nextProjectId": 2,
   "nextTaskId": 1,
   "monthOffset": 0,
   "careerGoals": {},
