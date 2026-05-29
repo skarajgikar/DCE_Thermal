@@ -124,7 +124,7 @@
       "id": 11,
       "name": "Bahareh Eslami",
       "role": "Software Engineer",
-      "stream": "Platform SW",
+      "stream": "Data Center Design & Development",
       "layer": "ic",
       "photo": "",
       "links": [],
@@ -136,7 +136,7 @@
       "id": 12,
       "name": "Pardeen Shafi",
       "role": "Software Engineer",
-      "stream": "Platform SW",
+      "stream": "Data Center Design & Development",
       "layer": "ic",
       "photo": "",
       "links": [],
@@ -148,7 +148,7 @@
       "id": 13,
       "name": "Dulal Soud",
       "role": "Software Engineer",
-      "stream": "Platform SW",
+      "stream": "Data Center Design & Development",
       "layer": "ic",
       "photo": "",
       "links": [],
@@ -160,7 +160,7 @@
       "id": 14,
       "name": "Sean Suanalan",
       "role": "Software Engineer",
-      "stream": "Platform SW",
+      "stream": "Data Center Design & Development",
       "layer": "ic",
       "photo": "",
       "links": [],
@@ -172,7 +172,7 @@
       "id": 15,
       "name": "Vahideh Radmard",
       "role": "Software Engineer",
-      "stream": "Platform SW",
+      "stream": "Data Center Design & Development",
       "layer": "ic",
       "photo": "",
       "links": [],
@@ -240,7 +240,7 @@
       "color": "#e05050",
       "bg": "rgba(224,80,80,0.10)"
     },
-    "Platform SW": {
+    "Data Center Design & Development": {
       "color": "#4a90d9",
       "bg": "rgba(74,144,217,0.10)"
     },
