@@ -330,9 +330,23 @@
   "nextTaskId": 5,
   "monthOffset": 0,
   "careerGoals": {},
-  "timeoffs": [],
+  "timeoffs": [
+    {
+      "id": 1,
+      "memberId": 1,
+      "memberIds": [
+        1
+      ],
+      "type": "PTO",
+      "label": "Sick",
+      "startDate": "2026-05-25",
+      "endDate": "2026-05-29",
+      "approved": true,
+      "notes": ""
+    }
+  ],
   "publications": [],
-  "nextTimeoffId": 1,
+  "nextTimeoffId": 2,
   "nextPubId": 1,
   "adminUsers": [
     1,
