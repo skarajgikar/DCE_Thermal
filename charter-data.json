@@ -241,6 +241,14 @@
       "label": "Internal CFD Simulation",
       "startMonth": "2026-05",
       "endMonth": "2026-06"
+    },
+    {
+      "id": 2,
+      "memberId": 6,
+      "projectId": 1,
+      "label": "External CFD Simulation",
+      "startMonth": "2026-05",
+      "endMonth": "2026-06"
     }
   ],
   "streams": {
@@ -275,7 +283,7 @@
   },
   "nextMemberId": 20,
   "nextProjectId": 3,
-  "nextTaskId": 2,
+  "nextTaskId": 3,
   "monthOffset": 0,
   "careerGoals": {},
   "timeoffs": [],
