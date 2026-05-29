@@ -231,20 +231,6 @@
       "progress": 0,
       "owner": 2,
       "links": []
-    },
-    {
-      "id": 2,
-      "name": "Facility Heat Rejection",
-      "desc": "",
-      "parentId": 1,
-      "color": "#76b900",
-      "status": "Active",
-      "priority": "High",
-      "startMonth": "2026-05",
-      "endMonth": "2026-11",
-      "progress": 0,
-      "owner": 11,
-      "links": []
     }
   ],
   "tasks": [],
