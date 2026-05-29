@@ -233,7 +233,16 @@
       "links": []
     }
   ],
-  "tasks": [],
+  "tasks": [
+    {
+      "id": 1,
+      "memberId": 6,
+      "projectId": 1,
+      "label": "Internal CFD Simulation",
+      "startMonth": "2026-05",
+      "endMonth": "2026-06"
+    }
+  ],
   "streams": {
     "Leadership": {
       "color": "#76b900",
@@ -266,7 +275,7 @@
   },
   "nextMemberId": 20,
   "nextProjectId": 3,
-  "nextTaskId": 1,
+  "nextTaskId": 2,
   "monthOffset": 0,
   "careerGoals": {},
   "timeoffs": [],
