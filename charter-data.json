@@ -646,8 +646,8 @@
       "bg": "rgba(118,185,0,0.10)"
     },
     "DATA CENTER DESIGN AND DEPLOYMENT": {
-      "color": "#4a90d9",
-      "bg": "rgba(74,144,217,0.10)"
+      "color": "rgb(74, 144, 217)",
+      "bg": "rgba(74, 144, 217,0.10)"
     },
     "RESEARCH & DEVELOPMENT (R&D)": {
       "color": "#e8a020",
