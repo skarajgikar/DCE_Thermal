@@ -233,20 +233,6 @@
       "links": []
     },
     {
-      "id": 201,
-      "name": "External Facility Design and Heat Rejection System",
-      "desc": "External facility design and heat rejection system for DSX V2.",
-      "parentId": 200,
-      "color": "#76b900",
-      "status": "Active",
-      "priority": "High",
-      "startMonth": "2025-11",
-      "endMonth": "2026-04",
-      "progress": 0,
-      "owner": 2,
-      "links": []
-    },
-    {
       "id": 202,
       "name": "DS9",
       "desc": "Formerly known as Brickyard/Aurora.",
@@ -467,14 +453,6 @@
     }
   ],
   "tasks": [
-    {
-      "id": 2001,
-      "memberId": 2,
-      "projectId": 201,
-      "label": "Review 100% DD",
-      "startMonth": "2025-11",
-      "endMonth": "2026-04"
-    },
     {
       "id": 1001,
       "memberId": 2,
