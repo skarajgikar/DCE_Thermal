@@ -714,10 +714,23 @@
       "endDate": "2026-06-18",
       "label": "Boll Filtration + SWEPP",
       "notes": "Ali Heydari, Saket Karajgikar, Tanya Mutter, Pardeep Shahi, Sean Sivapalan, Himanshu Modi"
+    },
+    {
+      "id": 10,
+      "memberId": 1,
+      "memberIds": [
+        1
+      ],
+      "type": "Sick",
+      "label": "",
+      "startDate": "2026-05-25",
+      "endDate": "2026-05-29",
+      "approved": false,
+      "notes": ""
     }
   ],
   "publications": [],
-  "nextTimeoffId": 10,
+  "nextTimeoffId": 11,
   "nextPubId": 1,
   "adminUsers": [
     1,
