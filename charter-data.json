@@ -756,10 +756,23 @@
         1
       ],
       "notes": ""
+    },
+    {
+      "id": 3,
+      "title": "Performance Analysis of Single-Phase Immersion Cooling in high powered electronic components",
+      "type": "Paper",
+      "status": "Published",
+      "venue": "ITherm 2025",
+      "date": "2025-05",
+      "link": "https://drive.google.com/file/d/1lukQ-9Qs8EKCK-pZ8KKA1Cj2JcGTcjBM/view",
+      "authorIds": [
+        1
+      ],
+      "notes": ""
     }
   ],
   "nextTimeoffId": 12,
-  "nextPubId": 3,
+  "nextPubId": 4,
   "adminUsers": [
     1,
     2,
