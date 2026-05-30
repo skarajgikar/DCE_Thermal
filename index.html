@@ -156,9 +156,9 @@ body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-h
 .sub-projects-list{padding:0 16px 12px;border-top:1px solid var(--rule)}
 .sub-projects-label{font-size:10px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.11em;color:var(--ink3);padding:10px 0 6px}
 /* TIMELINE */
-.timeline-wrap{overflow-x:auto;padding:0 0 32px}
+.timeline-wrap{overflow-x:auto;overflow-y:auto;max-height:calc(100vh - 210px);padding:0}
 .timeline-table{border-collapse:collapse;min-width:100%}
-.tl-head th{position:sticky;top:54px;background:var(--bg);z-index:10;padding:7px 0;border-bottom:none;font-size:10px;color:var(--ink3);font-family:'DM Mono',monospace;letter-spacing:0.07em;text-align:center;white-space:nowrap}
+.tl-head th{position:sticky;top:0;background:var(--bg);z-index:10;padding:7px 0;border-bottom:none;font-size:10px;color:var(--ink3);font-family:'DM Mono',monospace;letter-spacing:0.07em;text-align:center;white-space:nowrap}
 .tl-head th.name-col{left:0;z-index:15;text-align:left;padding-left:28px;min-width:220px;background:var(--bg)}
 .tl-head th.week-col{min-width:80px;width:80px}
 /* Row 1 – year */
@@ -489,7 +489,7 @@ body.view-only .admin-only{display:none!important}
     </div>
   </div>
   <div class="filter-bar">
-    <select class="filter-select" id="tl-stream-filter" onchange="renderTimeline()"><option value="">All Streams</option></select>
+    <select class="filter-select" id="tl-person-filter" onchange="renderTimeline()"><option value="">All Members</option></select>
     <select class="filter-select" id="tl-project-filter" onchange="renderTimeline()"><option value="">All Projects</option></select>
   </div>
   <div class="timeline-wrap"><table class="timeline-table" id="timeline-table"></table></div>
@@ -1271,8 +1271,8 @@ function shiftMonths(dir){monthOffset+=dir;markChanged();renderTimeline();}
 function resetMonths(){monthOffset=0;markChanged();renderTimeline();}
 
 function renderTimeline(){
-  const sf=document.getElementById('tl-stream-filter').value,pf=parseInt(document.getElementById('tl-project-filter').value)||null;
-  const ss=document.getElementById('tl-stream-filter');const sc=ss.value;ss.innerHTML='<option value="">All Streams</option>';Object.keys(STREAMS).forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;if(s===sc)o.selected=true;ss.appendChild(o);});
+  const sf=document.getElementById('tl-person-filter')?parseInt(document.getElementById('tl-person-filter').value)||null:null,pf=parseInt(document.getElementById('tl-project-filter').value)||null;
+  const ss=document.getElementById('tl-person-filter');if(ss){const sc=ss.value;ss.innerHTML='<option value="">All Members</option>';[...members].sort((a,b)=>a.name.split(' ').pop().localeCompare(b.name.split(' ').pop())).forEach(m=>{const o=document.createElement('option');o.value=m.id;o.textContent=m.name;if(String(m.id)===sc)o.selected=true;ss.appendChild(o);});}
   const ps=document.getElementById('tl-project-filter');const pc=ps.value;ps.innerHTML='<option value="">All Projects</option>';projects.forEach(p=>{const o=document.createElement('option');o.value=p.id;o.textContent=(p.parentId?'↳ ':'')+p.name;if(String(p.id)===pc)o.selected=true;ps.appendChild(o);});
 
   const months=_windowMonths();
@@ -1333,7 +1333,7 @@ function renderTimeline(){
   function renderGroup(label,color,grpMembers){
     if(!grpMembers.length)return '';
     let s=`<tr class="tl-group-header" style="--group-color:${color}"><td colspan="${TOTAL_MONTHS+1}" style="color:${color}">◆ ${label}</td></tr>`;
-    grpMembers.filter(m=>!sf||m.stream===sf).forEach(m=>{
+    grpMembers.filter(m=>!sf||m.id===sf).forEach(m=>{
       const mTasks=tasks.filter(t=>t.memberId===m.id&&(!pf||t.projectId===pf));
       const avatarInner=m.photo?`<img src="${m.photo}" alt="${esc(m.name)}">`:`<span>${initials(m.name)}</span>`;
       const lanes=assignLanes(mTasks);
@@ -1357,10 +1357,12 @@ function renderTimeline(){
     return s;
   }
 
-  if(mgmt.length)html+=renderGroup('Leadership / Management','#76b900',mgmt);
-  const icStreams={};ics.forEach(m=>{if(!icStreams[m.stream])icStreams[m.stream]=[];icStreams[m.stream].push(m);});
-  Object.entries(icStreams).forEach(([stream,mems])=>html+=renderGroup(stream,getStream(stream).color,mems));
+  // All members alphabetically by last name — no management/IC split
+  const sortByName=(a,b)=>a.name.split(' ').pop().localeCompare(b.name.split(' ').pop());
+  const allMembers=[...mgmt,...ics].sort(sortByName);
+  if(allMembers.length)html+=renderGroup('All Members','#3a7200',allMembers);
   html+='</tbody>';tbl.innerHTML=html;
+
 }
 
 // ── CAREER EXPECTATIONS ───────────────────────────────────────────────────────
