@@ -730,9 +730,23 @@
       "notes": ""
     }
   ],
-  "publications": [],
+  "publications": [
+    {
+      "id": 1,
+      "title": "Bio-Analysis of Cross Mixed Coolants in High Powered Liquid Cooled Data Center",
+      "type": "Paper",
+      "status": "Published",
+      "venue": "InterPACK'24",
+      "date": "2024-10",
+      "link": "https://drive.google.com/file/d/1lZ-3MBoBQxAWKahDZERjm7RVvX4oqVox/view",
+      "authorIds": [
+        12
+      ],
+      "notes": "Co-Authors: Ali Heydari, Lochan Sai Reddy Chinthaparthy, Himanshu Modi, Anto Baigala, Sean Sivapalan, Harold Miyamura, Dereje Agonafer, Mohammad Tradat, Jeremy Rodriguez"
+    }
+  ],
   "nextTimeoffId": 12,
-  "nextPubId": 1,
+  "nextPubId": 2,
   "adminUsers": [
     1,
     2,
