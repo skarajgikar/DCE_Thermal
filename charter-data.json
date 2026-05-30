@@ -603,7 +603,9 @@
       "projectId": 200,
       "label": "Facility Heat Rejection System",
       "startMonth": "2026-02",
-      "endMonth": "2026-04"
+      "endMonth": "2026-04",
+      "progress": 100,
+      "status": "Complete"
     }
   ],
   "streams": {
