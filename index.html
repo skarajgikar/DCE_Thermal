@@ -612,7 +612,6 @@ let _pendingICSEvents=[];
 
 function defaultData(){
   members=[
-    // ── Management ───────────────────────────────────────────────────────
     {id:1,name:'Ali Heydari',role:'Director',stream:'Leadership',layer:'management',photo:'',links:[],email:'aheydari@nvidia.com',phone:'',notes:''},
     {id:2,name:'Saket Karajgikar',role:'Sr. Engineering Manager',stream:'Leadership',layer:'management',photo:'',links:[],email:'skarajgikar@nvidia.com',phone:'',notes:''},
     {id:3,name:'Mohammad Tradat',role:'Engineering Manager',stream:'Leadership',layer:'management',photo:'',links:[],email:'mtradat@nvidia.com',phone:'',notes:'Manager: Ali Heydari · EMP 00048206 · Location: US, NY, Remote'},
@@ -623,7 +622,7 @@ function defaultData(){
     {id:7,name:'Peter YT Chen',role:'Principal Mechanical Engineer',stream:'Systems SW',layer:'ic',photo:'',links:[],email:'peterchen@nvidia.com',phone:'',notes:''},
     {id:8,name:'Sergio Escobar',role:'Sr. AI Digital Twin Engineer',stream:'Systems SW',layer:'ic',photo:'',links:[],email:'sescobar@nvidia.com',phone:'',notes:''},
     {id:9,name:'Tanya Mutter',role:'Sr. Mechanical Engineer',stream:'Systems SW',layer:'ic',photo:'',links:[],email:'tmutter@nvidia.com',phone:'',notes:''},
-        // ── Saket Karajgikar's team ───────────────────────────────────────────
+    // ── Saket Karajgikar's team ───────────────────────────────────────────
     {id:10,name:'Bahareh Eslami',role:'Sr. Mechanical Engineer',stream:'Platform SW',layer:'ic',photo:'',links:[],email:'beslami@nvidia.com',phone:'',notes:''},
     {id:11,name:'Pardeen Shahi',role:'Sr. Mechanical Engineer',stream:'Platform SW',layer:'ic',photo:'',links:[],email:'pshafi@nvidia.com',phone:'',notes:''},
     {id:12,name:'Qulal Soud',role:'Sr. Mechanical Engineer',stream:'Platform SW',layer:'ic',photo:'',links:[],email:'psoud@nvidia.com',phone:'',notes:''},
@@ -640,7 +639,7 @@ function defaultData(){
   STREAMS={...DEFAULT_STREAMS};
   careerGoals={};timeoffs=[];publications=[];activityLog=[];nextTimeoffId=1;nextPubId=1;
   adminUsers=[];msClientId='';
-  nextMemberId=20;nextProjectId=1;nextTaskId=1;monthOffset=0;
+  nextMemberId=19;nextProjectId=1;nextTaskId=1;monthOffset=0;
 }
 
 // ── GITHUB CONFIG ─────────────────────────────────────────────────────────────
@@ -661,6 +660,7 @@ async function ghAPI(path,opts={}){
   return res;
 }
 
+function _pstNow(){return new Date().toLocaleString('en-US',{timeZone:'America/Los_Angeles',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).replace(',','');}
 function buildPayload(){
   return{members,projects,tasks,streams:STREAMS,nextMemberId,nextProjectId,nextTaskId,monthOffset,careerGoals,timeoffs,publications,nextTimeoffId,nextPubId,adminUsers,msClientId};
 }
@@ -694,9 +694,14 @@ function setInd(s){
 async function loadReadOnly(){
   if(!ghReadable())return false;setInd('syncing');
   try{
-    const url='https://raw.githubusercontent.com/'+ghConfig.owner+'/'+ghConfig.repo+'/'+encodeURIComponent(ghConfig.branch||'main')+'/'+ghConfig.path+'?_='+Date.now();
-    const res=await fetch(url);if(!res.ok){setInd('local');return false;}
-    const content=await res.json();
+    // Use GitHub API (not raw CDN) so VP always gets the latest committed version
+    const apiUrl='https://api.github.com/repos/'+ghConfig.owner+'/'+ghConfig.repo+'/contents/'+ghConfig.path+'?ref='+encodeURIComponent(ghConfig.branch||'main');
+    const headers={Accept:'application/vnd.github.v3+json'};
+    if(ghConfig.token)headers.Authorization='token '+ghConfig.token;
+    const res=await fetch(apiUrl,{headers,cache:'no-store'});
+    if(!res.ok){setInd('local');return false;}
+    const data=await res.json();
+    const content=JSON.parse(decodeURIComponent(escape(atob(data.content.replace(/\n/g,'')))));
     if(!content.members||content.members.length===0){setInd('local');return false;}
     applyData(content);try{localStorage.setItem(LS_KEY,JSON.stringify(content));}catch(e){}
     setInd('synced');return true;
@@ -727,7 +732,7 @@ async function saveToGitHub(){
     // encode to base64 (handles Unicode)
     const jsonStr=JSON.stringify(payload,null,2);
     const content=btoa(unescape(encodeURIComponent(jsonStr)));
-    const body={message:'Update charter data ['+new Date().toISOString().slice(0,16).replace('T',' ')+'] by '+((currentUserId&&getMember(currentUserId)?.name)||'team member'),content,branch:ghConfig.branch};
+    const body={message:'Update charter ['+_pstNow()+' PST] by '+((currentUserId&&getMember(currentUserId)?.name)||'team member'),content,branch:ghConfig.branch};
     if(_ghSha)body.sha=_ghSha;
     const res=await ghAPI('/contents/'+ghConfig.path,{method:'PUT',body:JSON.stringify(body)});
     if(res.ok){
@@ -1062,7 +1067,7 @@ function renderLinkBadges(links){
 function logActivity(action,desc){
   const user=currentUserId?getMember(currentUserId):null;
   if(!activityLog)return;
-  activityLog.unshift({id:Date.now(),ts:new Date().toISOString(),userId:currentUserId||null,userName:user?user.name:'Unknown',action,desc});
+  activityLog.unshift({id:Date.now(),ts:_pstNow()+' PST',userId:currentUserId||null,userName:user?user.name:'Unknown',action,desc});
   if(activityLog.length>200)activityLog.length=200;
 }
 function openActivityLog(){
@@ -1673,8 +1678,15 @@ function openUserSelector(){
       ${isCur?'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--nv)" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>':''}
     </div>`;
   }).join('');
+  const guestRow=`<div class="admin-member-row" onclick="setCurrentUser(null)" style="cursor:pointer;border:2px solid var(--rule2);border-radius:var(--r);margin-bottom:8px;${!currentUserId?'background:var(--surface2);border-color:var(--ink3);':''}">
+    <div class="user-btn-avatar" style="background:#e4e7ec;color:#374151;width:28px;height:28px;font-size:10px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0">👁</div>
+    <div style="flex:1"><div style="font-size:14px;font-weight:700;color:var(--ink)">View Only / Guest</div><div style="font-size:11px;color:var(--ink3)">Non-DCE Thermal team member — read access only</div></div>
+    ${!currentUserId?'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>':''}
+  </div>`;
   openModal(`<div class="modal-header"><div class="modal-title">Who <em>are you?</em></div><div class="modal-subtitle">Your identity determines your edit access</div></div>
     <div style="padding:0 28px 4px">
+      ${guestRow}
+      <div style="font-size:10px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink3);margin-bottom:6px">DCE Thermal Team Members</div>
       <div class="admin-member-list">${rows}</div>
       <div style="display:flex;align-items:center;gap:8px;margin-top:12px;padding:0 2px">
         <input type="checkbox" id="user-remember" style="accent-color:var(--nv)">
@@ -1685,6 +1697,14 @@ function openUserSelector(){
     <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal()">Cancel</button></div>`);
 }
 function setCurrentUser(id){
+  if(id===null){
+    currentUserId=null;
+    sessionStorage.removeItem('dce_user_id');
+    localStorage.removeItem('dce_user_id');
+    closeModal();applyAccessMode();
+    showToast('Viewing as Guest — read only','#8896a8');
+    return;
+  }
   currentUserId=id;
   sessionStorage.setItem('dce_user_id',id);
   const rememberEl=document.getElementById('user-remember');
@@ -1933,9 +1953,9 @@ loadGHConfig();
     }
     if(!ghConfigured()&&ghReadable()){setInterval(async()=>{const ok=await loadReadOnly();if(ok)refreshCurrentView();},5*60*1000);}
   }catch(err){console.warn('initApp:',err);}
-  if(typeof currentUserId!=='undefined'&&!currentUserId&&members.length)setTimeout(()=>{if(typeof openUserSelector==='function')openUserSelector();},300);
+  // Identity picker no longer auto-pops on load — user clicks the avatar button to identify
 })();
 window.addEventListener('beforeunload',()=>{if(ghConfigured()){clearTimeout(_ghSyncTimer);try{localStorage.setItem(LS_KEY,JSON.stringify(buildPayload()));}catch(e){}saveToGitHub();}});
 </script>
 </body>
-</html>
+</html>                                                                                                                                                                                                                                         
