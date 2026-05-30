@@ -287,6 +287,20 @@
       "progress": 0,
       "owner": 17,
       "links": []
+    },
+    {
+      "id": 7,
+      "name": "Fluid Quality Operations",
+      "desc": "Co-owners and Support: Harold M.",
+      "parentId": 5,
+      "color": "#76b900",
+      "status": "Active",
+      "priority": "Medium",
+      "startMonth": "2026-05",
+      "endMonth": "2026-11",
+      "progress": 0,
+      "owner": 7,
+      "links": []
     }
   ],
   "tasks": [
@@ -354,7 +368,7 @@
     }
   },
   "nextMemberId": 20,
-  "nextProjectId": 7,
+  "nextProjectId": 8,
   "nextTaskId": 5,
   "monthOffset": 0,
   "careerGoals": {},
