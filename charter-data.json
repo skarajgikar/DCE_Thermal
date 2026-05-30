@@ -273,6 +273,20 @@
       "progress": 0,
       "owner": 14,
       "links": []
+    },
+    {
+      "id": 6,
+      "name": "Filteration Study",
+      "desc": "Co-owners and Support: Sean S. and Tanya H.",
+      "parentId": 5,
+      "color": "#76b900",
+      "status": "Active",
+      "priority": "Medium",
+      "startMonth": "2026-05",
+      "endMonth": "2026-11",
+      "progress": 0,
+      "owner": 17,
+      "links": []
     }
   ],
   "tasks": [
@@ -340,7 +354,7 @@
     }
   },
   "nextMemberId": 20,
-  "nextProjectId": 6,
+  "nextProjectId": 7,
   "nextTaskId": 5,
   "monthOffset": 0,
   "careerGoals": {},
