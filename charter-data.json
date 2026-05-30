@@ -747,10 +747,23 @@
       "endDate": "2026-05-29",
       "approved": true,
       "notes": ""
+    },
+    {
+      "id": 11,
+      "memberId": 12,
+      "memberIds": [
+        12
+      ],
+      "type": "Conference",
+      "label": "",
+      "startDate": "2026-05-26",
+      "endDate": "2026-05-29",
+      "approved": false,
+      "notes": "ITherm"
     }
   ],
   "publications": [],
-  "nextTimeoffId": 11,
+  "nextTimeoffId": 12,
   "nextPubId": 1,
   "adminUsers": [],
   "msClientId": ""
