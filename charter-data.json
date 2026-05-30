@@ -1,770 +1,666 @@
 {
-  "members": [
-    {
-      "id": 1,
-      "name": "Ali Heydari",
-      "role": "Director",
-      "stream": "LEADERSHIP",
-      "layer": "management",
-      "photo": "",
-      "links": [],
-      "email": "aheydari@nvidia.com",
-      "phone": "",
-      "notes": ""
-    },
-    {
-      "id": 2,
-      "name": "Saket Karajgikar",
-      "role": "Sr. Engineering Manager",
-      "stream": "DATA CENTER DESIGN AND DEPLOYMENT",
-      "layer": "management",
-      "photo": "",
-      "links": [],
-      "email": "skarajgikar@nvidia.com",
-      "phone": "",
-      "notes": ""
-    },
-    {
-      "id": 3,
-      "name": "Mohammad Tradat",
-      "role": "Engineering Manager",
-      "stream": "RESEARCH & DEVELOPMENT (R&D)",
-      "layer": "management",
-      "photo": "",
-      "links": [],
-      "email": "mtradat@nvidia.com",
-      "phone": "",
-      "notes": ""
-    },
-    {
-      "id": 4,
-      "name": "Doug Asay",
-      "role": "Principal Mechanical Engineer",
-      "stream": "DATA CENTER DESIGN AND DEPLOYMENT",
-      "layer": "ic",
-      "photo": "",
-      "links": [],
-      "email": "dasay@nvidia.com",
-      "phone": "",
-      "notes": ""
-    },
-    {
-      "id": 5,
-      "name": "Greg Busch",
-      "role": "Principal Mechanical Engineer",
-      "stream": "RESEARCH & DEVELOPMENT (R&D)",
-      "layer": "ic",
-      "photo": "",
-      "links": [],
-      "email": "gbusch@nvidia.com",
-      "phone": "",
-      "notes": ""
-    },
-    {
-      "id": 6,
-      "name": "Kourosh Nemati",
-      "role": "Sr. Mechanical Engineer",
-      "stream": "DIGITAL TWIN",
-      "layer": "ic",
-      "photo": "",
-      "links": [],
-      "email": "knemati@nvidia.com",
-      "phone": "",
-      "notes": ""
-    },
-    {
-      "id": 7,
-      "name": "Peter YT Chen",
-      "role": "Principal Mechanical Engineer",
-      "stream": "FACTORIES",
-      "layer": "ic",
-      "photo": "",
-      "links": [],
-      "email": "peterchen@nvidia.com",
-      "phone": "",
-      "notes": ""
-    },
-    {
-      "id": 8,
-      "name": "Sergio Escobar",
-      "role": "Digital Twin Engineer",
-      "stream": "DIGITAL TWIN",
-      "layer": "ic",
-      "photo": "",
-      "links": [],
-      "email": "sescobar@nvidia.com",
-      "phone": "",
-      "notes": ""
-    },
-    {
-      "id": 9,
-      "name": "Tanya Mutter",
-      "role": "Sr. Mechanical Engineer",
-      "stream": "FLUIDS & MATERIALS",
-      "layer": "ic",
-      "photo": "",
-      "links": [],
-      "email": "tmutter@nvidia.com",
-      "phone": "",
-      "notes": ""
-    },
-    {
-      "id": 10,
-      "name": "Yaman Manaseth",
-      "role": "Sr. Mechanical Engineer",
-      "stream": "DATA CENTER DESIGN AND DEPLOYMENT",
-      "layer": "ic",
-      "photo": "",
-      "links": [],
-      "email": "ymanaseth@nvidia.com",
-      "phone": "",
-      "notes": ""
-    },
-    {
-      "id": 11,
-      "name": "Bahareh Eslami",
-      "role": "Sr. Mechanical Engineer",
-      "stream": "DATA CENTER DESIGN AND DEPLOYMENT",
-      "layer": "ic",
-      "photo": "",
-      "links": [],
-      "email": "beslami@nvidia.com",
-      "phone": "",
-      "notes": ""
-    },
-    {
-      "id": 12,
-      "name": "Pardeep Shahi",
-      "role": "Sr. Mechanical Engineer",
-      "stream": "DATA CENTER DESIGN AND DEPLOYMENT",
-      "layer": "ic",
-      "photo": "",
-      "links": [],
-      "email": "pshahi@nvidia.com",
-      "phone": "",
-      "notes": ""
-    },
-    {
-      "id": 13,
-      "name": "Qusai Soud",
-      "role": "Sr. Mechanical Engineer",
-      "stream": "RESEARCH & DEVELOPMENT (R&D)",
-      "layer": "ic",
-      "photo": "",
-      "links": [],
-      "email": "qsoud@nvidia.com",
-      "phone": "",
-      "notes": ""
-    },
-    {
-      "id": 14,
-      "name": "Sean Sivapalan",
-      "role": "Sr. Mechanical Engineer",
-      "stream": "FLUIDS & MATERIALS",
-      "layer": "ic",
-      "photo": "",
-      "links": [],
-      "email": "ssivapalan@nvidia.com",
-      "phone": "",
-      "notes": ""
-    },
-    {
-      "id": 15,
-      "name": "Vahideh Radmard",
-      "role": "Sr. Mechanical Engineer",
-      "stream": "DATA CENTER DESIGN AND DEPLOYMENT",
-      "layer": "ic",
-      "photo": "",
-      "links": [],
-      "email": "vradmard@nvidia.com",
-      "phone": "",
-      "notes": ""
-    },
-    {
-      "id": 16,
-      "name": "Harold Miyamura",
-      "role": "Sr. Mechanical Engineer",
-      "stream": "FLUIDS & MATERIALS",
-      "layer": "ic",
-      "photo": "",
-      "links": [],
-      "email": "hmiyamura@nvidia.com",
-      "phone": "+1 (408) 4101928",
-      "notes": ""
-    },
-    {
-      "id": 17,
-      "name": "Himanshu Modi",
-      "role": "Sr. Mechanical Engineer",
-      "stream": "RESEARCH & DEVELOPMENT (R&D)",
-      "layer": "ic",
-      "photo": "",
-      "links": [],
-      "email": "himanshum@nvidia.com",
-      "phone": "",
-      "notes": ""
-    },
-    {
-      "id": 18,
-      "name": "Raha Kalantaropur",
-      "role": "Sr. Mechanical Engineer",
-      "stream": "RESEARCH & DEVELOPMENT (R&D)",
-      "layer": "ic",
-      "photo": "",
-      "links": [],
-      "email": "rkalantarpou@nvidia.com",
-      "phone": "",
-      "notes": ""
-    },
-    {
-      "id": 19,
-      "name": "Utshas Chowdhury",
-      "role": "Sr. Mechanical Engineer",
-      "stream": "PROJECT MGMT",
-      "layer": "ic",
-      "photo": "",
-      "links": [],
-      "email": "uchowdhury@nvidia.com",
-      "phone": "",
-      "notes": ""
-    }
-  ],
-  "projects": [
-    {
-      "id": 200,
-      "name": "DSX V2",
-      "desc": "Mechanical reference design to support AI Factories.",
-      "parentId": null,
-      "color": "#76b900",
-      "status": "Active",
-      "priority": "High",
-      "startMonth": "2025-11",
-      "endMonth": "2026-04",
-      "progress": 0,
-      "owner": 2,
-      "links": []
-    },
-    {
-      "id": 201,
-      "name": "External Facility Design and Heat Rejection System",
-      "desc": "External facility design and heat rejection system for DSX V2.",
-      "parentId": 200,
-      "color": "#76b900",
-      "status": "Active",
-      "priority": "High",
-      "startMonth": "2025-11",
-      "endMonth": "2026-04",
-      "progress": 0,
-      "owner": 2,
-      "links": []
-    },
-    {
-      "id": 202,
-      "name": "DS9",
-      "desc": "Formerly known as Brickyard/Aurora.",
-      "parentId": null,
-      "color": "#4a90d9",
-      "status": "Active",
-      "priority": "High",
-      "startMonth": "2025-12",
-      "endMonth": "2026-04",
-      "progress": 0,
-      "owner": 2,
-      "links": []
-    },
-    {
-      "id": 203,
-      "name": "Big Iron",
-      "desc": "",
-      "parentId": null,
-      "color": "#e05050",
-      "status": "Active",
-      "priority": "High",
-      "startMonth": "2026-05",
-      "endMonth": "2027-04",
-      "progress": 0,
-      "owner": 2,
-      "links": []
-    },
-    {
-      "id": 204,
-      "name": "Fleet Data Center",
-      "desc": "",
-      "parentId": null,
-      "color": "#00b4a0",
-      "status": "Active",
-      "priority": "High",
-      "startMonth": "2026-05",
-      "endMonth": "2026-11",
-      "progress": 0,
-      "owner": 2,
-      "links": []
-    },
-    {
-      "id": 205,
-      "name": "Hut8 Data Center",
-      "desc": "",
-      "parentId": null,
-      "color": "#e8a020",
-      "status": "Active",
-      "priority": "High",
-      "startMonth": "2026-05",
-      "endMonth": "2026-08",
-      "progress": 0,
-      "owner": 2,
-      "links": []
-    },
-    {
-      "id": 206,
-      "name": "Materials and Fluids",
-      "desc": "",
-      "parentId": null,
-      "color": "#b060d0",
-      "status": "Active",
-      "priority": "Medium",
-      "startMonth": "2026-05",
-      "endMonth": "2026-12",
-      "progress": 0,
-      "owner": 2,
-      "links": []
-    },
-    {
-      "id": 100,
-      "name": "Project Athena (SJC-19)",
-      "desc": "303K SqFt Bay Area research & innovation facility — Super Lab + Pre-cluster (Logos). Phase 1: 37 MW / 49 MW grid, RFS Feb 2027.",
-      "parentId": null,
-      "color": "#76b900",
-      "status": "Active",
-      "priority": "High",
-      "startMonth": "2025-05",
-      "endMonth": "2027-04",
-      "progress": 28,
-      "owner": 2,
-      "links": [
-        {
-          "label": "T5T May 2026",
-          "url": ""
-        },
-        {
-          "label": "Cx Alloy",
-          "url": ""
-        }
-      ]
-    },
-    {
-      "id": 101,
-      "name": "Design & Permits",
-      "desc": "Facility design, OPR, CPP, lease, and all City of San Jose construction permits.",
-      "parentId": 100,
-      "color": "#76b900",
-      "status": "Complete",
-      "priority": "High",
-      "startMonth": "2025-05",
-      "endMonth": "2026-05",
-      "progress": 100,
-      "owner": 2,
-      "links": []
-    },
-    {
-      "id": 102,
-      "name": "Construction & OFCI Procurement",
-      "desc": "MEP install, structural steel, HVAC/electrical equipment. 360+ workers on site. OFCI: CDUs, HACs, chillers, MSBs, MTSs, PTXs, CRACs, substation.",
-      "parentId": 100,
-      "color": "#4a90d9",
-      "status": "Active",
-      "priority": "High",
-      "startMonth": "2026-01",
-      "endMonth": "2026-12",
-      "progress": 35,
-      "owner": 2,
-      "links": []
-    },
-    {
-      "id": 103,
-      "name": "Mechanical Equipment Delivery (OFCI)",
-      "desc": "All Owner-Furnished Contractor-Installed thermal/mechanical equipment. CDUs, SmartRun HACs, Chillers, Fluid Coolers, HX, CRACs.",
-      "parentId": 102,
-      "color": "#00b4a0",
-      "status": "Active",
-      "priority": "High",
-      "startMonth": "2026-05",
-      "endMonth": "2026-07",
-      "progress": 50,
-      "owner": 15,
-      "links": []
-    },
-    {
-      "id": 104,
-      "name": "Factory Witness Testing (FWT)",
-      "desc": "FWT program for all major OFCI equipment before shipment. MSB/PDU complete; SmartRun HAC upcoming.",
-      "parentId": 102,
-      "color": "#b060d0",
-      "status": "Active",
-      "priority": "High",
-      "startMonth": "2026-05",
-      "endMonth": "2026-07",
-      "progress": 60,
-      "owner": 2,
-      "links": []
-    },
-    {
-      "id": 105,
-      "name": "Power & Networking Infrastructure",
-      "desc": "OSP Fiber, CorpNet/FacNet, Permanent Power Energization (Substation). On track — 0 days delta on all three milestones.",
-      "parentId": 100,
-      "color": "#e8a020",
-      "status": "Active",
-      "priority": "High",
-      "startMonth": "2026-06",
-      "endMonth": "2026-09",
-      "progress": 15,
-      "owner": 2,
-      "links": []
-    },
-    {
-      "id": 106,
-      "name": "Commissioning & Functional Performance Testing",
-      "desc": "Level 4 Commissioning. Start date tied to MCP availability. Cx Workshop: Jun 23-24. Possible use of rental chiller to accelerate.",
-      "parentId": 100,
-      "color": "#e05050",
-      "status": "Planned",
-      "priority": "High",
-      "startMonth": "2027-01",
-      "endMonth": "2027-02",
-      "progress": 0,
-      "owner": 2,
-      "links": []
-    },
-    {
-      "id": 107,
-      "name": "Logos Zone 1 — RFS & Rack Ready",
-      "desc": "Handover to ASE. Slab demolition + 2.5-story steel structure. HITT construction starts late Jun/early Jul 2026. Latest estimate: Feb 16, 2027 (+28 days vs business required).",
-      "parentId": 100,
-      "color": "#e8693f",
-      "status": "Planned",
-      "priority": "High",
-      "startMonth": "2026-06",
-      "endMonth": "2027-04",
-      "progress": 0,
-      "owner": 2,
-      "links": []
-    },
-    {
-      "id": 108,
-      "name": "Super Lab 1 & 2 — RFS & Rack Ready",
-      "desc": "Handover to DCOps + RESS. GC: DPR. Latest estimate: Feb 16, 2027 (+17 days vs business required). Bring up & validation target: Apr 15, 2027.",
-      "parentId": 100,
-      "color": "#00c8b4",
-      "status": "Planned",
-      "priority": "High",
-      "startMonth": "2026-06",
-      "endMonth": "2027-04",
-      "progress": 0,
-      "owner": 2,
-      "links": []
-    },
-    {
-      "id": 109,
-      "name": "Athena Digital Twin",
-      "desc": "Power load balancing and leak detection capability. Available as part of building turnover. Partner: Jacobs. Expected complete early Q4 2026.",
-      "parentId": 100,
-      "color": "#8888cc",
-      "status": "Active",
-      "priority": "Medium",
-      "startMonth": "2026-05",
-      "endMonth": "2026-10",
-      "progress": 5,
-      "owner": 2,
-      "links": []
-    }
-  ],
-  "tasks": [
-    {
-      "id": 2001,
-      "memberId": 2,
-      "projectId": 201,
-      "label": "Review 100% DD",
-      "startMonth": "2025-11",
-      "endMonth": "2026-04"
-    },
-    {
-      "id": 1001,
-      "memberId": 2,
-      "projectId": 102,
-      "label": "Vertiv CDU Delivery to Site (XDU2300 + XDU1350)",
-      "startMonth": "2026-06",
-      "endMonth": "2026-06"
-    },
-    {
-      "id": 1002,
-      "memberId": 15,
-      "projectId": 103,
-      "label": "CDU Filter dP & Temperature Setpoints — Align with Vertiv",
-      "startMonth": "2026-05",
-      "endMonth": "2026-06"
-    },
-    {
-      "id": 1003,
-      "memberId": 15,
-      "projectId": 103,
-      "label": "Mechanical Equipment Submittals — Respond to Jacobs (CDU, CRAH, Chillers, Fluid Coolers, HX, CRACs)",
-      "startMonth": "2026-05",
-      "endMonth": "2026-06"
-    },
-    {
-      "id": 1004,
-      "memberId": 2,
-      "projectId": 104,
-      "label": "FWT: SmartRun Pre-fab HAC — Vertiv, Pelzer SC (NVIDIA team witnessing)",
-      "startMonth": "2026-06",
-      "endMonth": "2026-06"
-    },
-    {
-      "id": 1005,
-      "memberId": 2,
-      "projectId": 102,
-      "label": "SmartRun HAC Delivery to Site",
-      "startMonth": "2026-06",
-      "endMonth": "2026-07"
-    },
-    {
-      "id": 1006,
-      "memberId": 2,
-      "projectId": 102,
-      "label": "Continue OFCI Receiving: Chillers, HACs, CDUs, MSBs, MTSs, PTXs",
-      "startMonth": "2026-06",
-      "endMonth": "2026-07"
-    },
-    {
-      "id": 1007,
-      "memberId": 2,
-      "projectId": 102,
-      "label": "Major Construction: Piping, Electrical Feeder, Fire Alarm, Equipment Set",
-      "startMonth": "2026-06",
-      "endMonth": "2026-10"
-    },
-    {
-      "id": 1008,
-      "memberId": 2,
-      "projectId": 102,
-      "label": "Logos Zone 1 Demo Permit + HITT Demolition Start",
-      "startMonth": "2026-06",
-      "endMonth": "2026-07"
-    },
-    {
-      "id": 1009,
-      "memberId": 2,
-      "projectId": 106,
-      "label": "Commissioning Plan Review Workshop",
-      "startMonth": "2026-06",
-      "endMonth": "2026-06"
-    },
-    {
-      "id": 1010,
-      "memberId": 2,
-      "projectId": 105,
-      "label": "OSP Fiber Circuits Complete",
-      "startMonth": "2026-07",
-      "endMonth": "2026-07"
-    },
-    {
-      "id": 1011,
-      "memberId": 2,
-      "projectId": 105,
-      "label": "CorpNet / FacNet LIVE",
-      "startMonth": "2026-09",
-      "endMonth": "2026-09"
-    },
-    {
-      "id": 1012,
-      "memberId": 2,
-      "projectId": 105,
-      "label": "Permanent Power Energization — Substation (49 MW PG&E grid)",
-      "startMonth": "2026-09",
-      "endMonth": "2026-09"
-    },
-    {
-      "id": 1013,
-      "memberId": 2,
-      "projectId": 106,
-      "label": "Begin Level 4 Commissioning (Functional Performance Testing)",
-      "startMonth": "2027-01",
-      "endMonth": "2027-02"
-    },
-    {
-      "id": 1014,
-      "memberId": 2,
-      "projectId": 107,
-      "label": "Logos Zone 1: RFS / Rack Ready — Handover to ASE",
-      "startMonth": "2027-02",
-      "endMonth": "2027-02"
-    },
-    {
-      "id": 1015,
-      "memberId": 2,
-      "projectId": 108,
-      "label": "Super Lab 1 & 2: RFS / Rack Ready — Handover to DCOps + RESS",
-      "startMonth": "2027-02",
-      "endMonth": "2027-02"
-    },
-    {
-      "id": 1016,
-      "memberId": 2,
-      "projectId": 107,
-      "label": "Logos Zone 1: Bring Up & Validation Complete",
-      "startMonth": "2027-04",
-      "endMonth": "2027-04"
-    },
-    {
-      "id": 1017,
-      "memberId": 2,
-      "projectId": 108,
-      "label": "Super Lab 1 & 2: Bring Up & Validation Complete",
-      "startMonth": "2027-04",
-      "endMonth": "2027-04"
-    },
-    {
-      "id": 1018,
-      "memberId": 2,
-      "projectId": 109,
-      "label": "Digital Twin Design & Development (Jacobs)",
-      "startMonth": "2026-05",
-      "endMonth": "2026-09"
-    },
-    {
-      "id": 1019,
-      "memberId": 2,
-      "projectId": 109,
-      "label": "Digital Twin Complete & Available for Building Turnover",
-      "startMonth": "2026-10",
-      "endMonth": "2026-10"
-    }
-  ],
+  "members": [],
+  "projects": [],
+  "tasks": [],
   "streams": {
-    "LEADERSHIP": {
+    "Leadership": {
       "color": "#76b900",
       "bg": "rgba(118,185,0,0.10)"
     },
-    "DATA CENTER DESIGN AND DEPLOYMENT": {
-      "color": "rgb(74, 144, 217)",
-      "bg": "rgba(74, 144, 217,0.10)"
-    },
-    "RESEARCH & DEVELOPMENT (R&D)": {
-      "color": "#e8a020",
-      "bg": "rgba(232,160,32,0.10)"
-    },
-    "DIGITAL TWIN": {
-      "color": "#00b4a0",
-      "bg": "rgba(0,180,160,0.10)"
-    },
-    "FACTORIES": {
+    "Systems SW": {
       "color": "#e05050",
       "bg": "rgba(224,80,80,0.10)"
     },
-    "FLUIDS & MATERIALS": {
-      "color": "rgb(136, 136, 204)",
-      "bg": "rgba(136, 136, 204,0.10)"
+    "Platform SW": {
+      "color": "#4a90d9",
+      "bg": "rgba(74,144,217,0.10)"
     },
-    "PROJECT MGMT": {
-      "color": "rgb(176, 96, 208)",
-      "bg": "rgba(176, 96, 208,0.10)"
+    "Integration Eng.": {
+      "color": "#00b4a0",
+      "bg": "rgba(0,180,160,0.10)"
+    },
+    "Systems Eng.": {
+      "color": "#e8a020",
+      "bg": "rgba(232,160,32,0.10)"
+    },
+    "Project Mgmt": {
+      "color": "#b060d0",
+      "bg": "rgba(176,96,208,0.10)"
     }
   },
-  "nextMemberId": 20,
+  "nextMemberId": 100,
   "nextProjectId": 300,
   "nextTaskId": 3000,
   "monthOffset": 0,
   "careerGoals": {},
-  "timeoffs": [
+  "timeoffs": [],
+  "publications": [
     {
       "id": 1,
-      "memberIds": [
-        17
+      "title": "Power Usage Effectiveness Analysis of a High-Density Air-Liquid Hybrid Cooled Data Center",
+      "type": "Paper",
+      "status": "Published",
+      "venue": "InterPack",
+      "date": "2022",
+      "link": "https://drive.google.com/drive/folders/1V5M9jjN8xJs6u8HRdNnlwSI3kXUm8sMA",
+      "authorIds": [
+        11
       ],
-      "type": "PTO",
-      "status": "approved",
-      "startDate": "2026-05-25",
-      "endDate": "2026-05-29",
-      "label": "PTO",
-      "notes": ""
+      "notes": "PUE/tPUE · Data Center"
     },
     {
       "id": 2,
-      "memberIds": [
-        1,
-        7,
-        8,
-        12,
-        17
+      "title": "Determination of the Thermal Performance Limits for Single Phase Liquid Cooling Using an Improved Effectiveness-Ntu Cold Plate Model",
+      "type": "Paper",
+      "status": "Published",
+      "venue": "InterPack",
+      "date": "2022",
+      "link": "https://drive.google.com/drive/folders/1V5M9jjN8xJs6u8HRdNnlwSI3kXUm8sMA",
+      "authorIds": [
+        19
       ],
-      "type": "Business Travel",
-      "status": "approved",
-      "startDate": "2026-06-01",
-      "endDate": "2026-06-03",
-      "label": "Vertiv Factory Visit — Mexico",
-      "notes": "Ali Heydari, Peter YT Chen, Sergio Escobar, Pardeep Shahi, Himanshu Modi"
+      "notes": "Performance · Component"
     },
     {
       "id": 3,
-      "memberIds": [
-        2,
-        6,
-        15
+      "title": "Direct-To-Chip Two-Phase Cooling for High Heat Flux Processors",
+      "type": "Paper",
+      "status": "Published",
+      "venue": "InterPack",
+      "date": "2022",
+      "link": "https://drive.google.com/drive/folders/1V5M9jjN8xJs6u8HRdNnlwSI3kXUm8sMA",
+      "authorIds": [
+        10
       ],
-      "type": "Business Travel",
-      "status": "approved",
-      "startDate": "2026-06-07",
-      "endDate": "2026-06-13",
-      "label": "DSX Core TCS Loop Optimization — Vertiv (Croatia)",
-      "notes": "Saket Karajgikar, Kourosh Nemati, Vahideh Radmard"
+      "notes": "Refrigerant C. · Component"
     },
     {
       "id": 4,
-      "memberIds": [
-        1,
-        2,
-        9,
-        12,
-        14,
-        17
+      "title": "Liquid To Air Cooling for High Heat Density Liquid Cooled Data Centers",
+      "type": "Paper",
+      "status": "Published",
+      "venue": "InterPack",
+      "date": "2022",
+      "link": "https://drive.google.com/drive/folders/1V5M9jjN8xJs6u8HRdNnlwSI3kXUm8sMA",
+      "authorIds": [
+        15
       ],
-      "type": "Business Travel",
-      "status": "approved",
-      "startDate": "2026-06-14",
-      "endDate": "2026-06-18",
-      "label": "Boll Filtration + SWEPP",
-      "notes": "Ali Heydari, Saket Karajgikar, Tanya Mutter, Pardeep Shahi, Sean Sivapalan, Himanshu Modi"
+      "notes": "Hybrid L2A C. · Multi-Rack"
+    },
+    {
+      "id": 5,
+      "title": "Liquid To Liquid Cooling for High Heat Density Liquid Cooled Data Centers",
+      "type": "Paper",
+      "status": "Published",
+      "venue": "InterPack",
+      "date": "2022",
+      "link": "https://drive.google.com/drive/folders/1V5M9jjN8xJs6u8HRdNnlwSI3kXUm8sMA",
+      "authorIds": [
+        12
+      ],
+      "notes": "Liq. C. · Multi-Rack"
+    },
+    {
+      "id": 6,
+      "title": "Experimental Study of Transient Hydraulic Characteristics for Liquid Cooled Data Center Deployment",
+      "type": "Paper",
+      "status": "Published",
+      "venue": "InterPack",
+      "date": "2022",
+      "link": "https://drive.google.com/drive/folders/1V5M9jjN8xJs6u8HRdNnlwSI3kXUm8sMA",
+      "authorIds": [
+        12
+      ],
+      "notes": "Liq. C. · Multi-Rack"
+    },
+    {
+      "id": 7,
+      "title": "A Control Strategy for Minimizing Temperature Fluctuations in High Power Liquid to Liquid CDUs Operated at Very Low Heat Loads",
+      "type": "Paper",
+      "status": "Published",
+      "venue": "InterPack",
+      "date": "2022",
+      "link": "https://drive.google.com/drive/folders/1V5M9jjN8xJs6u8HRdNnlwSI3kXUm8sMA",
+      "authorIds": [
+        12
+      ],
+      "notes": "Liq. C. · Multi-Rack"
+    },
+    {
+      "id": 8,
+      "title": "Controlling Flow Instabilities in Direct-to-Chip Two-Phase Cooling for High Heat Flux Processors",
+      "type": "Paper",
+      "status": "Published",
+      "venue": "SemiTherm",
+      "date": "2023",
+      "link": "",
+      "authorIds": [
+        10
+      ],
+      "notes": "Refrigerant C. · Server"
+    },
+    {
+      "id": 9,
+      "title": "Guidelines and Experimental Hydraulic performance Evaluation for Single-Phase CDUs Under Steady and Transient Events",
+      "type": "Paper",
+      "status": "Published",
+      "venue": "ITherm",
+      "date": "May 30–Jun 2 2023 — Orlando, FL",
+      "link": "",
+      "authorIds": [
+        3
+      ],
+      "notes": "Hybrid L2A C. · Multi-Rack"
     },
     {
       "id": 10,
-      "memberId": 1,
-      "memberIds": [
-        1
+      "title": "An investigation of multi-parameters effects on the performance of liquid-to-liquid heat exchangers in rack level cooling",
+      "type": "Paper",
+      "status": "Published",
+      "venue": "ITherm",
+      "date": "May 30–Jun 2 2023 — Orlando, FL",
+      "link": "",
+      "authorIds": [
+        3
       ],
-      "type": "PTO",
-      "label": "Sick",
-      "startDate": "2026-05-25",
-      "endDate": "2026-05-29",
-      "approved": true,
-      "notes": ""
+      "notes": "Liq. C. · Single Rack"
     },
     {
       "id": 11,
-      "memberId": 12,
-      "memberIds": [
+      "title": "Measuring the Surface Flatness of Heaters and Cold plates and Estimating its Effect on Heat Transfer",
+      "type": "Paper",
+      "status": "Published",
+      "venue": "ITherm",
+      "date": "May 30–Jun 2 2023 — Orlando, FL",
+      "link": "",
+      "authorIds": [
+        3
+      ],
+      "notes": "Liq. C. · Component"
+    },
+    {
+      "id": 12,
+      "title": "Refrigerant to Air Cooling for High Heat Density Two-Phase Cooled Data Centers",
+      "type": "Paper",
+      "status": "Published",
+      "venue": "ITherm",
+      "date": "May 30–Jun 2 2023 — Orlando, FL",
+      "link": "",
+      "authorIds": [
+        10
+      ],
+      "notes": "Refrigerant C. · Single Rack"
+    },
+    {
+      "id": 13,
+      "title": "Application of CFD and Flow Network Modeling in Design Efficiency Improvement of a Hybrid-Cooled Data Center",
+      "type": "Paper",
+      "status": "Accepted",
+      "venue": "ASHRAE",
+      "date": "Jun 24-28 2023 — Tampa, FL",
+      "link": "",
+      "authorIds": [
+        11
+      ],
+      "notes": "Performance · Data Center"
+    },
+    {
+      "id": 14,
+      "title": "Thermal, Hydraulic and Reliability Analysis of Single-Phase Liquid Coolants for Direct-to-Chip Cold Plate Cooling in High-Performance Computing Systems",
+      "type": "Paper",
+      "status": "Published",
+      "venue": "InterPack",
+      "date": "Oct 24-26 2023 — San Diego, CA",
+      "link": "",
+      "authorIds": [
         12
       ],
-      "type": "Conference",
-      "label": "",
-      "startDate": "2026-05-26",
-      "endDate": "2026-05-29",
-      "approved": false,
-      "notes": "ITherm"
+      "notes": "Liq. C. · Data Center"
+    },
+    {
+      "id": 15,
+      "title": "Methodology to Characterize Row Manifolds for High Power Direct to Chip Liquid Cooling Data Centers",
+      "type": "Paper",
+      "status": "Published",
+      "venue": "InterPack",
+      "date": "Oct 24-26 2023 — San Diego, CA",
+      "link": "",
+      "authorIds": [
+        12
+      ],
+      "notes": "Liq. C. · Data Center"
+    },
+    {
+      "id": 16,
+      "title": "At Scale Development of Thermal Test Vehicles for Data Center Liquid Cooling Developments",
+      "type": "Paper",
+      "status": "Accepted",
+      "venue": "InterPack",
+      "date": "Oct 24-26 2023 — San Diego, CA",
+      "link": "",
+      "authorIds": [
+        19
+      ],
+      "notes": "Performance · Data Center"
+    },
+    {
+      "id": 17,
+      "title": "L2a Cdus Performance and Considerations for Server Rooms Upgrade With Conventional Air Conditioning",
+      "type": "Paper",
+      "status": "Accepted",
+      "venue": "InterPack",
+      "date": "Oct 24-26 2023 — San Diego, CA",
+      "link": "",
+      "authorIds": [
+        3
+      ],
+      "notes": "Hybrid L2A C. · Data Center"
+    },
+    {
+      "id": 18,
+      "title": "A Comparative Data Center Energy Efficiency and Tco Analysis for Different Cooling Technologies",
+      "type": "Paper",
+      "status": "Accepted",
+      "venue": "InterPack",
+      "date": "Oct 24-26 2023 — San Diego, CA",
+      "link": "",
+      "authorIds": [
+        11
+      ],
+      "notes": "Performance · Data Center"
+    },
+    {
+      "id": 19,
+      "title": "Performance Analysis of Liquid-to-Air Heat Exchangers of High Power Density Racks",
+      "type": "Paper",
+      "status": "Accepted",
+      "venue": "InterPack",
+      "date": "Oct 24-26 2023 — San Diego, CA",
+      "link": "",
+      "authorIds": [
+        3
+      ],
+      "notes": "Hybrid L2A C. · Data Center"
+    },
+    {
+      "id": 20,
+      "title": "Experimental and Cfd Analysis of a Rack Manifold for High Power Density Liquid-Cooled Rack",
+      "type": "Paper",
+      "status": "Published",
+      "venue": "InterPack",
+      "date": "Oct 24-26 2023 — San Diego, CA",
+      "link": "",
+      "authorIds": [
+        12
+      ],
+      "notes": "Liq. C. · Data Center"
+    },
+    {
+      "id": 21,
+      "title": "A Methodology for Thermal Characterization of High-Power Liquid-Cooled Servers",
+      "type": "Paper",
+      "status": "Accepted",
+      "venue": "Journal",
+      "date": "2023",
+      "link": "",
+      "authorIds": [
+        12
+      ],
+      "notes": "Liq. C. · Data Center"
+    },
+    {
+      "id": 22,
+      "title": "Building Omniverse Digital Twins of Hybrid Liquid-cooled Data Centers to Enable AI-powered Design, Simulation, and Operations",
+      "type": "Paper",
+      "status": "Accepted",
+      "venue": "NTECH",
+      "date": "Nov 6-9 2023 — Santa Clara, CA",
+      "link": "",
+      "authorIds": [
+        15
+      ],
+      "notes": "OVE · Data Center"
+    },
+    {
+      "id": 23,
+      "title": "Green Refrigerant-Based Compact Hybrid System for Ultra-Efficient and Sustainable HPCs Cooling",
+      "type": "Paper",
+      "status": "Accepted",
+      "venue": "NTECH",
+      "date": "Nov 6-9 2023 — Santa Clara, CA",
+      "link": "",
+      "authorIds": [
+        10
+      ],
+      "notes": "Refrigerant C. · Multi-Rack"
+    },
+    {
+      "id": 24,
+      "title": "Study on the characterization of the filters for direct to chip liquid cooling systems",
+      "type": "Paper",
+      "status": "Accepted",
+      "venue": "SemiTherm",
+      "date": "Mar 25-29 2024 — San Jose, CA",
+      "link": "",
+      "authorIds": [
+        12
+      ],
+      "notes": "Liq. C. · Multi-Rack"
+    },
+    {
+      "id": 25,
+      "title": "Maximizing Cooling Potential: A Step-by-Step Guide to Commissioning Liquid-Cooled Data Centers",
+      "type": "Paper",
+      "status": "Accepted",
+      "venue": "ITherm",
+      "date": "May 28-31 2024 — Denver, CO",
+      "link": "",
+      "authorIds": [
+        12
+      ],
+      "notes": "Liq. C. · Multi-Rack"
+    },
+    {
+      "id": 26,
+      "title": "Liquid to Refrigerant Cooling System Challenges, Characterization, and Operational Limits: A Case Study",
+      "type": "Paper",
+      "status": "Accepted",
+      "venue": "ITherm",
+      "date": "May 28-31 2024 — Denver, CO",
+      "link": "",
+      "authorIds": [
+        13
+      ],
+      "notes": "Liq. C. · Data Center"
+    },
+    {
+      "id": 27,
+      "title": "A Comprehensive Analysis of Liquid-to-Air Coolant Distribution Units: Meeting Market Demands and Enhancing Reliability",
+      "type": "Paper",
+      "status": "Accepted",
+      "venue": "InterPack",
+      "date": "Oct 8-9 2024 — San Jose, CA",
+      "link": "",
+      "authorIds": [
+        13
+      ],
+      "notes": "Liq. C. · Multi-Rack"
+    },
+    {
+      "id": 28,
+      "title": "Piping System Design for Liquid-Cooled Data Center",
+      "type": "Paper",
+      "status": "Accepted",
+      "venue": "InterPack",
+      "date": "Oct 8-10 2024 — San Jose, CA",
+      "link": "",
+      "authorIds": [
+        15
+      ],
+      "notes": "Liq. C. · Data Center"
+    },
+    {
+      "id": 29,
+      "title": "Commissioning And Thermohydraulic Characterization Of A Single-Phase Liquid-Cooled High-Density Data Center Rack",
+      "type": "Paper",
+      "status": "Accepted",
+      "venue": "InterPack",
+      "date": "Oct 8-10 2024 — San Jose, CA",
+      "link": "",
+      "authorIds": [
+        3
+      ],
+      "notes": "Liq. C. · Single Rack"
+    },
+    {
+      "id": 30,
+      "title": "Controlling Flow Instabilities in Direct-to-Chip Two-Phase Cooling Systems at Rack Level for High-Density Data Centers Applications",
+      "type": "Paper",
+      "status": "Accepted",
+      "venue": "InterPack",
+      "date": "Oct 8-10 2024 — San Jose, CA",
+      "link": "",
+      "authorIds": [
+        10
+      ],
+      "notes": "Refrigerant C. · Single Rack"
+    },
+    {
+      "id": 31,
+      "title": "Advancing in Data Centers thermal management Experimental Assessment of Two-Phase Liquid Cooling Technology",
+      "type": "Paper",
+      "status": "Accepted",
+      "venue": "InterPack",
+      "date": "Oct 8-10 2024 — San Jose, CA",
+      "link": "",
+      "authorIds": [],
+      "notes": "Refrigerant C. · Multi-Rack"
+    },
+    {
+      "id": 32,
+      "title": "Bio-Analysis of Cross-Mixed Coolants in High Powered Liquid Cooled Data Center",
+      "type": "Paper",
+      "status": "Published",
+      "venue": "InterPack",
+      "date": "Oct 8-10 2024 — San Jose, CA",
+      "link": "",
+      "authorIds": [
+        12
+      ],
+      "notes": "Liq. C. · Component"
+    },
+    {
+      "id": 33,
+      "title": "Liquid to Liquid In-Row Coolant Distribution Unit Characterization for High Power Data Center",
+      "type": "Paper",
+      "status": "Published",
+      "venue": "InterPack",
+      "date": "Oct 8-10 2024 — San Jose, CA",
+      "link": "",
+      "authorIds": [
+        12
+      ],
+      "notes": "Liq. C. · Multi-Rack"
+    },
+    {
+      "id": 34,
+      "title": "Study of Fluid Velocity Limits in Cold Plate Liquid Cooling Loops",
+      "type": "Paper",
+      "status": "Accepted",
+      "venue": "OCP",
+      "date": "Oct 15-17 2024 — San Jose, CA",
+      "link": "",
+      "authorIds": [
+        14,
+        14
+      ],
+      "notes": "Liq. C. · Component"
+    },
+    {
+      "id": 35,
+      "title": "A Comparative Analysis Of Single Phase Liquid Cooled Data Center Coolants Using ASTM D1384 & D8040 Standards",
+      "type": "Paper",
+      "status": "Accepted",
+      "venue": "ITherm",
+      "date": "May 28-31 2025 — Dallas, TX",
+      "link": "",
+      "authorIds": [
+        12
+      ],
+      "notes": "Liq. C. · Data Center"
+    },
+    {
+      "id": 36,
+      "title": "Performance Analysis of Single-Phase Immersion Cooling in high powered electronic components",
+      "type": "Paper",
+      "status": "Accepted",
+      "venue": "ITherm",
+      "date": "May 28-31 2025 — Dallas, TX",
+      "link": "",
+      "authorIds": [
+        12
+      ],
+      "notes": "Immersion C. · Data Center"
+    },
+    {
+      "id": 37,
+      "title": "Resiliency of Liquid-to-Liquid Cooling Systems in Data Centers Under Failure Scenarios",
+      "type": "Paper",
+      "status": "Accepted",
+      "venue": "ITherm",
+      "date": "May 28-31 2025 — Dallas, TX",
+      "link": "",
+      "authorIds": [
+        12
+      ],
+      "notes": "Liq. C. · Data Center"
+    },
+    {
+      "id": 38,
+      "title": "Challenges and Best Practices in Deploying Liquid-to-Air Sidecar CDUs for AI Data Centers",
+      "type": "Paper",
+      "status": "Accepted",
+      "venue": "InterPack",
+      "date": "Oct 27-29 2025 — Anaheim, CA",
+      "link": "",
+      "authorIds": [
+        15
+      ],
+      "notes": "Liq. C. · Data Center"
+    },
+    {
+      "id": 39,
+      "title": "Impact of data center facility water system design on PUE and TCO",
+      "type": "Paper",
+      "status": "Accepted",
+      "venue": "InterPack",
+      "date": "Oct 27-29 2025 — Anaheim, CA",
+      "link": "",
+      "authorIds": [
+        18
+      ],
+      "notes": "PUE/tPUE · Data Center"
+    },
+    {
+      "id": 40,
+      "title": "A High-Resolution Model for Evaluating Cooling System Design in Data Centers Across Different Climates",
+      "type": "Paper",
+      "status": "Accepted",
+      "venue": "NTECH",
+      "date": "Nov 3-6 2025 — Santa Clara, CA",
+      "link": "",
+      "authorIds": [
+        18
+      ],
+      "notes": "PUE/tPUE · Data Center"
+    },
+    {
+      "id": 41,
+      "title": "Optimizing Data Center Cooling Across Climates: Modeling of PUE and WUE",
+      "type": "Paper",
+      "status": "Accepted",
+      "venue": "ASHRAE",
+      "date": "Jan 31–Feb 4 2026 — Las Vegas, NV",
+      "link": "",
+      "authorIds": [
+        18
+      ],
+      "notes": "PUE/tPUE · Data Center"
+    },
+    {
+      "id": 42,
+      "title": "Long-Term Stagnation Effects of Propylene Glycol-Based Coolant in Liquid-Cooled Data Center Systems",
+      "type": "Paper",
+      "status": "Accepted",
+      "venue": "ITherm",
+      "date": "May 26-29 2026 — Orlando, FL",
+      "link": "",
+      "authorIds": [
+        12
+      ],
+      "notes": "Fluids/Coolants · Data Center"
+    },
+    {
+      "id": 43,
+      "title": "Commissioning and Performance Characterization of Liquid-to-Liquid CDUs for AI Factory Thermal Management",
+      "type": "Paper",
+      "status": "Accepted",
+      "venue": "ITherm",
+      "date": "May 26-29 2026 — Orlando, FL",
+      "link": "",
+      "authorIds": [
+        3
+      ],
+      "notes": "Liq. C. · Data Center"
+    },
+    {
+      "id": 44,
+      "title": "Evaluating Aluminum as a Replacement for Copper in Data Center Liquid Cooling Loops: Corrosion Performance of Inhibited PG-25 Coolants",
+      "type": "Paper",
+      "status": "Submitted",
+      "venue": "InterPack",
+      "date": "Oct 26-29 2026 — San Diego, CA",
+      "link": "",
+      "authorIds": [
+        12
+      ],
+      "notes": "Liq. C. · Data Center"
+    },
+    {
+      "id": 45,
+      "title": "Characterizing Non-Linear Plant Dynamics in Integrated Liquid-Cooled Heat Rejection",
+      "type": "Paper",
+      "status": "Submitted",
+      "venue": "InterPack",
+      "date": "Oct 26-29 2026 — San Diego, CA",
+      "link": "",
+      "authorIds": [
+        15
+      ],
+      "notes": "Liq. C. · Data Center"
+    },
+    {
+      "id": 46,
+      "title": "CFD Investigation of Air Recirculation Effects on CDU Performance and SAT Stability in Hybrid-Cooled Data Centers",
+      "type": "Paper",
+      "status": "Submitted",
+      "venue": "InterPack",
+      "date": "Oct 26-29 2026 — San Diego, CA",
+      "link": "",
+      "authorIds": [
+        3
+      ],
+      "notes": "Liq. C. · Data Center"
+    },
+    {
+      "id": 47,
+      "title": "Experimental Characterization of Energy Valves for Rack-Level Flow Control in Liquid-Cooled Data Centers",
+      "type": "Paper",
+      "status": "Submitted",
+      "venue": "InterPack",
+      "date": "Oct 26-29 2026 — San Diego, CA",
+      "link": "",
+      "authorIds": [
+        12
+      ],
+      "notes": "Liq. C. · Data Center"
+    },
+    {
+      "id": 48,
+      "title": "Smart L11 Rack Emulator: Scalable, Resilient Real-Time Monitoring for Liquid-Cooling Commissioning",
+      "type": "Paper",
+      "status": "Submitted",
+      "venue": "InterPack",
+      "date": "Oct 26-29 2026 — San Diego, CA",
+      "link": "",
+      "authorIds": [
+        19
+      ],
+      "notes": "Liq. C. · Data Center"
     }
   ],
-  "publications": [],
-  "nextTimeoffId": 12,
-  "nextPubId": 1,
+  "nextTimeoffId": 100,
+  "nextPubId": 58,
   "adminUsers": [],
   "msClientId": ""
 }
