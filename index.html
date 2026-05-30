@@ -644,15 +644,29 @@ function defaultData(){
 
 // ── GITHUB CONFIG ─────────────────────────────────────────────────────────────
 const GH_CONFIG_KEY='dce_gh_config_v1';
-let ghConfig={owner:'',repo:'',branch:'main',path:'charter-data.json',token:''};
-let _ghSha=null; // sha of the remote file for update calls
+// ── HARDCODED REPO DEFAULTS — every browser uses these unless overridden ──────
+// Update these if you rename the repo or move to a different account
+const GH_REPO_DEFAULTS={owner:'skarajgikar',repo:'DCE_Thermal',branch:'main',path:'charter-data.json'};
+let ghConfig={...GH_REPO_DEFAULTS,token:''};
+let _ghSha=null;
 let _ghSyncTimer=null;
 
 function loadGHConfig(){
-  try{const raw=localStorage.getItem(GH_CONFIG_KEY);if(raw)ghConfig=JSON.parse(raw);}catch(e){}
+  try{
+    const raw=localStorage.getItem(GH_CONFIG_KEY);
+    if(raw){
+      const saved=JSON.parse(raw);
+      // Merge saved config but always keep hardcoded repo as fallback
+      ghConfig={...GH_REPO_DEFAULTS,...saved};
+      // If saved config has empty owner/repo, restore defaults
+      if(!ghConfig.owner)ghConfig.owner=GH_REPO_DEFAULTS.owner;
+      if(!ghConfig.repo)ghConfig.repo=GH_REPO_DEFAULTS.repo;
+    }
+  }catch(e){}
 }
 function saveGHConfig(){localStorage.setItem(GH_CONFIG_KEY,JSON.stringify(ghConfig));}
 function ghConfigured(){return !!(ghConfig.token&&ghConfig.owner&&ghConfig.repo);}
+function ghReadable(){return !!(ghConfig.owner&&ghConfig.repo);}
 
 async function ghAPI(path,opts={}){
   const url='https://api.github.com/repos/'+ghConfig.owner+'/'+ghConfig.repo+path;
