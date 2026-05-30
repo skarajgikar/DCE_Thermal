@@ -662,8 +662,8 @@
       "bg": "rgba(224,80,80,0.10)"
     },
     "FLUIDS & MATERIALS": {
-      "color": "rgb(0, 180, 160)",
-      "bg": "rgba(0, 180, 160,0.10)"
+      "color": "rgb(136, 136, 204)",
+      "bg": "rgba(136, 136, 204,0.10)"
     },
     "PROJECT MGMT": {
       "color": "rgb(176, 96, 208)",
