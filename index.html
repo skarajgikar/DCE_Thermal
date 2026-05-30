@@ -671,7 +671,7 @@ function defaultData(){
 // ── GITHUB CONFIG ─────────────────────────────────────────────────────────────
 const GH_CONFIG_KEY='dce_gh_config_v1';
 let ghConfig={owner:'',repo:'',branch:'main',path:'charter-data.json',token:''};
-let _ghSha=null; // sha of the remote file for update calls
+let _ghSha=null,_isDirty=false; // sha of the remote file for update calls
 let _ghSyncTimer=null;
 
 function loadGHConfig(){
@@ -694,7 +694,7 @@ function buildPayload(){
 function persist(){
   try{localStorage.setItem(LS_KEY,JSON.stringify(buildPayload()));setInd('local');}catch(e){setInd('error');}
 }
-function scheduleAutoSave(){
+function scheduleAutoSave(){_isDirty=true;
   clearTimeout(autoSaveTimer); clearTimeout(_ghSyncTimer);
   setInd('unsaved');
   // always cache locally immediately
@@ -710,7 +710,7 @@ function setInd(s){
   const txt=document.getElementById('save-indicator-text');
   const syncLbl=document.getElementById('sync-btn-label');
   if(!el)return;
-  const map={synced:'● SYNCED',syncing:'● SYNCING…',unsaved:'● UNSAVED',local:'● LOCAL',error:'● SYNC ERROR'};
+  const ts=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});const map={synced:'● SYNCED '+ts,syncing:'● SYNCING…',unsaved:'● UNSAVED',local:'● LOCAL',error:'● SYNC ERROR'};
   if(txt)txt.textContent=map[s]||'● '+s.toUpperCase();
   el.className='save-indicator '+s;
   if(syncLbl)syncLbl.textContent=s==='syncing'?'…':'Sync';
@@ -771,10 +771,17 @@ async function saveToGitHub(){
 }
 
 async function syncNow(){
-  if(!ghConfigured()){openGitHubSettings();return;}
-  // Pull first, then push if we have local unsaved changes
-  const pulled=await loadFromGitHub();
-  if(pulled)refreshCurrentView();
+  if(!ghConfigured()&&!ghReadable()){openGitHubSettings();return;}
+  // Pull latest from GitHub
+  if(ghConfigured()){
+    const pulled=await loadFromGitHub();
+    if(pulled)refreshCurrentView();
+    // Push local changes back if any are pending
+    if(_isDirty)await saveToGitHub();
+  } else {
+    const pulled=await loadReadOnly();
+    if(pulled)refreshCurrentView();
+  }
 }
 
 // ── GITHUB SETTINGS MODAL ──────────────────────────────────────────────────
@@ -1981,38 +1988,50 @@ async function _fetchGraphCalendar(token,userEmail){
 }
 
 loadGHConfig();
-loadFromLS();
-_loadUserIdentity();
-applyAccessMode();
 
-// Render immediately with whatever is in localStorage (fast first paint)
-refreshCurrentView();
+// GitHub is the SINGLE source of truth.
+// Always fetch from GitHub first — localStorage is only a fallback if GitHub fails.
+(async function initApp(){
+  let loaded = false;
 
-// Then fetch latest from GitHub and re-render — always re-render after fetch
-// regardless of whether data changed, so the landing page is never stale
-if(ghConfigured()){
-  loadFromGitHub().then(()=>{ refreshCurrentView(); _loadUserIdentity(); applyAccessMode(); });
-} else if(ghReadable()){
-  // Read-only visitors (VP etc.) — auto-fetch, no token needed
-  loadReadOnly().then(()=>{ refreshCurrentView(); });
-  // Re-fetch every 5 minutes so read-only visitors always see latest
-  setInterval(()=>loadReadOnly().then(()=>refreshCurrentView()), 5*60*1000);
-} else {
-  // No GitHub configured — show setup banner after a short delay
-  setTimeout(()=>{
-    const b=document.getElementById('gh-banner');
-    if(!b){const n=document.createElement('div');n.id='gh-banner';n.className='gh-setup-banner';
-    n.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;flex-shrink:0"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg><span>GitHub sync not configured. <a onclick="openGitHubSettings()" style="cursor:pointer;text-decoration:underline">Connect GitHub →</a></span>';
-    const v=document.querySelector('.view.active');if(v)v.before(n);}
-  },800);
-}
+  if(ghConfigured()){
+    loaded = await loadFromGitHub();       // team member with write access
+  } else if(ghReadable()){
+    loaded = await loadReadOnly();          // read-only visitor (VP, etc.)
+  }
+
+  if(!loaded){
+    // GitHub unavailable — fall back to localStorage so page still works offline
+    loadFromLS();
+  }
+
+  _loadUserIdentity();
+  applyAccessMode();
+  refreshCurrentView();
+
+  if(!currentUserId && members.length) setTimeout(openUserSelector, 300);
+
+  if(!ghConfigured() && !ghReadable()){
+    setTimeout(()=>{
+      const b=document.getElementById('gh-banner');
+      if(!b){const n=document.createElement('div');n.id='gh-banner';n.className='gh-setup-banner';
+      n.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;flex-shrink:0"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg><span>GitHub sync not configured. <a onclick="openGitHubSettings()" style="cursor:pointer;text-decoration:underline">Connect GitHub →</a></span>';
+      const v=document.querySelector('.view.active');if(v)v.before(n);}
+    },800);
+  }
+
+  // VP: re-fetch every 5 minutes to stay current
+  if(!ghConfigured() && ghReadable()){
+    setInterval(async()=>{
+      const ok=await loadReadOnly();
+      if(ok)refreshCurrentView();
+    }, 5*60*1000);
+  }
+})();
 
 window.addEventListener('beforeunload',()=>{
   if(ghConfigured()){clearTimeout(_ghSyncTimer);try{localStorage.setItem(LS_KEY,JSON.stringify(buildPayload()));}catch(e){}saveToGitHub();}
 });
-
-// Prompt identity picker on first open if not already identified
-if(!currentUserId&&members.length)setTimeout(openUserSelector,300);
 </script>
 </body>
 </html>
