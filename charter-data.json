@@ -301,6 +301,20 @@
       "progress": 0,
       "owner": 7,
       "links": []
+    },
+    {
+      "id": 8,
+      "name": "2 Phase Cooling",
+      "desc": "",
+      "parentId": 5,
+      "color": "#76b900",
+      "status": "Active",
+      "priority": "Low",
+      "startMonth": "2026-05",
+      "endMonth": "2026-11",
+      "progress": 0,
+      "owner": 16,
+      "links": []
     }
   ],
   "tasks": [
@@ -368,7 +382,7 @@
     }
   },
   "nextMemberId": 20,
-  "nextProjectId": 8,
+  "nextProjectId": 9,
   "nextTaskId": 5,
   "monthOffset": 0,
   "careerGoals": {},
