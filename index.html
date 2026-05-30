@@ -584,7 +584,7 @@ body.view-only .admin-only{display:none!important}
    automatic conflict resolution on 409).
    ─────────────────────────────────────────────────────────────────────────── */
 const LS_KEY='dce_thermal_v7';
-const DEFAULT_STREAMS={'Leadership':{color:'#76b900',bg:'rgba(118,185,0,0.10)'},'Systems SW':{color:'#e05050',bg:'rgba(224,80,80,0.10)'},'Platform SW':{color:'#4a90d9',bg:'rgba(74,144,217,0.10)'},'Integration Eng.':{color:'#00b4a0',bg:'rgba(0,180,160,0.10)'},'Systems Eng.':{color:'#e8a020',bg:'rgba(232,160,32,0.10)'},'Project Mgmt':{color:'#b060d0',bg:'rgba(176,96,208,0.10)'}};
+const DEFAULT_STREAMS={'Leadership':{color:'#3a7200',bg:'rgba(58,114,0,0.10)'},'DC Design and Deployment':{color:'#1d4ed8',bg:'rgba(29,78,216,0.10)'},'R&D':{color:'#e8a020',bg:'rgba(232,160,32,0.10)'},'Digital Twin':{color:'#0097a7',bg:'rgba(0,151,167,0.10)'},'Factories':{color:'#c0392b',bg:'rgba(192,57,43,0.10)'},'Fluids & Materials':{color:'#b060d0',bg:'rgba(176,96,208,0.10)'},'Project Management':{color:'#e8693f',bg:'rgba(232,105,63,0.10)'}};
 let STREAMS={...DEFAULT_STREAMS};
 const STREAM_COLORS=[
   {color:'#76b900',bg:'rgba(118,185,0,0.10)'},{color:'#e05050',bg:'rgba(224,80,80,0.10)'},
@@ -685,7 +685,7 @@ function setInd(s){
   const txt=document.getElementById('save-indicator-text');
   const syncLbl=document.getElementById('sync-btn-label');
   if(!el)return;
-  const map={synced:'● SYNCED',syncing:'● SYNCING…',unsaved:'● UNSAVED',local:'● LOCAL',error:'● SYNC ERROR'};
+  const ts3=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});const map={saved:'● SAVED TO GITHUB '+ts3,pulled:'● UP TO DATE',synced:'● SYNCED',syncing:'● SYNCING…',unsaved:'● UNSAVED',local:'● LOCAL',error:'● SYNC ERROR'};
   if(txt)txt.textContent=map[s]||'● '+s.toUpperCase();
   el.className='save-indicator '+s;
   if(syncLbl)syncLbl.textContent=s==='syncing'?'…':'Sync';
@@ -704,7 +704,7 @@ async function loadReadOnly(){
     const content=JSON.parse(decodeURIComponent(escape(atob(data.content.replace(/\n/g,'')))));
     if(!content.members||content.members.length===0){setInd('local');return false;}
     applyData(content);try{localStorage.setItem(LS_KEY,JSON.stringify(content));}catch(e){}
-    setInd('synced');return true;
+    setInd('pulled');return true;
   }catch(e){setInd('local');return false;}
 }
 async function loadFromGitHub(){
@@ -736,8 +736,9 @@ async function saveToGitHub(){
     if(_ghSha)body.sha=_ghSha;
     const res=await ghAPI('/contents/'+ghConfig.path,{method:'PUT',body:JSON.stringify(body)});
     if(res.ok){
-      const d=await res.json();_ghSha=d.content?.sha;
-      setInd('synced');
+      const d=await res.json();_ghSha=d.content?.sha;_isDirty=false;
+      setInd('saved');
+      showToast('✓ Saved to GitHub','#3a7200');
       try{localStorage.setItem(LS_KEY,jsonStr);}catch(e){}
     } else if(res.status===409){
       // Conflict: another member committed — fetch latest then retry
@@ -762,10 +763,18 @@ async function saveToGitHub(){
 }
 
 async function syncNow(){
-  if(!ghConfigured()){openGitHubSettings();return;}
-  // Pull first, then push if we have local unsaved changes
-  const pulled=await loadFromGitHub();
-  if(pulled)refreshCurrentView();
+  if(!ghConfigured()&&!ghReadable()){openGitHubSettings();return;}
+  if(ghConfigured()){
+    // Pull latest first to get fresh SHA
+    const pulled=await loadFromGitHub();
+    if(pulled)refreshCurrentView();
+    // Always push current state to ensure GitHub is up to date
+    await saveToGitHub();
+  } else {
+    // Read-only visitor — just pull
+    const pulled=await loadReadOnly();
+    if(pulled)refreshCurrentView();
+  }
 }
 
 // ── GITHUB SETTINGS MODAL ──────────────────────────────────────────────────
