@@ -1333,8 +1333,8 @@ function renderTimeline(){
   function renderGroup(label,color,grpMembers){
     if(!grpMembers.length)return '';
     let s=`<tr class="tl-group-header" style="--group-color:${color}"><td colspan="${TOTAL_MONTHS+1}" style="color:${color}">◆ ${label}</td></tr>`;
-    grpMembers.filter(m=>{if(sf&&m.id!==sf)return false;if(pf)return tasks.some(t=>t.memberId===m.id&&t.projectId===pf);return true;}).forEach(m=>{
-      const mTasks=tasks.filter(t=>t.memberId===m.id&&(!pf||t.projectId===pf));
+    grpMembers.filter(m=>{if(sf&&m.id!==sf)return false;if(pf)return tasks.some(t=>parseInt(t.memberId)===m.id&&parseInt(t.projectId)===pf);return true;}).forEach(m=>{
+      const mTasks=tasks.filter(t=>parseInt(t.memberId)===m.id&&(!pf||parseInt(t.projectId)===pf));
       const avatarInner=m.photo?`<img src="${m.photo}" alt="${esc(m.name)}">`:`<span>${initials(m.name)}</span>`;
       const lanes=assignLanes(mTasks);
       const numLanes=Math.max(1,lanes.length);
