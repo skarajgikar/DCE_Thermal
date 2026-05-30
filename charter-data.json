@@ -739,10 +739,29 @@
       "venue": "InterPACK'24",
       "date": "2024-10",
       "link": "https://drive.google.com/file/d/1lZ-3MBoBQxAWKahDZERjm7RVvX4oqVox/view",
-      "authorIds": [
-        12
+      "leadAuthorId": 12,
+      "leadAuthorExternal": false,
+      "leadAuthorExternalName": "",
+      "coAuthorIds": [
+        1,
+        2,
+        3,
+        12,
+        14,
+        16,
+        17
       ],
-      "notes": "Co-Authors: Ali Heydari, Lochan Sai Reddy Chinthaparthy, Himanshu Modi, Anto Baigala, Sean Sivapalan, Harold Miyamura, Dereje Agonafer, Mohammad Tradat, Jeremy Rodriguez"
+      "authorIds": [
+        12,
+        1,
+        2,
+        3,
+        12,
+        14,
+        16,
+        17
+      ],
+      "notes": "Co-Authors: Lochan Sai Reddy Chinthaparthy, Anto Baigala, Dereje Agonafer, Jeremy Rodriguez"
     },
     {
       "id": 2,
