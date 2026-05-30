@@ -1982,16 +1982,23 @@ async function _fetchGraphCalendar(token,userEmail){
 
 loadGHConfig();
 loadFromLS();
+_loadUserIdentity();
+applyAccessMode();
 
-// On load: pull latest from GitHub (works for everyone — with or without token)
+// Render immediately with whatever is in localStorage (fast first paint)
+refreshCurrentView();
+
+// Then fetch latest from GitHub and re-render — always re-render after fetch
+// regardless of whether data changed, so the landing page is never stale
 if(ghConfigured()){
-  loadFromGitHub().then(ok=>{if(ok)refreshCurrentView();});
+  loadFromGitHub().then(()=>{ refreshCurrentView(); _loadUserIdentity(); applyAccessMode(); });
 } else if(ghReadable()){
-  // Read-only visitors (e.g. VP) — fetch public data, no token needed
-  loadReadOnly().then(ok=>{if(ok)refreshCurrentView();});
-  // Auto-refresh every 5 minutes so read-only visitors always see latest data
-  setInterval(()=>loadReadOnly().then(ok=>{if(ok)refreshCurrentView();}), 5*60*1000);
+  // Read-only visitors (VP etc.) — auto-fetch, no token needed
+  loadReadOnly().then(()=>{ refreshCurrentView(); });
+  // Re-fetch every 5 minutes so read-only visitors always see latest
+  setInterval(()=>loadReadOnly().then(()=>refreshCurrentView()), 5*60*1000);
 } else {
+  // No GitHub configured — show setup banner after a short delay
   setTimeout(()=>{
     const b=document.getElementById('gh-banner');
     if(!b){const n=document.createElement('div');n.id='gh-banner';n.className='gh-setup-banner';
@@ -1999,10 +2006,11 @@ if(ghConfigured()){
     const v=document.querySelector('.view.active');if(v)v.before(n);}
   },800);
 }
-window.addEventListener('beforeunload',()=>{if(ghConfigured()){clearTimeout(_ghSyncTimer);try{localStorage.setItem(LS_KEY,JSON.stringify(buildPayload()));}catch(e){}saveToGitHub();}});
-_loadUserIdentity();
-renderMembers();
-applyAccessMode();
+
+window.addEventListener('beforeunload',()=>{
+  if(ghConfigured()){clearTimeout(_ghSyncTimer);try{localStorage.setItem(LS_KEY,JSON.stringify(buildPayload()));}catch(e){}saveToGitHub();}
+});
+
 // Prompt identity picker on first open if not already identified
 if(!currentUserId&&members.length)setTimeout(openUserSelector,300);
 </script>
