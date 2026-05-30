@@ -4,7 +4,7 @@
       "id": 1,
       "name": "Ali Heydari",
       "role": "Director",
-      "stream": "Leadership",
+      "stream": "LEADERSHIP",
       "layer": "management",
       "photo": "",
       "links": [],
@@ -16,7 +16,7 @@
       "id": 2,
       "name": "Saket Karajgikar",
       "role": "Sr. Engineering Manager",
-      "stream": "Leadership",
+      "stream": "DATA CENTER DESIGN AND DEPLOYMENT",
       "layer": "management",
       "photo": "",
       "links": [],
@@ -28,31 +28,31 @@
       "id": 3,
       "name": "Mohammad Tradat",
       "role": "Engineering Manager",
-      "stream": "Leadership",
+      "stream": "RESEARCH & DEVELOPMENT (R&D)",
       "layer": "management",
       "photo": "",
       "links": [],
       "email": "mtradat@nvidia.com",
       "phone": "",
-      "notes": "Manager: Ali Heydari · EMP 00048206 · Location: US, NY, Remote"
+      "notes": ""
     },
     {
       "id": 4,
-      "name": "Doug Asav",
-      "role": "Software Engineer",
-      "stream": "Systems SW",
+      "name": "Doug Asay",
+      "role": "Principal Mechanical Engineer",
+      "stream": "DATA CENTER DESIGN AND DEPLOYMENT",
       "layer": "ic",
       "photo": "",
       "links": [],
-      "email": "dasav@nvidia.com",
+      "email": "dasay@nvidia.com",
       "phone": "",
       "notes": ""
     },
     {
       "id": 5,
       "name": "Greg Busch",
-      "role": "Software Engineer",
-      "stream": "Systems SW",
+      "role": "Principal Mechanical Engineer",
+      "stream": "RESEARCH & DEVELOPMENT (R&D)",
       "layer": "ic",
       "photo": "",
       "links": [],
@@ -63,8 +63,8 @@
     {
       "id": 6,
       "name": "Kourosh Nemati",
-      "role": "Software Engineer",
-      "stream": "Systems SW",
+      "role": "Sr. Mechanical Engineer",
+      "stream": "DIGITAL TWIN",
       "layer": "ic",
       "photo": "",
       "links": [],
@@ -75,8 +75,8 @@
     {
       "id": 7,
       "name": "Peter YT Chen",
-      "role": "Software Engineer",
-      "stream": "Systems SW",
+      "role": "Principal Mechanical Engineer",
+      "stream": "FACTORIES",
       "layer": "ic",
       "photo": "",
       "links": [],
@@ -87,8 +87,8 @@
     {
       "id": 8,
       "name": "Sergio Escobar",
-      "role": "Software Engineer",
-      "stream": "Systems SW",
+      "role": "Digital Twin Engineer",
+      "stream": "DIGITAL TWIN",
       "layer": "ic",
       "photo": "",
       "links": [],
@@ -99,8 +99,8 @@
     {
       "id": 9,
       "name": "Tanya Mutter",
-      "role": "Software Engineer",
-      "stream": "Systems SW",
+      "role": "Sr. Mechanical Engineer",
+      "stream": "FLUIDS & MATERIALS",
       "layer": "ic",
       "photo": "",
       "links": [],
@@ -111,8 +111,8 @@
     {
       "id": 10,
       "name": "Yaman Manaseth",
-      "role": "Software Engineer",
-      "stream": "Systems SW",
+      "role": "Sr. Mechanical Engineer",
+      "stream": "DATA CENTER DESIGN AND DEPLOYMENT",
       "layer": "ic",
       "photo": "",
       "links": [],
@@ -123,8 +123,8 @@
     {
       "id": 11,
       "name": "Bahareh Eslami",
-      "role": "Software Engineer",
-      "stream": "Platform SW",
+      "role": "Sr. Mechanical Engineer",
+      "stream": "DATA CENTER DESIGN AND DEPLOYMENT",
       "layer": "ic",
       "photo": "",
       "links": [],
@@ -134,45 +134,45 @@
     },
     {
       "id": 12,
-      "name": "Pardeen Shafi",
-      "role": "Software Engineer",
-      "stream": "Platform SW",
+      "name": "Pardeep Shahi",
+      "role": "Sr. Mechanical Engineer",
+      "stream": "DATA CENTER DESIGN AND DEPLOYMENT",
       "layer": "ic",
       "photo": "",
       "links": [],
-      "email": "pshafi@nvidia.com",
+      "email": "pshahi@nvidia.com",
       "phone": "",
       "notes": ""
     },
     {
       "id": 13,
-      "name": "Dulal Soud",
-      "role": "Software Engineer",
-      "stream": "Platform SW",
+      "name": "Qusai Soud",
+      "role": "Sr. Mechanical Engineer",
+      "stream": "RESEARCH & DEVELOPMENT (R&D)",
       "layer": "ic",
       "photo": "",
       "links": [],
-      "email": "psoud@nvidia.com",
+      "email": "qsoud@nvidia.com",
       "phone": "",
       "notes": ""
     },
     {
       "id": 14,
-      "name": "Sean Suanalan",
-      "role": "Software Engineer",
-      "stream": "Platform SW",
+      "name": "Sean Sivapalan",
+      "role": "Sr. Mechanical Engineer",
+      "stream": "FLUIDS & MATERIALS",
       "layer": "ic",
       "photo": "",
       "links": [],
-      "email": "ssuanalan@nvidia.com",
+      "email": "ssivapalan@nvidia.com",
       "phone": "",
       "notes": ""
     },
     {
       "id": 15,
       "name": "Vahideh Radmard",
-      "role": "Software Engineer",
-      "stream": "Platform SW",
+      "role": "Sr. Mechanical Engineer",
+      "stream": "DATA CENTER DESIGN AND DEPLOYMENT",
       "layer": "ic",
       "photo": "",
       "links": [],
@@ -183,8 +183,8 @@
     {
       "id": 16,
       "name": "Harold Miyamura",
-      "role": "Software Engineer",
-      "stream": "Integration Eng.",
+      "role": "Sr. Mechanical Engineer",
+      "stream": "FLUIDS & MATERIALS",
       "layer": "ic",
       "photo": "",
       "links": [],
@@ -195,8 +195,8 @@
     {
       "id": 17,
       "name": "Himanshu Modi",
-      "role": "Software Engineer",
-      "stream": "Integration Eng.",
+      "role": "Sr. Mechanical Engineer",
+      "stream": "RESEARCH & DEVELOPMENT (R&D)",
       "layer": "ic",
       "photo": "",
       "links": [],
@@ -207,20 +207,20 @@
     {
       "id": 18,
       "name": "Raha Kalantaropur",
-      "role": "Software Engineer",
-      "stream": "Integration Eng.",
+      "role": "Sr. Mechanical Engineer",
+      "stream": "RESEARCH & DEVELOPMENT (R&D)",
       "layer": "ic",
       "photo": "",
       "links": [],
-      "email": "rkalantaropur@nvidia.com",
+      "email": "rkalantarpou@nvidia.com",
       "phone": "",
       "notes": ""
     },
     {
       "id": 19,
       "name": "Utshas Chowdhury",
-      "role": "Software Engineer",
-      "stream": "Integration Eng.",
+      "role": "Sr. Mechanical Engineer",
+      "stream": "PROJECT MGMT",
       "layer": "ic",
       "photo": "",
       "links": [],
@@ -233,7 +233,7 @@
     {
       "id": 200,
       "name": "DSX V2",
-      "desc": "Mechanical reference design to support AI Factories. Active development.",
+      "desc": "Mechanical reference design to support AI Factories.",
       "parentId": null,
       "color": "#76b900",
       "status": "Active",
@@ -641,29 +641,33 @@
     }
   ],
   "streams": {
-    "Leadership": {
+    "LEADERSHIP": {
       "color": "#76b900",
       "bg": "rgba(118,185,0,0.10)"
     },
-    "Systems SW": {
-      "color": "#e05050",
-      "bg": "rgba(224,80,80,0.10)"
-    },
-    "Platform SW": {
+    "DATA CENTER DESIGN AND DEPLOYMENT": {
       "color": "#4a90d9",
       "bg": "rgba(74,144,217,0.10)"
     },
-    "Integration Eng.": {
-      "color": "#00b4a0",
-      "bg": "rgba(0,180,160,0.10)"
-    },
-    "Systems Eng.": {
+    "RESEARCH & DEVELOPMENT (R&D)": {
       "color": "#e8a020",
       "bg": "rgba(232,160,32,0.10)"
     },
-    "Project Mgmt": {
+    "DIGITAL TWIN": {
+      "color": "#00b4a0",
+      "bg": "rgba(0,180,160,0.10)"
+    },
+    "FACTORIES": {
+      "color": "#e05050",
+      "bg": "rgba(224,80,80,0.10)"
+    },
+    "FLUIDS & MATERIALS": {
       "color": "#b060d0",
       "bg": "rgba(176,96,208,0.10)"
+    },
+    "PROJECT MGMT": {
+      "color": "#e8693f",
+      "bg": "rgba(232,105,63,0.10)"
     }
   },
   "nextMemberId": 20,
@@ -671,9 +675,69 @@
   "nextTaskId": 3000,
   "monthOffset": 0,
   "careerGoals": {},
-  "timeoffs": [],
+  "timeoffs": [
+    {
+      "id": 1,
+      "memberIds": [
+        17
+      ],
+      "type": "PTO",
+      "status": "approved",
+      "startDate": "2026-05-25",
+      "endDate": "2026-05-29",
+      "label": "PTO",
+      "notes": ""
+    },
+    {
+      "id": 2,
+      "memberIds": [
+        1,
+        7,
+        8,
+        12,
+        17
+      ],
+      "type": "Business Travel",
+      "status": "approved",
+      "startDate": "2026-06-01",
+      "endDate": "2026-06-03",
+      "label": "Vertiv Factory Visit — Mexico",
+      "notes": "Ali Heydari, Peter YT Chen, Sergio Escobar, Pardeep Shahi, Himanshu Modi"
+    },
+    {
+      "id": 3,
+      "memberIds": [
+        2,
+        6,
+        15
+      ],
+      "type": "Business Travel",
+      "status": "approved",
+      "startDate": "2026-06-07",
+      "endDate": "2026-06-13",
+      "label": "DSX Core TCS Loop Optimization — Vertiv (Croatia)",
+      "notes": "Saket Karajgikar, Kourosh Nemati, Vahideh Radmard"
+    },
+    {
+      "id": 4,
+      "memberIds": [
+        1,
+        2,
+        9,
+        12,
+        14,
+        17
+      ],
+      "type": "Business Travel",
+      "status": "approved",
+      "startDate": "2026-06-14",
+      "endDate": "2026-06-18",
+      "label": "Boll Filtration + SWEPP",
+      "notes": "Ali Heydari, Saket Karajgikar, Tanya Mutter, Pardeep Shahi, Sean Sivapalan, Himanshu Modi"
+    }
+  ],
   "publications": [],
-  "nextTimeoffId": 1,
+  "nextTimeoffId": 10,
   "nextPubId": 1,
   "adminUsers": [],
   "msClientId": ""
