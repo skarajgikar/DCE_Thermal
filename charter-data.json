@@ -719,6 +719,10 @@
   "publications": [],
   "nextTimeoffId": 10,
   "nextPubId": 1,
-  "adminUsers": [],
+  "adminUsers": [
+    1,
+    2,
+    3
+  ],
   "msClientId": ""
 }
