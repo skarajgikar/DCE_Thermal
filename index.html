@@ -8,26 +8,24 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0a0a0a;--bg2:#111;--bg3:#1a1a1a;--surface:#141414;--surface2:#1e1e1e;--surface3:#252525;
-  --nv:#76b900;--nv2:#8fd100;--nv-dim:rgba(118,185,0,0.12);--nv-glow:rgba(118,185,0,0.25);
-  --ink:#e8e8e8;--ink2:#8a8a8a;--ink3:#555;
-  --rule:rgba(255,255,255,0.06);--rule2:rgba(255,255,255,0.11);
-  --teal:#00b4a0;--gold:#e8a020;--red:#e05050;--blue:#4a90d9;
-  --shadow:0 4px 24px rgba(0,0,0,0.5);--shadow-lg:0 8px 48px rgba(0,0,0,0.7);
+  --bg:#f7f8fa;--bg2:#ffffff;--bg3:#eef0f4;--surface:#ffffff;--surface2:#f0f2f6;--surface3:#e2e6ed;
+  --nv:#3a7200;--nv2:#4d9500;--nv-dim:rgba(58,114,0,0.09);--nv-glow:rgba(58,114,0,0.15);
+  --ink:#111827;--ink2:#374151;--ink3:#6b7280;
+  --rule:rgba(0,0,0,0.07);--rule2:rgba(0,0,0,0.13);
+  --teal:#0097a7;--gold:#b06a00;--red:#c0392b;--blue:#1d4ed8;
+  --shadow:0 2px 8px rgba(0,0,0,0.08);--shadow-lg:0 4px 20px rgba(0,0,0,0.12);
   --r:4px;--r-lg:8px;--tr:0.16s ease;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{font-size:16px}
+html{font-size:16px;scroll-padding-top:160px}
 body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.6;min-height:100vh;overflow-x:hidden}
-body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
-  background-image:linear-gradient(rgba(118,185,0,0.022) 1px,transparent 1px),linear-gradient(90deg,rgba(118,185,0,0.022) 1px,transparent 1px);
-  background-size:40px 40px;}
-.topbar{position:sticky;top:0;z-index:100;background:rgba(10,10,10,0.96);backdrop-filter:blur(12px);display:flex;align-items:stretch;height:54px;border-bottom:1px solid var(--rule2);box-shadow:0 1px 0 rgba(118,185,0,0.18)}
+
+.topbar{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.97);backdrop-filter:blur(8px);display:flex;align-items:stretch;height:54px;border-bottom:1px solid var(--rule2);box-shadow:0 1px 0 rgba(118,185,0,0.18)}
 .topbar-brand{display:flex;align-items:center;gap:14px;padding:0 20px;border-right:1px solid var(--rule)}
 .nv-eye{width:28px;height:20px;flex-shrink:0}
 .brand-stack{display:flex;flex-direction:column}
 .brand-tag{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.14em;color:var(--ink3);text-transform:uppercase}
-.brand-name{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:var(--ink);letter-spacing:-0.2px;line-height:1}
+.brand-name{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--ink);letter-spacing:-0.2px;line-height:1}
 .brand-name em{color:var(--nv);font-style:normal}
 .topbar-tabs{display:flex;align-items:stretch;flex:1}
 .tab-btn{display:flex;align-items:center;gap:7px;padding:0 20px;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3);background:transparent;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;cursor:pointer;transition:all var(--tr);white-space:nowrap}
@@ -35,7 +33,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .tab-btn:hover{color:var(--ink)}
 .tab-btn.active{color:var(--nv);border-bottom-color:var(--nv)}
 .topbar-right{display:flex;align-items:center;gap:6px;padding:0 14px;border-left:1px solid var(--rule)}
-.save-indicator{font-family:'DM Mono',monospace;font-size:10px;color:var(--ink3);letter-spacing:0.06em;padding-right:10px;border-right:1px solid var(--rule);margin-right:2px;white-space:nowrap}
+.save-indicator{font-family:'DM Mono',monospace;font-size:10px;color:var(--ink3);letter-spacing:0.06em;padding-right:10px;border-right:1px solid var(--rule);margin-right:2px;white-space:nowrap;display:flex;align-items:center;gap:5px}
 .save-indicator.synced{color:rgba(118,185,0,0.75)}
 .save-indicator.syncing{color:var(--blue)}
 .save-indicator.unsaved{color:var(--gold)}
@@ -55,7 +53,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .view.active{display:block}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .section-header{display:flex;align-items:center;justify-content:space-between;padding:28px 32px 18px;flex-wrap:wrap;gap:12px}
-.section-title{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--ink);letter-spacing:-0.5px;text-transform:uppercase}
+.section-title{font-family:'Syne',sans-serif;font-size:24px;font-weight:700;color:var(--ink);letter-spacing:-0.3px;text-transform:uppercase}
 .section-title em{color:var(--nv);font-style:normal}
 .section-sub{font-size:11px;color:var(--ink3);font-family:'DM Mono',monospace;margin-top:5px;letter-spacing:0.04em}
 .section-actions{display:flex;gap:8px;align-items:center}
@@ -71,7 +69,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .stats-row{display:flex;overflow-x:auto;margin:0 32px 20px;background:var(--surface);border-radius:var(--r-lg);border:1px solid var(--rule2)}
 .stat-box{padding:16px 24px;flex:1;min-width:110px;border-right:1px solid var(--rule)}
 .stat-box:last-child{border-right:none}
-.stat-n{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--ink);line-height:1}
+.stat-n{font-family:'Syne',sans-serif;font-size:24px;font-weight:700;color:var(--ink);line-height:1.2;padding-bottom:2px}
 .stat-n em{color:var(--nv);font-style:normal}
 .stat-l{font-size:10px;text-transform:uppercase;letter-spacing:0.11em;color:var(--ink3);font-family:'DM Mono',monospace;margin-top:5px}
 /* MEMBERS */
@@ -97,8 +95,8 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .member-photo-overlay span{font-size:8px;font-family:'DM Mono',monospace;letter-spacing:0.1em;color:var(--nv);text-transform:uppercase}
 .member-avatar-badge{display:none}
 .member-body{padding:15px}
-.member-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-0.1px}
-.member-role{font-size:12px;color:var(--ink2);font-family:'Inter',sans-serif;margin-top:3px}
+.member-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-0.1px;line-height:1.5}
+.member-role{font-size:12px;color:var(--ink2);font-family:'Inter',sans-serif;margin-top:3px;line-height:1.5}
 .stream-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:20px;font-size:10px;font-weight:600;letter-spacing:0.04em;margin-top:6px;background:var(--stream-bg,var(--surface3));color:var(--stream-color,var(--ink2));text-transform:uppercase}
 .stream-dot{width:5px;height:5px;border-radius:50%;background:var(--stream-color,var(--ink2));flex-shrink:0}
 .mgt-badge{display:inline-flex;padding:3px 8px;border-radius:20px;font-size:10px;font-weight:600;letter-spacing:0.06em;margin-top:6px;margin-left:4px;background:var(--nv-dim);color:var(--nv);border:1px solid rgba(118,185,0,0.22);text-transform:uppercase}
@@ -158,10 +156,10 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .sub-projects-list{padding:0 16px 12px;border-top:1px solid var(--rule)}
 .sub-projects-label{font-size:10px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.11em;color:var(--ink3);padding:10px 0 6px}
 /* TIMELINE */
-.timeline-wrap{overflow-x:auto;padding:0 0 32px}
+.timeline-wrap{overflow-x:auto;overflow-y:auto;max-height:calc(100vh - 220px);padding:0}
 .timeline-table{border-collapse:collapse;min-width:100%}
-.tl-head th{position:sticky;top:54px;background:var(--bg);z-index:10;padding:7px 0;border-bottom:none;font-size:10px;color:var(--ink3);font-family:'DM Mono',monospace;letter-spacing:0.07em;text-align:center;white-space:nowrap}
-.tl-head th.name-col{left:0;z-index:15;text-align:left;padding-left:28px;min-width:220px;background:var(--bg)}
+.tl-head th{position:sticky;top:0;background:var(--bg);z-index:10;padding:7px 0;border-bottom:none;font-size:10px;color:var(--ink3);font-family:'DM Mono',monospace;letter-spacing:0.07em;text-align:center;white-space:nowrap}.tl-row{scroll-margin-top:170px}.tl-row td{padding-top:4px;padding-bottom:4px}
+.tl-head th.name-col{position:sticky;left:0;z-index:15;text-align:left;padding-left:28px;min-width:220px;background:var(--bg)}
 .tl-head th.week-col{min-width:80px;width:80px}
 /* Row 1 – year */
 .tl-head tr:nth-child(1) th{font-size:11px;font-weight:700;letter-spacing:0.12em;color:var(--nv);padding-top:10px;padding-bottom:4px}
@@ -176,13 +174,13 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .tl-row:nth-child(odd) td:not(.tl-name-cell){background:rgba(255,255,255,0.012)}
 .tl-row td{border-bottom:1px solid var(--rule)}
 .tl-row:hover td{background:rgba(118,185,0,0.04)!important}
-.tl-name-cell{position:sticky;left:0;background:var(--bg);z-index:5;padding:0 14px 0 32px;min-width:220px;border-right:1px solid var(--rule2)}
-.tl-row:hover .tl-name-cell{background:#0d0d0d!important}
+.tl-name-cell{position:sticky;left:0;background:var(--bg);z-index:5;padding:6px 14px 6px 32px;min-width:220px;border-right:1px solid var(--rule2)}
+.tl-row:hover .tl-name-cell{background:var(--surface2)!important}
 .tl-member-info{display:flex;align-items:center;gap:10px}
 .tl-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0;overflow:hidden}
 .tl-avatar img{width:100%;height:100%;object-fit:cover;object-position:center top}
-.tl-name{font-size:13px;font-weight:700;color:var(--ink);font-family:'Syne',sans-serif}
-.tl-role{font-size:10px;color:var(--ink3);font-family:'DM Mono',monospace;margin-top:1px}
+.tl-name{font-size:13px;font-weight:700;color:var(--ink);font-family:'Syne',sans-serif;line-height:1.5}
+.tl-role{font-size:11px;color:var(--ink3);font-family:'Inter',sans-serif;margin-top:1px;line-height:1.5}
 .tl-week-cell{padding:0 2px;vertical-align:middle;border-right:1px solid var(--rule)}
 .tl-block{height:34px;display:flex;align-items:center;cursor:pointer;transition:all 0.15s;border-radius:4px}
 .tl-block:hover{filter:brightness(1.25);transform:scaleY(1.04)}
@@ -192,7 +190,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .tl-lane-row:last-of-type td,.tl-lane-last td{border-bottom:1px solid var(--rule)!important}
 .tl-lane-row:hover td{background:rgba(118,185,0,0.03)!important}
 .tl-lane-cell{background:var(--bg)!important;border-left:2px solid var(--rule2)}
-.tl-lane-row:hover .tl-lane-cell{background:#0d0d0d!important}
+.tl-lane-row:hover .tl-lane-cell{background:var(--surface2)!important}
 .tl-lane-pip{height:100%;display:flex;align-items:center;padding-left:36px;gap:6px;color:var(--ink3)}
 .tl-lane-pip::before{content:'';display:block;width:12px;height:1px;background:var(--rule2);flex-shrink:0}
 .tl-lane-tag{font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.06em;color:var(--ink3);opacity:0.6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:130px}
@@ -262,6 +260,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .stream-rename-inp{flex:1;background:var(--bg2);border:1px solid var(--rule2);color:var(--ink);font-family:'Inter',sans-serif;font-size:13px;padding:8px 11px;border-radius:var(--r);outline:none;transition:border-color var(--tr)}
 .stream-rename-inp:focus{border-color:var(--nv);box-shadow:0 0 0 2px var(--nv-dim)}
 .stream-add-hint{text-align:center;padding:32px;color:var(--ink3);font-size:12px;font-family:'DM Mono',monospace;letter-spacing:0.04em}
+/* CAREER EXPECTATIONS */
 /* PTO & TRAVELS */
 .pto-list{padding:0 32px 32px;display:flex;flex-direction:column;gap:8px}
 .pto-card{background:var(--surface);border:1px solid var(--rule);border-radius:var(--r-lg);display:flex;align-items:center;gap:13px;padding:13px 16px;transition:all var(--tr)}
@@ -388,6 +387,12 @@ body.view-only .admin-only{display:none!important}
 .ics-table td{padding:6px 8px;border-bottom:1px solid var(--rule);color:var(--ink2);vertical-align:middle}
 .ics-table tr:last-child td{border-bottom:none}
 .ics-table select{background:var(--surface3);border:1px solid var(--rule2);color:var(--ink2);font-size:11px;padding:2px 4px;border-radius:2px;outline:none;max-width:130px}
+
+.pub-group-header{display:flex;align-items:center;justify-content:space-between;padding:16px 32px 6px;margin-top:12px;border-bottom:2px solid var(--nv-dim);}
+.pub-group-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--ink)}
+.pub-group-year{color:var(--nv);margin-left:6px;font-size:13px}
+.pub-group-count{font-size:11px;font-family:'DM Mono',monospace;color:var(--ink3);background:var(--surface2);padding:2px 8px;border-radius:10px}
+.pub-group-list{padding:0 32px 4px}
 </style>
 </head>
 <body>
@@ -430,18 +435,15 @@ body.view-only .admin-only{display:none!important}
     </button>
   </div>
   <div class="topbar-right">
-    <div class="save-indicator local" id="save-indicator">● LOCAL</div>
-    <button class="btn btn-ghost btn-sm" onclick="syncNow()" title="Sync with GitHub">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 11-.57-8.38"/></svg>Sync
+    <div class="save-indicator local" id="save-indicator"><span id="save-indicator-text">● LOCAL</span></div>
+    <button class="btn btn-ghost btn-sm" onclick="syncNow()" id="sync-btn" title="Sync to GitHub now">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 11-.57-8.38"/></svg><span id="sync-btn-label">Sync</span>
     </button>
     <button class="btn btn-ghost btn-sm" onclick="openGitHubSettings()" title="GitHub Settings">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>GitHub
     </button>
     <button class="btn btn-ghost btn-sm" onclick="saveToJSON()" title="Export JSON backup">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Export
-    </button>
-    <button class="btn btn-ghost btn-sm" onclick="triggerLoad()" title="Import JSON backup">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Import
     </button>
     <button class="btn btn-ghost btn-sm" onclick="exportCSV()" title="Export CSV">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>CSV
@@ -530,7 +532,7 @@ body.view-only .admin-only{display:none!important}
 <!-- PTO & TRAVELS VIEW -->
 <div class="view" id="view-pto">
   <div class="section-header">
-    <div><div class="section-title">PTOs <em>&amp; Travels</em></div><div class="section-sub" id="pto-sub">3-month calendar · upcoming from this week</div></div>
+    <div><div class="section-title">PTO's <em>&amp; Travels</em></div><div class="section-sub" id="pto-sub">3-month calendar · upcoming from this week</div></div>
     <div class="section-actions">
       <button class="btn btn-ghost btn-sm admin-only" onclick="openCalendarSync()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 11-.57-8.38"/></svg>Sync Calendars</button>
       <button class="btn btn-nv" onclick="openAddPTO()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add Entry</button>
@@ -551,7 +553,7 @@ body.view-only .admin-only{display:none!important}
 
   <!-- ── BOTTOM HALF: upcoming entries ── -->
   <div class="pto-upcoming-filters">
-    <select class="filter-select" id="pto-type-filter" onchange="renderPTO()"><option value="">All Types</option><option>PTO</option><option>Business Travel</option><option>Conference</option><option>Remote Work</option></select>
+    <select class="filter-select" id="pto-type-filter" onchange="renderPTO()"><option value="">All Types</option><option>PTO</option><option>Sick</option><option>Business Travel</option><option>Conference</option><option>Remote Work</option></select>
     <select class="filter-select" id="pto-member-filter" onchange="renderPTO()"><option value="">All Members</option></select>
   </div>
   <div class="stats-row" id="pto-stats"></div>
@@ -579,6 +581,20 @@ body.view-only .admin-only{display:none!important}
 <div class="toast" id="toast"><div class="toast-dot" id="toast-dot"></div><span id="toast-msg"></span></div>
 
 <script>
+/* ─────────────────────────────────────────────────────────────────────────
+   DCE Thermal Charter — GitHub-backed collaborative charter
+   ─────────────────────────────────────────────────────────────────────────
+   SETUP (one-time per team member):
+   1. Host this file on GitHub Pages (Settings → Pages → Deploy from branch)
+   2. Click the [GitHub] button in the top bar
+   3. Enter your repo (owner/repo), branch, data file path, and a PAT token
+      (github.com/settings/tokens → classic → repo scope)
+   4. Click "Save & Sync" — your changes will auto-commit going forward
+
+   DATA FILE: charter-data.json is created automatically in your repo.
+   All team members read/write to the same file. Last writer wins (with
+   automatic conflict resolution on 409).
+   ─────────────────────────────────────────────────────────────────────────── */
 const LS_KEY='dce_thermal_v7';
 const DEFAULT_STREAMS={'Leadership':{color:'#76b900',bg:'rgba(118,185,0,0.10)'},'Systems SW':{color:'#e05050',bg:'rgba(224,80,80,0.10)'},'Platform SW':{color:'#4a90d9',bg:'rgba(74,144,217,0.10)'},'Integration Eng.':{color:'#00b4a0',bg:'rgba(0,180,160,0.10)'},'Systems Eng.':{color:'#e8a020',bg:'rgba(232,160,32,0.10)'},'Project Mgmt':{color:'#b060d0',bg:'rgba(176,96,208,0.10)'}};
 let STREAMS={...DEFAULT_STREAMS};
@@ -598,6 +614,7 @@ let members=[],projects=[],tasks=[];
 let nextMemberId=1,nextProjectId=1,nextTaskId=1,monthOffset=0;
 const TOTAL_MONTHS=12;
 let autoSaveTimer=null,_tempPhoto='',_tempLinks=[];
+let calendarOffset=0;
 let careerGoals={},timeoffs=[],publications=[];
 let nextTimeoffId=1,nextPubId=1;
 let adminUsers=[];  // member IDs with edit access; empty = everyone
@@ -639,68 +656,54 @@ function defaultData(){
   nextMemberId=20;nextProjectId=1;nextTaskId=1;monthOffset=0;
 }
 
-// ── GITHUB SYNC ────────────────────────────────────────────────────────────────
+// ── GITHUB CONFIG ─────────────────────────────────────────────────────────────
 const GH_CONFIG_KEY='dce_gh_config_v1';
 let ghConfig={owner:'',repo:'',branch:'main',path:'charter-data.json',token:''};
-let _ghSha=null,_ghSyncTimer=null;
-function detectRepoFromURL(){
-  // When hosted on GitHub Pages (*.github.io/repo/), derive owner+repo from URL
-  const host=window.location.hostname;
-  const path=window.location.pathname;
-  if(host.endsWith('.github.io')){
-    const owner=host.replace('.github.io','');
-    const repo=(path.split('/').filter(Boolean)[0])||'';
-    if(owner&&repo)return{owner,repo,branch:'main',path:'charter-data.json'};
-  }
-  return null;
-}
+let _ghSha=null; // sha of the remote file for update calls
+let _ghSyncTimer=null;
+
 function loadGHConfig(){
-  try{const r=localStorage.getItem(GH_CONFIG_KEY);if(r)ghConfig=JSON.parse(r);}catch(e){}
-  // Auto-fill repo info from URL if not already set
-  if(!ghConfig.owner){
-    const detected=detectRepoFromURL();
-    if(detected){ghConfig.owner=detected.owner;ghConfig.repo=detected.repo;ghConfig.branch=detected.branch;ghConfig.path=detected.path;}
-  }
+  try{const raw=localStorage.getItem(GH_CONFIG_KEY);if(raw)ghConfig=JSON.parse(raw);}catch(e){}
 }
 function saveGHConfig(){localStorage.setItem(GH_CONFIG_KEY,JSON.stringify(ghConfig));}
 function ghConfigured(){return !!(ghConfig.token&&ghConfig.owner&&ghConfig.repo);}
-// Read-only: has repo info but no token (view-only users like VP)
-function ghReadable(){return !!(ghConfig.owner&&ghConfig.repo);}
-// Fetch latest data without a token using raw.githubusercontent.com (public repos only)
-async function loadReadOnly(){
-  if(!ghReadable())return false;
-  setInd('syncing');
-  try{
-    const url='https://raw.githubusercontent.com/'+ghConfig.owner+'/'+ghConfig.repo+'/'+encodeURIComponent(ghConfig.branch||'main')+'/'+ghConfig.path+'?_='+Date.now();
-    const res=await fetch(url);
-    if(!res.ok){setInd('local');return false;}
-    const content=await res.json();
-    if(!content.members||content.members.length===0){setInd('local');return false;}
-    applyData(content);
-    try{localStorage.setItem(LS_KEY,JSON.stringify(content));}catch(e){}
-    setInd('synced');
-    return true;
-  }catch(e){setInd('local');return false;}
-}
+
 async function ghAPI(path,opts={}){
   const url='https://api.github.com/repos/'+ghConfig.owner+'/'+ghConfig.repo+path;
-  return fetch(url,{headers:{Authorization:'token '+ghConfig.token,'Content-Type':'application/json',Accept:'application/vnd.github.v3+json'},...opts});
+  const res=await fetch(url,{headers:{Authorization:'token '+ghConfig.token,'Content-Type':'application/json','Accept':'application/vnd.github.v3+json'},...opts});
+  return res;
 }
-function buildPayload(){return{members,projects,tasks,streams:STREAMS,nextMemberId,nextProjectId,nextTaskId,monthOffset,careerGoals,timeoffs,publications,nextTimeoffId,nextPubId,adminUsers,msClientId};}
-// PERSISTENCE
-function persist(){try{localStorage.setItem(LS_KEY,JSON.stringify(buildPayload()));setInd('local');}catch(e){setInd('error');}}
+
+function buildPayload(){
+  return{members,projects,tasks,streams:STREAMS,nextMemberId,nextProjectId,nextTaskId,monthOffset,careerGoals,timeoffs,publications,nextTimeoffId,nextPubId,adminUsers,msClientId};
+}
+
+// ── PERSISTENCE ────────────────────────────────────────────────────────────────
+function persist(){
+  try{localStorage.setItem(LS_KEY,JSON.stringify(buildPayload()));setInd('local');}catch(e){setInd('error');}
+}
 function scheduleAutoSave(){
-  clearTimeout(autoSaveTimer);clearTimeout(_ghSyncTimer);setInd('unsaved');
+  clearTimeout(autoSaveTimer); clearTimeout(_ghSyncTimer);
+  setInd('unsaved');
+  // always cache locally immediately
   try{localStorage.setItem(LS_KEY,JSON.stringify(buildPayload()));}catch(e){}
-  if(ghConfigured()){_ghSyncTimer=setTimeout(saveToGitHub,800);}
-  else{autoSaveTimer=setTimeout(persist,800);}
+  if(ghConfigured()){
+    _ghSyncTimer=setTimeout(()=>saveToGitHub(),1800);
+  } else {
+    autoSaveTimer=setTimeout(persist,800);
+  }
 }
 function setInd(s){
-  const el=document.getElementById('save-indicator');if(!el)return;
-  const map={synced:'● SYNCED',syncing:'● SYNCING…',unsaved:'● UNSAVED',local:'● LOCAL',error:'● ERROR'};
-  el.textContent=map[s]||'● '+s.toUpperCase();
+  const el=document.getElementById('save-indicator');
+  const txt=document.getElementById('save-indicator-text');
+  const syncLbl=document.getElementById('sync-btn-label');
+  if(!el)return;
+  const map={synced:'● SYNCED',syncing:'● SYNCING…',unsaved:'● UNSAVED',local:'● LOCAL',error:'● SYNC ERROR'};
+  if(txt)txt.textContent=map[s]||'● '+s.toUpperCase();
   el.className='save-indicator '+s;
+  if(syncLbl)syncLbl.textContent=s==='syncing'?'…':'Sync';
 }
+
 async function loadFromGitHub(){
   if(!ghConfigured())return false;
   setInd('syncing');
@@ -710,86 +713,129 @@ async function loadFromGitHub(){
     const data=await res.json();
     _ghSha=data.sha;
     const content=JSON.parse(decodeURIComponent(escape(atob(data.content.replace(/\n/g,'')))));
-    if((!content.members||content.members.length===0)&&members.length>0){setInd('local');await saveToGitHub();return false;}
     applyData(content);
     try{localStorage.setItem(LS_KEY,JSON.stringify(content));}catch(e){}
-    setInd('synced');showToast('Synced from GitHub','#76b900');return true;
+    setInd('synced');
+    showToast('Synced from GitHub','#76b900');
+    return true;
   }catch(e){setInd('local');return false;}
 }
+
 async function saveToGitHub(){
   if(!ghConfigured()){persist();return;}
   setInd('syncing');
   try{
-    const jsonStr=JSON.stringify(buildPayload(),null,2);
+    const payload=buildPayload();
+    // encode to base64 (handles Unicode)
+    const jsonStr=JSON.stringify(payload,null,2);
     const content=btoa(unescape(encodeURIComponent(jsonStr)));
-    const body={message:'Update charter ['+new Date().toISOString().slice(0,16).replace('T',' ')+']',content,branch:ghConfig.branch};
+    const body={message:'Update charter data ['+new Date().toISOString().slice(0,16).replace('T',' ')+'] by '+((currentUserId&&getMember(currentUserId)?.name)||'team member'),content,branch:ghConfig.branch};
     if(_ghSha)body.sha=_ghSha;
     const res=await ghAPI('/contents/'+ghConfig.path,{method:'PUT',body:JSON.stringify(body)});
-    if(res.ok){const d=await res.json();_ghSha=d.content&&d.content.sha;setInd('synced');try{localStorage.setItem(LS_KEY,jsonStr);}catch(e){}}
-    else if(res.status===409){showToast('Conflict — refreshing…','#e8a020');await loadFromGitHub();await saveToGitHub();}
-    else if(res.status===422&&!_ghSha){const r2=await ghAPI('/contents/'+ghConfig.path+'?ref='+encodeURIComponent(ghConfig.branch));if(r2.ok){const d2=await r2.json();_ghSha=d2.sha;}await saveToGitHub();}
-    else{const err=await res.json().catch(()=>({}));setInd('error');showToast('GitHub error: '+(err.message||res.status),'#e05050');persist();}
-  }catch(e){setInd('local');persist();showToast('Offline — saved locally','#e8a020');}
+    if(res.ok){
+      const d=await res.json();_ghSha=d.content?.sha;
+      setInd('synced');
+      try{localStorage.setItem(LS_KEY,jsonStr);}catch(e){}
+    } else if(res.status===409){
+      // Conflict: another member committed — fetch latest then retry
+      showToast('Conflict — refreshing from GitHub…','#e8a020');
+      await loadFromGitHub();
+      await saveToGitHub();
+    } else if(res.status===422&&!_ghSha){
+      // File already exists but we don't have sha — fetch sha then retry
+      const r2=await ghAPI('/contents/'+ghConfig.path+'?ref='+encodeURIComponent(ghConfig.branch));
+      if(r2.ok){const d2=await r2.json();_ghSha=d2.sha;}
+      await saveToGitHub();
+    } else {
+      const err=await res.json().catch(()=>({}));
+      setInd('error');
+      showToast('GitHub error '+(err.message||res.status),'#e05050');
+      persist(); // fall back to local
+    }
+  }catch(e){
+    setInd('local');persist();
+    showToast('Offline — saved locally','#e8a020');
+  }
 }
+
 async function syncNow(){
-  if(ghConfigured()){const ok=await loadFromGitHub();if(ok)refreshCurrentView();}
-  else if(ghReadable()){const ok=await loadReadOnly();if(ok)refreshCurrentView();}
-  else{openGitHubSettings();}
+  if(!ghConfigured()){openGitHubSettings();return;}
+  // Pull first, then push if we have local unsaved changes
+  const pulled=await loadFromGitHub();
+  if(pulled)refreshCurrentView();
 }
+
+// ── GITHUB SETTINGS MODAL ──────────────────────────────────────────────────
 function openGitHubSettings(){
   const c=ghConfig;
-  openModal('<div class="modal-header"><div class="modal-title">'+
-    '<em>GitHub</em> Sync Settings</div><div class="modal-subtitle">Changes auto-commit to charter-data.json in your repo</div></div>'+
-    '<div style="background:rgba(74,144,217,0.06);border:1px solid rgba(74,144,217,0.2);border-radius:var(--r);padding:10px 13px;margin-bottom:14px;font-size:11px;color:var(--ink2);line-height:1.6">'+
-    'Each change auto-commits to <code style="font-family:monospace;color:var(--nv)">'+c.path+'</code> in your repo. Use a '+
-    '<a href="https://github.com/settings/tokens" target="_blank" style="color:var(--nv)">GitHub PAT</a> with <code style="font-family:monospace">repo</code> scope.</div>'+
-    '<div class="field-row"><div class="field"><label>GitHub Username / Org *</label><input id="gh-owner" value="'+c.owner+'" placeholder="e.g. myusername"></div>'+
-    '<div class="field"><label>Repository Name *</label><input id="gh-repo" value="'+c.repo+'" placeholder="e.g. dce-thermal-charter"></div></div>'+
-    '<div class="field-row"><div class="field"><label>Branch</label><input id="gh-branch" value="'+(c.branch||'main')+'" placeholder="main"></div>'+
-    '<div class="field"><label>Data file path</label><input id="gh-path" value="'+(c.path||'charter-data.json')+'" placeholder="charter-data.json"></div></div>'+
-    '<div class="field"><label>Personal Access Token <span style="opacity:0.5;font-weight:400">(optional — leave blank for read-only)</span></label><input id="gh-token" type="password" value="'+c.token+'" placeholder="ghp_xxxxxxxxxxxx — required to save changes" autocomplete="off"></div>'+
-    '<div id="gh-test-result" style="min-height:18px;font-size:11px;font-family:monospace;margin-top:4px"></div>'+
-    '<div class="modal-footer"><button class="btn btn-outline left" onclick="testGHConnection()">Test Connection</button>'+
-    '<button class="btn btn-danger" onclick="clearGHConfig()">Disconnect</button>'+
-    '<button class="btn btn-outline" onclick="closeModal()">Cancel</button>'+
-    '<button class="btn btn-nv" onclick="saveGHSettings()">Save &amp; Sync</button></div>');
+  openModal(`<div class="modal-header">
+    <div class="modal-title"><em>GitHub</em> Sync Settings</div>
+    <div class="modal-subtitle">Changes auto-commit to charter-data.json in your repo</div>
+  </div>
+  <div style="background:rgba(74,144,217,0.06);border:1px solid rgba(74,144,217,0.2);border-radius:var(--r);padding:10px 13px;margin-bottom:14px;font-size:11px;color:var(--ink2);line-height:1.6;font-family:'Inter',sans-serif">
+    <strong style="color:var(--blue);display:block;margin-bottom:3px">How it works</strong>
+    Every change is auto-committed to <code style="font-family:'DM Mono',monospace;color:var(--nv)">${c.path||'charter-data.json'}</code> in your repo. All team members read from the same file. Use a <a href="https://github.com/settings/tokens" target="_blank" style="color:var(--nv)">GitHub Personal Access Token</a> with <code style="font-family:'DM Mono',monospace">repo</code> scope.
+  </div>
+  <div class="field-row">
+    <div class="field"><label>GitHub Username / Org *</label><input id="gh-owner" value="${c.owner}" placeholder="e.g. nvidia-team"></div>
+    <div class="field"><label>Repository Name *</label><input id="gh-repo" value="${c.repo}" placeholder="e.g. dce-thermal-charter"></div>
+  </div>
+  <div class="field-row">
+    <div class="field"><label>Branch</label><input id="gh-branch" value="${c.branch||'main'}" placeholder="main"></div>
+    <div class="field"><label>Data file path</label><input id="gh-path" value="${c.path||'charter-data.json'}" placeholder="charter-data.json"></div>
+  </div>
+  <div class="field">
+    <label>Personal Access Token (stored locally, never shared) *</label>
+    <input id="gh-token" type="password" value="${c.token}" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off">
+  </div>
+  <div id="gh-test-result" style="min-height:18px;font-size:11px;font-family:'DM Mono',monospace;margin-top:4px"></div>
+  <div class="modal-footer">
+    <button class="btn btn-outline left" onclick="testGHConnection()">Test Connection</button>
+    <button class="btn btn-danger" onclick="clearGHConfig()">Disconnect</button>
+    <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-nv" onclick="saveGHSettings()">Save &amp; Sync</button>
+  </div>`);
   setTimeout(()=>{if(!c.owner){const el=document.getElementById('gh-owner');if(el)el.focus();}},60);
 }
+
 async function testGHConnection(){
   const owner=(document.getElementById('gh-owner').value||'').trim();
   const repo=(document.getElementById('gh-repo').value||'').trim();
   const token=(document.getElementById('gh-token').value||'').trim();
   const el=document.getElementById('gh-test-result');
-  if(!owner||!repo||!token){el.textContent='⚠ Fill in all fields first';el.style.color='var(--gold)';return;}
+  if(!owner||!repo||!token){el.textContent='⚠ Fill in all required fields first';el.style.color='var(--gold)';return;}
   el.textContent='Testing…';el.style.color='var(--ink3)';
   try{
     const res=await fetch('https://api.github.com/repos/'+owner+'/'+repo,{headers:{Authorization:'token '+token,Accept:'application/vnd.github.v3+json'}});
-    if(res.ok){el.textContent='✓ Connected';el.style.color='var(--nv)';}
+    if(res.ok){el.textContent='✓ Connected — repo access confirmed';el.style.color='var(--nv)';}
     else if(res.status===401){el.textContent='✗ Invalid token';el.style.color='var(--red)';}
-    else if(res.status===404){el.textContent='✗ Repo not found (check name/permissions)';el.style.color='var(--red)';}
+    else if(res.status===404){el.textContent='✗ Repo not found (check name or permissions)';el.style.color='var(--red)';}
     else{el.textContent='✗ Error '+res.status;el.style.color='var(--red)';}
   }catch(e){el.textContent='✗ Network error';el.style.color='var(--red)';}
 }
+
 async function saveGHSettings(){
   const owner=(document.getElementById('gh-owner').value||'').trim();
   const repo=(document.getElementById('gh-repo').value||'').trim();
   const branch=(document.getElementById('gh-branch').value||'main').trim();
   const path=(document.getElementById('gh-path').value||'charter-data.json').trim();
   const token=(document.getElementById('gh-token').value||'').trim();
-  if(!owner||!repo){showToast('Owner and repo required','#e05050');return;}
-  ghConfig={owner,repo,branch,path,token};saveGHConfig();_ghSha=null;closeModal();
-  if(token){
-    showToast('GitHub connected — syncing…','#4a90d9');
-    const ok=await loadFromGitHub();if(ok)refreshCurrentView();else await saveToGitHub();
-  } else {
-    showToast('Read-only mode — fetching latest data…','#4a90d9');
-    const ok=await loadReadOnly();if(ok)refreshCurrentView();
-  }
+  if(!owner||!repo||!token){showToast('Owner, repo and token required','#e05050');return;}
+  ghConfig={owner,repo,branch,path,token};
+  saveGHConfig();
+  _ghSha=null; // reset sha — will fetch on load
+  closeModal();
+  showToast('GitHub connected — syncing…','#4a90d9');
+  const ok=await loadFromGitHub();
+  if(ok)refreshCurrentView();else await saveToGitHub(); // push local data if file doesn't exist yet
 }
+
 function clearGHConfig(){
-  if(!confirm('Disconnect GitHub sync?'))return;
+  if(!confirm('Disconnect GitHub sync? Data stays in localStorage only.'))return;
   ghConfig={owner:'',repo:'',branch:'main',path:'charter-data.json',token:''};
-  saveGHConfig();_ghSha=null;closeModal();setInd('local');showToast('GitHub disconnected','#e8a020');
+  saveGHConfig();_ghSha=null;
+  closeModal();setInd('local');
+  showToast('GitHub disconnected','#e8a020');
 }
 function applyData(d){
   members=d.members||[];projects=d.projects||[];tasks=d.tasks||[];
@@ -805,7 +851,10 @@ function applyData(d){
   members.forEach(m=>{if(!m.links)m.links=[];if(!m.photo)m.photo='';});
 }
 function loadFromLS(){
-  try{const raw=localStorage.getItem(LS_KEY);if(!raw){defaultData();return;}applyData(JSON.parse(raw));setInd('local');}catch(e){defaultData();}
+  try{
+    const raw=localStorage.getItem(LS_KEY);if(!raw){defaultData();return;}
+    applyData(JSON.parse(raw));setInd('local');
+  }catch(e){defaultData();}
 }
 function saveToJSON(){
   const b=new Blob([JSON.stringify({members,projects,tasks,nextMemberId,nextProjectId,nextTaskId,monthOffset,savedAt:new Date().toISOString()},null,2)],{type:'application/json'});
@@ -815,10 +864,51 @@ function triggerLoad(){const inp=document.createElement('input');inp.type='file'
 function loadFromJSON(e){
   const file=e.target.files[0];if(!file)return;
   const r=new FileReader();
-  r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(!d.members||!d.projects)throw 0;
-    applyData(d);if(ghConfigured()){saveToGitHub();}else{persist();}refreshCurrentView();showToast('Imported','#76b900');
-  }catch(err){showToast('Invalid JSON','#e05050');}};
+  r.onload=ev=>{
+    try{
+      const d=JSON.parse(ev.target.result);
+      if(d._mergeMode){
+        const newProj=(d.projects||[]).filter(p=>!projects.find(x=>x.id===p.id)).length;
+        const newT=(d.tasks||[]).filter(t=>!tasks.find(x=>x.id===t.id)).length;
+        const newPubs=(d.publications||[]).filter(p=>!publications.find(x=>x.id===p.id)).length;
+        const newTO=(d.timeoffs||[]).filter(t=>!timeoffs.find(x=>x.id===t.id)).length;
+        const newM=(d.members||[]).filter(m=>!members.find(x=>x.id===m.id)).length;
+        const updM=(d.members||[]).filter(m=>members.find(x=>x.id===m.id)).length;
+        const summary=[];
+        if(newProj)summary.push(newProj+' project(s)');
+        if(newT)summary.push(newT+' task(s)');
+        if(newPubs)summary.push(newPubs+' publication(s)');
+        if(newTO)summary.push(newTO+' PTO entry(s)');
+        if(newM)summary.push(newM+' new member(s)');
+        if(updM)summary.push(updM+' updated member(s)');
+        const msg='MERGE MODE — this will ADD:\n\n'+(summary.length?summary.join('\n'):'Nothing new')+
+          '\n\nYour existing data will NOT be deleted. Proceed?';
+        if(!confirm(msg))return;
+        mergeData(d);
+        if(ghConfigured()){saveToGitHub();}else{persist();}
+        refreshCurrentView();showToast('Merged: '+(summary.join(', ')||'nothing new'),'#76b900');
+      } else {
+        const mc=(d.members||[]).length,pc=(d.projects||[]).length;
+        if(!mc&&!pc){showToast('File has no members or projects — import cancelled for safety','#e05050');return;}
+        const warn='FULL REPLACE — ALL current data will be overwritten.\n\n'+
+          'Members: '+mc+'\nProjects: '+pc+'\nPublications: '+(d.publications||[]).length+
+          '\n\nAre you sure?';
+        if(!confirm(warn))return;
+        applyData(d);if(ghConfigured()){saveToGitHub();}else{persist();}
+        refreshCurrentView();showToast('Full import complete','#76b900');
+      }
+    }catch(err){showToast('Invalid JSON: '+err.message,'#e05050');}
+  };
   r.readAsText(file);e.target.value='';
+}
+function mergeData(d){
+  (d.members||[]).forEach(m=>{const i=members.findIndex(x=>x.id===m.id);if(i>=0)Object.assign(members[i],m);else{members.push(m);nextMemberId=Math.max(nextMemberId,m.id+1);}});
+  if(d.streams&&Object.keys(d.streams).length)Object.assign(STREAMS,d.streams);
+  (d.projects||[]).forEach(p=>{if(!projects.find(x=>x.id===p.id)){projects.push(p);nextProjectId=Math.max(nextProjectId,p.id+1);}});
+  (d.tasks||[]).forEach(t=>{if(!tasks.find(x=>x.id===t.id)){tasks.push(t);nextTaskId=Math.max(nextTaskId,t.id+1);}});
+  (d.publications||[]).forEach(p=>{if(!publications.find(x=>x.id===p.id)){publications.push(p);nextPubId=Math.max(nextPubId,p.id+1);}});
+  (d.timeoffs||[]).forEach(t=>{if(!timeoffs.find(x=>x.id===t.id)){timeoffs.push(t);nextTimeoffId=Math.max(nextTimeoffId,t.id+1);}});
+  markChanged();
 }
 
 // HELPERS
@@ -850,7 +940,7 @@ function renderStreams(){
         <div class="stream-color-bar" id="scb-${i}" style="background:${s.color}"></div>
         <div class="stream-row-info">
           <div class="stream-row-name" id="srn-${i}">${esc(name)}</div>
-          <div class="stream-row-meta">${count} member${count!==1?'s':''} · ${s.color}</div>
+          <div class="stream-row-meta">${count} member${count!==1?'s':''}</div>
         </div>
         <div class="stream-palette" id="sp-${i}">${swatches}</div>
         <div class="stream-row-btns">
@@ -1121,13 +1211,15 @@ function projectFormHTML(p,parentId){
     <div class="field-row"><div class="field"><label>Status</label><select id="p-status">${['Active','Planned','Complete','On Hold'].map(s=>`<option${p&&p.status===s?' selected':''}>${s}</option>`).join('')}</select></div><div class="field"><label>Priority</label><select id="p-priority">${['High','Medium','Low'].map(s=>`<option${p&&p.priority===s?' selected':''}>${s}</option>`).join('')}</select></div></div>
     <div class="field-row"><div class="field"><label>Start Month</label><input id="p-start" type="month" value="${p?esc(p.startMonth||''):_defaultStartMonth()}"></div><div class="field"><label>End Month</label><input id="p-end" type="month" value="${p?esc(p.endMonth||''):_defaultEndMonth(6)}"></div></div>
     <div class="field-row"><div class="field"><label>Progress %</label><input id="p-progress" type="number" min="0" max="100" value="${p?p.progress:0}"></div><div class="field"><label>Owner</label><select id="p-owner">${members.map(m=>`<option value="${m.id}"${p&&m.id===p.owner?' selected':''}>${esc(m.name)}</option>`).join('')}</select></div></div>
+    <div class="field"><label>Co-Owners <span style="opacity:0.5;font-weight:400">(optional)</span></label><div id="p-coowners" style="max-height:110px;overflow-y:auto;padding:8px;background:var(--surface2);border:1px solid var(--rule2);border-radius:var(--r);display:flex;flex-wrap:wrap;gap:3px 12px">${members.map(m=>{const ck=p&&(p.coOwners||[]).includes(m.id)?'checked':'';return `<label style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--ink2);cursor:pointer;min-width:130px;padding:2px 0"><input type="checkbox" value="${m.id}" ${ck} style="accent-color:var(--nv);width:12px;height:12px"> ${esc(m.name)}</label>`;}).join('')}</div></div>
     <div class="field"><label>Color</label><div class="color-options">${PROJECT_COLORS.map((c,i)=>`<div class="color-swatch${p?c===p.color?' selected':'':i===0?' selected':''}" style="background:${c}" onclick="selectColor(this,'${c}')"></div>`).join('')}</div><input type="hidden" id="p-color" value="${p?p.color:PROJECT_COLORS[0]}"></div>
     <div class="field"><label>Links / References</label><div id="links-container" class="links-list"></div><button type="button" class="add-link-btn" onclick="addLink()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add Link</button></div>`;
 }
 function openAddProject(parentId){const pn=parentId?getProject(parentId)?.name:'';openModal(`<div class="modal-header"><div class="modal-title">${parentId?'New <em>Subproject</em>':'New <em>Project</em>'}</div><div class="modal-subtitle">${parentId?`Under: ${esc(pn)}`:'Add to charter'}</div></div>${projectFormHTML(null,parentId)}<div class="modal-footer"><button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-nv" onclick="saveProject()">Create</button></div>`);initLinks([]);renderLinksUI();if(parentId)setTimeout(()=>{const el=document.getElementById('p-parent');if(el)el.value=parentId;},30);}
 function openEditProject(id){const p=getProject(id);if(!p)return;openModal(`<div class="modal-header"><div class="modal-title"><em>Edit</em> Project</div><div class="modal-subtitle">${esc(p.name)}</div></div>${projectFormHTML(p,null)}<div class="modal-footer"><button class="btn btn-danger left" onclick="deleteProject(${id})">Delete</button><button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-nv" onclick="updateProject(${id})">Save</button></div>`);initLinks(p.links||[]);renderLinksUI();}
 function selectColor(el,color){document.querySelectorAll('.color-swatch').forEach(s=>s.classList.remove('selected'));el.classList.add('selected');document.getElementById('p-color').value=color;}
-function collectP(){const sm=val('p-start')||_defaultStartMonth(),em=val('p-end')||_defaultEndMonth(6);return{name:val('p-name').trim(),desc:val('p-desc').trim(),parentId:parseInt(document.getElementById('p-parent').value)||null,color:document.getElementById('p-color').value,status:val('p-status'),priority:val('p-priority'),startMonth:sm,endMonth:em<sm?sm:em,progress:Math.min(100,Math.max(0,parseInt(val('p-progress'))||0)),owner:parseInt(document.getElementById('p-owner')?.value)||members[0]?.id,links:JSON.parse(JSON.stringify(_tempLinks))};}
+function _getCoOwners(){return Array.from(document.querySelectorAll('#p-coowners input:checked')).map(c=>parseInt(c.value));}
+function collectP(){const sm=val('p-start')||_defaultStartMonth(),em=val('p-end')||_defaultEndMonth(6);return{name:val('p-name').trim(),desc:val('p-desc').trim(),parentId:parseInt(document.getElementById('p-parent').value)||null,color:document.getElementById('p-color').value,status:val('p-status'),priority:val('p-priority'),startMonth:sm,endMonth:em<sm?sm:em,progress:Math.min(100,Math.max(0,parseInt(val('p-progress'))||0)),owner:parseInt(document.getElementById('p-owner')?.value)||members[0]?.id,coOwners:_getCoOwners(),links:JSON.parse(JSON.stringify(_tempLinks))};}
 function saveProject(){const d=collectP();if(!d.name){showToast('Name required','#e05050');return;}projects.push({id:nextProjectId++,...d});closeModal();markChanged();renderProjects();showToast('Project created','#76b900');}
 function updateProject(id){const p=getProject(id);if(!p)return;const d=collectP();if(!d.name){showToast('Name required','#e05050');return;}if(d.parentId===id||allDescendants(id).includes(d.parentId)){showToast('Cannot be own parent','#e05050');return;}Object.assign(p,d);closeModal();markChanged();renderProjects();showToast('Project updated','#76b900');}
 function deleteProject(id){const desc=allDescendants(id);if(!confirm(`Delete project${desc.length?` and ${desc.length} subproject(s)`:''}?`))return;projects=projects.filter(p=>![id,...desc].includes(p.id));tasks=tasks.filter(t=>![id,...desc].includes(t.projectId));closeModal();markChanged();renderProjects();showToast('Deleted');}
@@ -1253,6 +1345,7 @@ function renderTimeline(){
   const icStreams={};ics.forEach(m=>{if(!icStreams[m.stream])icStreams[m.stream]=[];icStreams[m.stream].push(m);});
   Object.entries(icStreams).forEach(([stream,mems])=>html+=renderGroup(stream,getStream(stream).color,mems));
   html+='</tbody>';tbl.innerHTML=html;
+
 }
 
 // ── CAREER EXPECTATIONS ───────────────────────────────────────────────────────
@@ -1307,7 +1400,7 @@ function saveCareer(memberId){
 }
 
 // ── PTO & TRAVELS ─────────────────────────────────────────────────────────────
-const PTO_TYPE_COLORS={'PTO':{color:'#00b4a0',bg:'rgba(0,180,160,0.12)',chip:'rgba(0,180,160,0.28)'},'Business Travel':{color:'#4a90d9',bg:'rgba(74,144,217,0.12)',chip:'rgba(74,144,217,0.28)'},'Conference':{color:'#b060d0',bg:'rgba(176,96,208,0.12)',chip:'rgba(176,96,208,0.28)'},'Remote Work':{color:'#e8a020',bg:'rgba(232,160,32,0.12)',chip:'rgba(232,160,32,0.28)'}};
+const PTO_TYPE_COLORS={'PTO':{color:'#00b4a0',bg:'rgba(0,180,160,0.12)',chip:'rgba(0,180,160,0.28)'},'Sick':{color:'#c0392b',bg:'rgba(192,57,43,0.10)',chip:'rgba(192,57,43,0.25)'},'Business Travel':{color:'#4a90d9',bg:'rgba(74,144,217,0.12)',chip:'rgba(74,144,217,0.28)'},'Conference':{color:'#b060d0',bg:'rgba(176,96,208,0.12)',chip:'rgba(176,96,208,0.28)'},'Remote Work':{color:'#e8a020',bg:'rgba(232,160,32,0.12)',chip:'rgba(232,160,32,0.28)'}};
 
 function _todayStr(){return new Date().toISOString().slice(0,10);}
 function _thisMonday(){
@@ -1318,7 +1411,7 @@ function _thisMonday(){
 // Monday-first cell array: null = padding, else 'YYYY-MM-DD'
 function _monthCells(year,month){
   const firstDow=new Date(year,month-1,1).getDay(); // 0=Sun
-  const pad=firstDow===0?6:firstDow-1;
+  const pad=firstDow; // Sunday-first: no offset needed
   const days=new Date(year,month,0).getDate();
   const cells=Array(pad).fill(null);
   for(let d=1;d<=days;d++)cells.push(`${year}-${String(month).padStart(2,'0')}-${String(d).padStart(2,'0')}`);
@@ -1329,8 +1422,8 @@ function _renderCalMonth(year,month,todayStr){
   const daysInMonth=new Date(year,month,0).getDate();
   const firstDayOfMonth=`${year}-${String(month).padStart(2,'0')}-01`;
   const lastDayOfMonth=`${year}-${String(month).padStart(2,'0')}-${String(daysInMonth).padStart(2,'0')}`;
-  const DOW=['Mo','Tu','We','Th','Fr','Sa','Su'];
-  const dowHTML=DOW.map((d,i)=>`<div class="pto-dow${i>=5?' weekend':''}">${d}</div>`).join('');
+  const DOW=['Su','Mo','Tu','We','Th','Fr','Sa'];
+  const dowHTML=DOW.map((d,i)=>`<div class="pto-dow${(i===0||i===6)?' weekend':''}">${d}</div>`).join('');
   // Assign a stable lane (vertical slot) per member — one lane per member ID
   const laneMap={};members.forEach((m,i)=>{laneMap[m.id]=i;});
   const MAX_BARS=4;
@@ -1385,6 +1478,8 @@ function _renderCalMonth(year,month,todayStr){
   </div>`;
 }
 
+function shiftCalendar(n){if(n===0){calendarOffset=0;}else{calendarOffset+=n;}renderPTO();}
+function jumpCalendarTo(v){if(!v)return;const now=new Date(),t=new Date(v+'-01');calendarOffset=(t.getFullYear()-now.getFullYear())*12+(t.getMonth()-now.getMonth());renderPTO();}
 function renderPTO(){
   const todayStr=_todayStr();
   const now=new Date();
@@ -1393,7 +1488,7 @@ function renderPTO(){
   const calEl=document.getElementById('pto-calendar');
   if(calEl){
     calEl.innerHTML=[0,1,2].map(off=>{
-      const d=new Date(now.getFullYear(),now.getMonth()+off,1);
+      const d=new Date(now.getFullYear(),now.getMonth()+calendarOffset+off,1);
       return _renderCalMonth(d.getFullYear(),d.getMonth()+1,todayStr);
     }).join('');
   }
@@ -1453,7 +1548,7 @@ function renderPTO(){
 }
 function _ptoFormHTML(t){
   const existingIds=t?(t.memberIds||(t.memberId?[t.memberId]:[])):[];
-  const types=['PTO','Business Travel','Conference','Remote Work'];
+  const types=['PTO','Sick','Business Travel','Conference','Remote Work'];
   const isTrip=t&&(t.type==='Business Travel'||t.type==='Conference');
   const primaryId=existingIds[0]||null;
   const memberOptions=members.map(m=>`<option value="${m.id}"${primaryId===m.id?' selected':''}>${esc(m.name)}</option>`).join('');
@@ -1518,26 +1613,36 @@ function renderPublications(){
   const q=(document.getElementById('pub-search').value||'').toLowerCase();
   const sf=document.getElementById('pub-status-filter').value;
   const tf=document.getElementById('pub-type-filter').value;
-  const filtered=publications.filter(p=>{const txt=(p.title||'').toLowerCase()+(p.venue||'').toLowerCase();return (!q||txt.includes(q))&&(!sf||p.status===sf)&&(!tf||p.type===tf);}).sort((a,b)=>a.date<b.date?1:-1);
+  const filtered=publications.filter(p=>{const txt=(p.title||'').toLowerCase()+(p.venue||'').toLowerCase();return (!q||txt.includes(q))&&(!sf||p.status===sf)&&(!tf||p.type===tf);});
   const submitted=publications.filter(p=>p.status==='Submitted').length,accepted=publications.filter(p=>p.status==='Accepted').length,published=publications.filter(p=>p.status==='Published').length;
   document.getElementById('pub-stats').innerHTML=`<div class="stat-box"><div class="stat-n">${publications.length}</div><div class="stat-l">Total</div></div><div class="stat-box"><div class="stat-n" style="color:var(--gold)">${submitted}</div><div class="stat-l">Submitted</div></div><div class="stat-box"><div class="stat-n" style="color:var(--blue)">${accepted}</div><div class="stat-l">Accepted</div></div><div class="stat-box"><div class="stat-n" style="color:var(--nv)">${published}</div><div class="stat-l">Published</div></div>`;
   const list=document.getElementById('pub-list');
   if(!filtered.length){list.innerHTML=`<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><p>${publications.length?'No publications match the filters':'No publications yet — click Add Publication to get started'}</p></div>`;return;}
-  list.innerHTML=filtered.map(p=>{
+  // Group by venue+year, most recent first
+  const grpMap={};
+  filtered.forEach(p=>{
+    const yr=p.year||(p.date?String(p.date).slice(0,4):'?');
+    const k=yr+'__'+(p.venue||'Other');
+    if(!grpMap[k])grpMap[k]={yr,venue:p.venue||'Other',items:[]};
+    grpMap[k].items.push(p);
+  });
+  const sOrder={Published:0,Accepted:1,Submitted:2};
+  const grps=Object.values(grpMap).sort((a,b)=>String(b.yr).localeCompare(String(a.yr))||(a.venue.localeCompare(b.venue)));
+  grps.forEach(g=>g.items.sort((a,b)=>(sOrder[a.status]??3)-(sOrder[b.status]??3)));
+  function pubCardHTML(p){
     const tc=PUB_TYPE_COLORS[p.type]||{color:'#888',bg:'rgba(136,136,136,0.12)'};
     const authors=(p.authorIds||[]).map(id=>{const m=getMember(id);return m?`<span class="pub-author-chip">${esc(m.name.split(' ')[0]+' '+m.name.split(' ').pop())}</span>`:null;}).filter(Boolean).join('');
-    const statusClass='pub-status-'+(p.status||'submitted').toLowerCase();
+    const sc='pub-status-'+(p.status||'submitted').toLowerCase();
     return `<div class="pub-card">
       <div class="pub-card-header">
         <div class="pub-type-icon" style="background:${tc.bg};color:${tc.color}">${(p.type||'?').slice(0,3).toUpperCase()}</div>
         <div style="flex:1;min-width:0">
-          <div class="pub-title">${p.link?`<a href="${esc(p.link)}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none" onmouseover="this.style.color='var(--nv)'" onmouseout="this.style.color='inherit'">${esc(p.title)}</a>`:esc(p.title||'Untitled')}</div>
-          <div class="pub-venue">${esc(p.venue||'')}</div>
+          <div class="pub-title">${p.link?`<a href="${esc(p.link)}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">${esc(p.title)}</a>`:esc(p.title||'Untitled')}</div>
+          <div class="pub-venue">${esc(p.venue||'')}${p.date?` &middot; <span style="color:var(--ink3)">${esc(p.date)}</span>`:''}</div>
         </div>
       </div>
       <div class="pub-meta">
-        <span class="pub-status-badge ${statusClass}">${esc(p.status||'')}</span>
-        ${p.date?`<span class="pub-date">${esc(p.date)}</span>`:''}
+        <span class="pub-status-badge ${sc}">${esc(p.status||'')}</span>
         <span class="pub-status-badge" style="background:${tc.bg};color:${tc.color}">${esc(p.type)}</span>
       </div>
       ${authors?`<div class="pub-authors">${authors}</div>`:''}
@@ -1546,7 +1651,8 @@ function renderPublications(){
         <button class="btn btn-danger btn-sm" onclick="deletePub(${p.id})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:11px;height:11px"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>Delete</button>
       </div>
     </div>`;
-  }).join('');
+  }
+  list.innerHTML=grps.map(g=>`<div class="pub-group-header"><div class="pub-group-title">${esc(g.venue)}<span class="pub-group-year">${esc(String(g.yr))}</span></div><div class="pub-group-count">${g.items.length} paper${g.items.length!==1?'s':''}</div></div><div class="pub-group-list">${g.items.map(pubCardHTML).join('')}</div>`).join('');
 }
 function _pubFormHTML(p){
   const types=['Paper','Talk','Poster','Presentation'];
@@ -1879,25 +1985,27 @@ async function _fetchGraphCalendar(token,userEmail){
 }
 
 loadGHConfig();
+loadGHConfig();
 loadFromLS();
-if(ghConfigured()){
-  loadFromGitHub().then(ok=>{if(ok)refreshCurrentView();});
-} else if(ghReadable()){
-  // No token but repo is known — fetch read-only (public repo, no auth needed)
-  loadReadOnly().then(ok=>{if(ok)refreshCurrentView();});
-} else {
+if(ghConfigured()){loadFromGitHub().then(ok=>{if(ok)refreshCurrentView();});}
+else if(ghReadable()){loadReadOnly().then(ok=>{if(ok)refreshCurrentView();});}
+else{setTimeout(()=>{const b=document.getElementById('gh-banner');if(!b){const n=document.createElement('div');n.id='gh-banner';n.className='gh-setup-banner';n.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;flex-shrink:0"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg><span>GitHub sync not configured. <a onclick="openGitHubSettings()" style="cursor:pointer;text-decoration:underline">Connect GitHub →</a></span>';const v=document.querySelector('.view.active');if(v)v.before(n);}},800);}
+window.addEventListener('beforeunload',()=>{if(ghConfigured()){clearTimeout(_ghSyncTimer);try{localStorage.setItem(LS_KEY,JSON.stringify(buildPayload()));}catch(e){}saveToGitHub();}});
+// After rendering, try to pull from GitHub in the background
+if(ghConfigured()){setTimeout(()=>loadFromGitHub().then(ok=>{if(ok)refreshCurrentView();}),400);}
+else{
+  // Show setup banner if not configured
   setTimeout(()=>{
     const existing=document.getElementById('gh-banner');
     if(!existing){
-      const b=document.createElement('div');b.id='gh-banner';b.className='gh-setup-banner';
-      b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg><span>GitHub sync not configured. <a onclick="openGitHubSettings()">Connect GitHub →</a></span>';
-      const v=document.querySelector('.view.active');if(v)v.before(b);
+      const banner=document.createElement('div');
+      banner.id='gh-banner';
+      banner.className='gh-setup-banner';
+      banner.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg><span>GitHub sync not configured — changes are saved locally only. <a onclick="openGitHubSettings()">Connect GitHub →</a></span>';
+      document.querySelector('.view.active')?.before(banner);
     }
-  },800);
+  },600);
 }
-window.addEventListener('beforeunload',()=>{
-  if(ghConfigured()){clearTimeout(_ghSyncTimer);try{localStorage.setItem(LS_KEY,JSON.stringify(buildPayload()));}catch(e){}saveToGitHub();}
-});
 _loadUserIdentity();
 renderMembers();
 applyAccessMode();
