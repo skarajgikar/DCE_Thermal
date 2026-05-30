@@ -727,10 +727,23 @@
       "endDate": "2026-05-29",
       "approved": false,
       "notes": ""
+    },
+    {
+      "id": 11,
+      "memberId": 12,
+      "memberIds": [
+        12
+      ],
+      "type": "Conference",
+      "label": "ITherm",
+      "startDate": "2026-05-26",
+      "endDate": "2026-05-29",
+      "approved": false,
+      "notes": ""
     }
   ],
   "publications": [],
-  "nextTimeoffId": 11,
+  "nextTimeoffId": 12,
   "nextPubId": 1,
   "adminUsers": [
     1,
