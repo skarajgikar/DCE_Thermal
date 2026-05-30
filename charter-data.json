@@ -765,10 +765,23 @@
       "venue": "ITherm 2025",
       "date": "2025-05",
       "link": "https://drive.google.com/file/d/1lukQ-9Qs8EKCK-pZ8KKA1Cj2JcGTcjBM/view",
-      "authorIds": [
-        1
+      "leadAuthorId": 1,
+      "leadAuthorExternal": false,
+      "leadAuthorExternalName": "",
+      "coAuthorIds": [
+        2,
+        3,
+        12,
+        17
       ],
-      "notes": ""
+      "authorIds": [
+        1,
+        2,
+        3,
+        12,
+        17
+      ],
+      "notes": "Other Co-Authors:"
     }
   ],
   "nextTimeoffId": 12,
