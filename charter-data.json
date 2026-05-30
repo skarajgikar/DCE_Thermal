@@ -618,6 +618,14 @@
       "label": "Digital Twin Complete & Available for Building Turnover",
       "startMonth": "2026-10",
       "endMonth": "2026-10"
+    },
+    {
+      "id": 3000,
+      "memberId": 11,
+      "projectId": 200,
+      "label": "Facility Heat Rejection System",
+      "startMonth": "2026-02",
+      "endMonth": "2026-04"
     }
   ],
   "streams": {
@@ -652,7 +660,7 @@
   },
   "nextMemberId": 20,
   "nextProjectId": 300,
-  "nextTaskId": 3000,
+  "nextTaskId": 3001,
   "monthOffset": 0,
   "careerGoals": {},
   "timeoffs": [
