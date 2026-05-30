@@ -743,10 +743,23 @@
         12
       ],
       "notes": "Co-Authors: Ali Heydari, Lochan Sai Reddy Chinthaparthy, Himanshu Modi, Anto Baigala, Sean Sivapalan, Harold Miyamura, Dereje Agonafer, Mohammad Tradat, Jeremy Rodriguez"
+    },
+    {
+      "id": 2,
+      "title": "EFFECT OF ASPECT RATIO AND FLOW RATE ON THE FLOW REGIMES AND THERMAL PERFORMANCE OF TWO-PHASE MICRO-CHANNEL COLD PLATES FOR DIRECT TO CHIP COOLING",
+      "type": "Paper",
+      "status": "Published",
+      "venue": "InterPACK'24",
+      "date": "2024-10",
+      "link": "https://drive.google.com/file/d/1KY0IL-Bj_MYpNfJogfmH_W2LQDmUVw6a/view",
+      "authorIds": [
+        1
+      ],
+      "notes": ""
     }
   ],
   "nextTimeoffId": 12,
-  "nextPubId": 2,
+  "nextPubId": 3,
   "adminUsers": [
     1,
     2,
